@@ -10,6 +10,10 @@ function love.draw()
     Scene.draw()
 end
 
+function love.update(dt)
+    Scene.update(dt)
+end
+
 function love.keypressed(key)
     -- for debug
     if key == "`" then
