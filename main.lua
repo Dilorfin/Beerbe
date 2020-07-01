@@ -4,14 +4,27 @@ require "commands"
 function love.load()
     love.mouse.setVisible(false)
     Scene.Load("test")
-end
-
-function love.draw()
-    Scene.draw()
+    
+    character = require "character"
+    character:load()
+    
 end
 
 function love.update(dt)
     Scene.update(dt)
+end
+
+function love.draw()
+    Scene.draw()
+    love.graphics.print(love.filesystem.getSaveDirectory(), 100, 100)
+end
+
+function love.quit()
+    character:save()
+end
+
+function love.lowmemory()
+    
 end
 
 function love.keypressed(key)
@@ -93,8 +106,4 @@ function love.joystickhat( joystick, hat, direction )
     elseif direction == "c" then
         Scene.control_axis(0, 0)
     end
-end
-
-function love.lowmemory()
-    
 end
