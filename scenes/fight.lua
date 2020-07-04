@@ -12,7 +12,7 @@ local menuType = {
 function scene.load ()
     -- load resources
     local prefix = "asserts/fight/"
-    --background = love.graphics.newImage(prefix.."background.jpg")
+    background = love.graphics.newImage(prefix.."background.png")
     local iconsNames = {
         prefix.."sword.png",
         prefix.."shield.png",
@@ -60,11 +60,11 @@ end
 
 function scene.draw()
     if menu == menuType.Action then
-        --love.graphics.draw(background, 0, 0, 0, love.graphics.getWidth() / background:getWidth(), love.graphics.getHeight() / background:getHeight())
-
         local menuHeight = love.graphics.getHeight() / 6
         local menuItemSize = love.graphics.getHeight() / 7
         local offset = (menuHeight - menuItemSize)/2
+        
+        love.graphics.draw(background, 0, 0, 0, love.graphics.getWidth() / background:getWidth(), (love.graphics.getHeight() - menuHeight) / background:getHeight())
 
         love.graphics.setColor(0, 0, 0)
         love.graphics.rectangle("fill", 0, love.graphics.getHeight() - menuHeight, love.graphics.getWidth(), menuHeight)
