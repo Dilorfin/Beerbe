@@ -1,18 +1,30 @@
 local character = {
-    health = {
-        current = 0,
-		usageCount = 0
-    },
-    mana = {
-        current = 0,
-        usageCount = 0
-    },
-    military_skills = {
+	
+	position = {
+		world_seed = nil,
+		room = 1,
+		x = 0,
+		y = 0
+	}
+
+	-- current values
+    health = 0,
+	mana = 0,
+	
+	-- usages numbers
+    passive_skills = {
+		health = 0,
+		mana = 0,
         sword = 0
     },
-    magic_skills = {
+    active_skills = {
         thunder = 0
-    }
+	}
+
+	bag = { 1 } -- index from items table
+	equipped = {
+		right_hand = 1 -- index from beg
+	}
 }
 
 local function varToString(var)
@@ -23,8 +35,7 @@ local function varToString(var)
 			goto continue
 		end
 
-		result = result..title
-		result = result.."="
+		result = result..title.."="
 
 		if type(value) == "table" then
 			result = result..varToString(value)
