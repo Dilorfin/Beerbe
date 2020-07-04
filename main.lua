@@ -1,9 +1,12 @@
 require "scene_manager"
 require "commands"
 
+local mainFont = love.graphics.newFont("asserts/Arial.ttf", 20);
+love.graphics.setFont(mainFont)
+
 function love.load()
     love.mouse.setVisible(false)
-    Scene.Load("test")
+    Scene.Load("fight")
     
     character = require "character"
     character:load()
@@ -16,7 +19,6 @@ end
 
 function love.draw()
     Scene.draw()
-    love.graphics.print(love.filesystem.getSaveDirectory(), 100, 100)
 end
 
 function love.quit()
