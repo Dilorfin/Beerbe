@@ -5,7 +5,7 @@ local character = {
 		room = 1,
 		x = 0,
 		y = 0
-	}
+	},
 
 	-- current values
     health = 0,
@@ -19,9 +19,9 @@ local character = {
     },
     active_skills = {
         thunder = 0
-	}
+	},
 
-	bag = { 1 } -- index from items table
+	bag = { 1 }, -- index from items table
 	equipped = {
 		right_hand = 1 -- index from beg
 	}
@@ -31,12 +31,14 @@ local function varToString(var)
 	local result = "{"
 
 	for title, value in pairs(var) do
-		if type(value) == "function" or title:sub(1, 2) == "__" then
+		if type(value) == "function" or (type(title) == "string" and title:sub(1, 2) == "__") then
 			goto continue
 		end
 
-		result = result..title.."="
-
+		if type(title) == "string" then
+			result = result..title.."="
+		end
+		
 		if type(value) == "table" then
 			result = result..varToString(value)
 		elseif type(value) == "string" then
