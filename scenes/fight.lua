@@ -1,5 +1,6 @@
 require "scene_manager"
 require "commands"
+require "animation"
 
 local scene = {}
 
@@ -9,31 +10,52 @@ local menuType = {
     Magic = 2
 }
 
+local heroStateTypes = {
+    Stand = 1,
+    Attack = 2,
+    Protect = 3,
+    Cast = 4,
+    Die = 5,
+}
+
 function scene.load ()
     -- load resources
     local prefix = "asserts/fight/"
     background = love.graphics.newImage(prefix.."background.png")
-    local iconsNames = {
+
+    local iconsFilenames = {
         prefix.."sword.png",
         prefix.."shield.png",
         prefix.."magic.png",
         prefix.."beer-bottle.png",
         prefix.."run.png"
     }
-    icons = love.graphics.newArrayImage(iconsNames)
+    icons = love.graphics.newArrayImage(iconsFilenames)
+
+    local heroFilenames = {
+        prefix.."animations/stand.png",
+        prefix.."animations/attack.png",
+        prefix.."animations/protect.png",
+        prefix.."animations/cast.png",
+        prefix.."animations/death.png"
+    }
+    local heroSourceImage = love.graphics.newArrayImage(heroFilenames)
+    hero = newAnimation(heroSourceImage, 64, 64, 0.11, 3)
 
     -- init variables
     choose = 0
     menu = menuType.Action
+    heroState = heroStateTypes.Stand
 end
 
 function scene.unload()
+    hero = nil
     background = nil
     icons = nil
 end
 
 function scene.update(delta_time)
-    
+    hero:update(delta_time)
 end
 
 function scene.control_button(command)
@@ -77,6 +99,9 @@ function scene.draw()
         for i = 1, icons:getLayerCount() do
             love.graphics.drawLayer(icons, i, offset + (i - 1) * menuHeight, offset + love.graphics.getHeight() - menuHeight, 0, menuItemSize / icons:getWidth())
         end
+
+        -- heroState
+        hero:drawLayer(choose+1, 600, 250, 0, 1, 1) -- add scaling...
     end
 end
 
