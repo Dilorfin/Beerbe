@@ -55,6 +55,12 @@ local function varToString(var)
 	return result:sub(1, #result - 1).."}"
 end
 
+function character:getMaxHealth()
+end
+
+function character:getMaxMana()
+end
+
 function character:load()	
 	if(love.filesystem.getInfo("save.lua") == nil) then
 		return

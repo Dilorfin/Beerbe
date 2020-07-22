@@ -5,12 +5,11 @@ local mainFont = love.graphics.newFont("asserts/Arial.ttf", 20);
 love.graphics.setFont(mainFont)
 
 function love.load()
-    love.mouse.setVisible(false)
+    --love.mouse.setVisible(false)
     Scene.Load("fight")
     
     character = require "character"
-    character:load()
-    
+    --character:load()
 end
 
 function love.update(dt)
@@ -22,7 +21,8 @@ function love.draw()
 end
 
 function love.quit()
-    character:save()
+    Scene.unload()
+    --character:save()
 end
 
 function love.lowmemory()

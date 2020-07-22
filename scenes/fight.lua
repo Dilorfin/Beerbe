@@ -1,3 +1,4 @@
+require "scenes/fight/enemy"
 require "scene_manager"
 require "commands"
 require "animation"
@@ -5,61 +6,58 @@ require "animation"
 local scene = {}
 
 local menuType = {
-    Action = 0,
-    Target = 1,
-    Magic = 2
+    action = 0,
+    target = 1,
+    magic = 2
 }
 
-local heroStateTypes = {
-    Stand = 1,
-    Attack = 2,
-    Protect = 3,
-    Cast = 4,
-    Die = 5,
-}
+function scene.load()
+    -- load character
+    character = require "scenes/fight/character"
+    character.animation:load()
+    
+    -- load targeting
+    target = require "scenes/fight/targeting"
 
-function scene.load ()
     -- load resources
-    local prefix = "asserts/fight/"
-    background = love.graphics.newImage(prefix.."background.png")
-
+    background = love.graphics.newImage("asserts/fight/background.png")
+    
     local iconsFilenames = {
-        prefix.."sword.png",
-        prefix.."shield.png",
-        prefix.."magic.png",
-        prefix.."beer-bottle.png",
-        prefix.."run.png"
+        "asserts/fight/sword.png",
+        "asserts/fight/shield.png",
+        "asserts/fight/magic.png",
+        "asserts/fight/beer-bottle.png",
+        "asserts/fight/run.png"
     }
     icons = love.graphics.newArrayImage(iconsFilenames)
-
-    local heroFilenames = {
-        prefix.."animations/stand.png",
-        prefix.."animations/attack.png",
-        prefix.."animations/protect.png",
-        prefix.."animations/cast.png",
-        prefix.."animations/death.png"
-    }
-    local heroSourceImage = love.graphics.newArrayImage(heroFilenames)
-    hero = newAnimation(heroSourceImage, 64, 64, 0.11, 3)
-
+    
+    -- create enemies
+    enemies = {}
+    local type = 0
+    local number = 3--love.math.random(3)
+    for i=1, number do
+        table.insert(enemies, newEnemy(2, i))
+    end
+    
     -- init variables
     choose = 0
-    menu = menuType.Action
-    heroState = heroStateTypes.Stand
+    menu = menuType.action
 end
 
 function scene.unload()
-    hero = nil
+    character.animation:unload()
     background = nil
     icons = nil
+    enemies = nil
+    target = nil
 end
 
 function scene.update(delta_time)
-    hero:update(delta_time)
+    character.animation:update(delta_time)
 end
 
 function scene.control_button(command)
-    if menu == menuType.Action then
+    if menu == menuType.action then
         if command == Command.Left then
             if choose > 0 then
                 choose = choose - 1
@@ -69,29 +67,50 @@ function scene.control_button(command)
                 choose = choose + 1
             end
         elseif command == Command.Confirm then
-            print "confirm"
+            if choose == 0 then
+                menu = menuType.target
+                target.type = "attack"
+            elseif choose == 1 then
+                character.animation:setState("protect")
+            elseif choose == 2 then
+                character.animation:setState("cast")
+            elseif choose == 4 then
+                love.event.quit()
+            end
         elseif command == Command.Deny then
-            print "deny"
+            character.animation:setState("stand")
+        end
+    elseif menu == menuType.target then
+        if command == Command.Left then
+            target:left()
+        elseif command == Command.Right then
+            target:right()
+        elseif command == Command.Confirm then
+            character.animation:setState("attack")
+        elseif command == Command.Deny then
+            menu = menuType.action
         end
     end
 end
 
-function scene.control_axis(x_axis, y_axis)
-    
-end
-
 function scene.draw()
-    if menu == menuType.Action then
-        local menuHeight = love.graphics.getHeight() / 6
+    local menuHeight = love.graphics.getHeight() / 6
+    love.graphics.draw(background, 0, 0, 0, love.graphics.getWidth() / background:getWidth(), (love.graphics.getHeight() - menuHeight) / background:getHeight())
+
+    
+    for i = 1, #enemies do
+        enemies[i]:draw()
+    end
+
+    character.animation:draw()
+
+    
+
+    if menu == menuType.action then
+        
         local menuItemSize = love.graphics.getHeight() / 7
         local offset = (menuHeight - menuItemSize)/2
-        
-        love.graphics.draw(background, 0, 0, 0, love.graphics.getWidth() / background:getWidth(), (love.graphics.getHeight() - menuHeight) / background:getHeight())
 
-        love.graphics.setColor(0, 0, 0)
-        love.graphics.rectangle("fill", 0, love.graphics.getHeight() - menuHeight, love.graphics.getWidth(), menuHeight)
-        love.graphics.setColor(1, 1, 1)
-        
         love.graphics.setLineWidth(2)
         love.graphics.rectangle("line", offset + choose *  menuHeight, offset + love.graphics.getHeight() - menuHeight, menuItemSize, menuItemSize, 10, 10)
         love.graphics.setLineWidth(1)
@@ -100,9 +119,14 @@ function scene.draw()
             love.graphics.drawLayer(icons, i, offset + (i - 1) * menuHeight, offset + love.graphics.getHeight() - menuHeight, 0, menuItemSize / icons:getWidth())
         end
 
-        -- heroState
-        hero:drawLayer(choose+1, 600, 250, 0, 1, 1) -- add scaling...
+    elseif menu == menuType.target then
+        target:draw()
     end
+    
+
+end
+
+function scene.control_axis(x_axis, y_axis)
 end
 
 return scene
