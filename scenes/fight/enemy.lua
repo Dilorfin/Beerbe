@@ -2,9 +2,18 @@ local enemy_mt = {}
 enemy_mt.__index = enemy_mt
 
 local slots = {
-    { x=65, y=250 },
-    { x=195, y=170 },
-    { x=320, y=225 }
+    { 
+        x= 0.08125 * love.graphics.getWidth(),
+        y= 0.4166666666666667 * love.graphics.getHeight()
+    },
+    { 
+        x= 0.24375 * love.graphics.getWidth(),
+        y= 0.2833333333333333 * love.graphics.getHeight()
+    },
+    { 
+        x= 0.4 * love.graphics.getWidth(),
+        y= 0.375 * love.graphics.getHeight()
+    }
 }
 local types = {
     {
@@ -35,7 +44,7 @@ function enemy_mt:getWidth()
 end
 
 function enemy_mt:draw()
-    love.graphics.draw(self.image, self.position.x, self.position.y)
+    love.graphics.draw(self.image, self.position.x, self.position.y, 0, love.graphics.getHeight()/600)
 end
 
 function newEnemy(type, slot)

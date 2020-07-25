@@ -49,7 +49,7 @@ end
 
 function character.animation:draw()
     -- add scaling...
-    self.animation:drawLayer(self.state, 600, 250, 0, 1, 1)
+    self.animation:drawLayer(self.state, 0.75*love.graphics.getWidth(), 0.4166666666666667*love.graphics.getHeight(), 0, love.graphics.getHeight()/600)
 end
 
 return character

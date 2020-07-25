@@ -1,8 +1,17 @@
 local target = {
     positions = {
-        {x=55, y=260},
-        {x=185, y=180},
-        {x=310, y=235}
+        {
+            x=0.06875 * love.graphics.getWidth(),
+            y=0.43333333333333335 * love.graphics.getHeight()
+        },
+        {
+            x=0.23125 * love.graphics.getWidth(),
+            y=0.3 * love.graphics.getHeight()
+        }, 
+        {
+            x=0.3875 * love.graphics.getWidth(),
+            y=0.39166666666666666 * love.graphics.getHeight()
+        } 
     },
     index = 1,
     rotate = 0,
@@ -25,7 +34,7 @@ function target:right()
 end
 
 function target:draw()
-    love.graphics.draw(self.image, self.positions[self.index].x, self.positions[self.index].y, 0, 0.5)
+    love.graphics.draw(self.image, self.positions[self.index].x, self.positions[self.index].y, 0, love.graphics.getHeight()/1200)
 end
 
 return target
