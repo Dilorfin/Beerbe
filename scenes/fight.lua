@@ -152,7 +152,7 @@ function drawCharacterInfo()
         y = love.graphics.getHeight() - menuHeight + 4 * barSize.y 
     }
     
-    love.graphics.printf("Миша", healthPosition.x, love.graphics.getHeight() - menuHeight + 0.5 * barSize.y ,  barSize.x / (0.0015 * love.graphics.getHeight()), "center", 0, 0.0015 * love.graphics.getHeight())
+    love.graphics.printf("Миша", healthPosition.x, love.graphics.getHeight() - menuHeight + 0.5 * barSize.y ,  barSize.x / (0.00125 * love.graphics.getHeight()), "center", 0, 0.00125 * love.graphics.getHeight())
 
     love.graphics.setLineWidth(2)
     love.graphics.rectangle("line", healthPosition.x, healthPosition.y, barSize.x, barSize.y )
@@ -164,8 +164,8 @@ function drawCharacterInfo()
     love.graphics.setColor(1, 1, 1)
     love.graphics.setLineWidth(1)
     
-    love.graphics.printf(character.health.."/"..character:getMaxHealth(), healthPosition.x, healthPosition.y,  barSize.x / (0.00125 * love.graphics.getHeight()), "center", 0, 0.00125 * love.graphics.getHeight())
-    love.graphics.printf(character.mana.."/"..character:getMaxMana(), manaPosition.x, manaPosition.y,  barSize.x / (0.00125 * love.graphics.getHeight()), "center", 0, 0.00125 * love.graphics.getHeight())
+    love.graphics.printf(character.health.."/"..character:getMaxHealth(), healthPosition.x, healthPosition.y,  barSize.x / (0.001 * love.graphics.getHeight()), "center", 0, 0.001 * love.graphics.getHeight())
+    love.graphics.printf(character.mana.."/"..character:getMaxMana(), manaPosition.x, manaPosition.y,  barSize.x / (0.001 * love.graphics.getHeight()), "center", 0, 0.001 * love.graphics.getHeight())
 end
 
 function scene.control_axis(x_axis, y_axis)
