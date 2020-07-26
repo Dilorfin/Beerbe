@@ -19,7 +19,6 @@ function scene.load()
     
     -- load effects
     effects = require "scenes/fight/effects"
-    effects:start("hit", 1)
 
     -- load targeting
     target = require "scenes/fight/targeting"
@@ -41,12 +40,12 @@ function scene.load()
     local type = 0
     local number = 3--love.math.random(3)
     for i=1, number do
-        table.insert(enemies, newEnemy(1, i))
+        table.insert(enemies, newEnemy(2, i))
     end
     
     -- init variables
     choose = 0
-    menu = sceneState.action
+    state = sceneState.action
 end
 
 function scene.unload()
@@ -59,11 +58,17 @@ end
 
 function scene.update(delta_time)
     character.animation:update(delta_time)
-    effects:update(delta_time)
+    if state == sceneState.effect then
+        effects:update(delta_time)
+        if not effects:isPlaying() then
+            state = sceneState.action
+            character.animation:setState("stand")
+        end
+    end
 end
 
 function scene.control_button(command)
-    if menu == sceneState.action then
+    if state == sceneState.action then
         if command == Command.Left then
             if choose > 0 then
                 choose = choose - 1
@@ -74,13 +79,13 @@ function scene.control_button(command)
             end
         elseif command == Command.Confirm then
             if choose == 0 then
-                menu = sceneState.target
-                target.type = "attack"
+                state = sceneState.target
+                target.spell = "attack"
             elseif choose == 1 then
                 character.animation:setState("protect")
             elseif choose == 2 then
                 character.animation:setState("cast")
-                target.type = "magic"
+                target.spell = "magic"
             elseif choose == 3 then
                 love.event.quit()
             elseif choose == 4 then
@@ -89,15 +94,23 @@ function scene.control_button(command)
         elseif command == Command.Deny then
             character.animation:setState("stand")
         end
-    elseif menu == sceneState.target then
+    elseif state == sceneState.target then
         if command == Command.Left then
             target:left()
         elseif command == Command.Right then
             target:right()
         elseif command == Command.Confirm then
-            character.animation:setState("attack")
+            if target.spell == "attack" then
+                character.animation:setState("attack")
+                effects:start("sword", target.index)
+                state = sceneState.effect
+            else
+                character.animation:setState("cast")
+                effects:start(target.spell, target.index)
+                state = sceneState.effect
+            end
         elseif command == Command.Deny then
-            menu = sceneState.action
+            state = sceneState.action
         end
     end
 end
@@ -113,7 +126,7 @@ function scene.draw()
 
     character.animation:draw()
 
-    if menu == sceneState.action then
+    if state == sceneState.action then
         local menuItemSize = love.graphics.getHeight() / 7
         local offset = (menuHeight - menuItemSize)/2
 
@@ -125,12 +138,13 @@ function scene.draw()
             love.graphics.drawLayer(icons, i, offset + (i - 1) * menuHeight, offset + love.graphics.getHeight() - menuHeight, 0, menuItemSize / icons:getWidth())
         end
 
-    elseif menu == sceneState.target then
+    elseif state == sceneState.target then
         target:draw()
+    elseif state == sceneState.effect then
+        effects:draw()
     end
 
     drawCharacterInfo()
-    effects:draw()
 end
 
 function drawCharacterInfo()

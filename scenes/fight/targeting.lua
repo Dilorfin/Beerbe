@@ -1,7 +1,7 @@
 local target = {
     index = 1,
     rotate = 0,
-    type = ""
+    spell = ""
 }
 
 target.image = love.graphics.newImage("asserts/fight/select.png")

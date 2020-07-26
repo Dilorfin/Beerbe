@@ -14,17 +14,25 @@ effects.animations = {
 }
 
 for k, v in pairs(effects.animations) do
-    --v:setMode("once")
+    v:setMode("once")
 end
 
 function effects:start(effects, slot)
     local slots = require "scenes/fight/slots"
     self.position = {}
-    self.position.x = slots[slot].x - 0.035 * love.graphics.getWidth()
-    self.position.y = slots[slot].y - 0.075*love.graphics.getHeight()
+    self.position.x = slots[slot].x
+    self.position.y = slots[slot].y
+
+    if slot == #slots then
+        self.position.x = self.position.x - 0.035 * love.graphics.getWidth()
+        self.position.y = self.position.y - 0.075*love.graphics.getHeight()
+    end
 
     self.animation = self.animations[effects]
     self.animation:play()
+    if self.animation:getCurrentFrame() ~= 0 then
+        self.animation:reset()
+    end
 end
 
 function effects:isPlaying()
@@ -32,10 +40,14 @@ function effects:isPlaying()
 end
 
 function effects:update(dt)
-    self.animation:update(dt)
+    if self.animation then
+        self.animation:update(dt)
+    end
 end
 function effects:draw()
-    self.animation:draw(self.position.x, self.position.y+0.025*love.graphics.getWidth(), 0, 0.00117*love.graphics.getHeight())
+    if self.animation then
+        self.animation:draw(self.position.x, self.position.y+0.025*love.graphics.getWidth(), 0, 0.00117*love.graphics.getHeight())
+    end
 end
 
 return effects
