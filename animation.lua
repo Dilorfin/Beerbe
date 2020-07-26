@@ -78,7 +78,7 @@ function anim_mt:stop()
 end
 
 function anim_mt:reset()
-	self:seek(0)
+	self:seek(1)
 end
 
 function anim_mt:seek(frame)
