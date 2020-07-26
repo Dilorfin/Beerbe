@@ -186,7 +186,7 @@ function drawCharacterInfo()
         y = love.graphics.getHeight() - menuHeight + 4 * barSize.y 
     }
     
-    love.graphics.printf("Миша", healthPosition.x, love.graphics.getHeight() - menuHeight + 0.5 * barSize.y ,  barSize.x / (0.00125 * love.graphics.getHeight()), "center", 0, 0.00125 * love.graphics.getHeight())
+    love.graphics.printf(character.name, healthPosition.x, love.graphics.getHeight() - menuHeight + 0.5 * barSize.y ,  barSize.x / (0.00125 * love.graphics.getHeight()), "center", 0, 0.00125 * love.graphics.getHeight())
 
     love.graphics.setLineWidth(2)
     love.graphics.rectangle("line", healthPosition.x, healthPosition.y, barSize.x, barSize.y )

@@ -1,5 +1,5 @@
 local character = {
-	
+	name = "Миша",
 	position = {
 		world_seed = nil,
 		room = 1,
