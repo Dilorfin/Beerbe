@@ -153,16 +153,16 @@ function drawCharacterInfo()
     local offset = (menuHeight - menuItemSize)/2
     
     local barSize = {}
-    barSize.x = love.graphics.getWidth() - 6 * menuItemSize - offset
+    barSize.x = love.graphics.getWidth() - 8 * menuItemSize - offset
     barSize.y = menuHeight / 6 
 
     local healthPosition = {
-        x = 6 * menuItemSize,
+        x = 8 * menuItemSize,
         y = love.graphics.getHeight() - menuHeight + 2 * barSize.y 
     }
 
     local manaPosition = {
-        x = 6 * menuItemSize,
+        x = 8 * menuItemSize,
         y = love.graphics.getHeight() - menuHeight + 4 * barSize.y 
     }
     
