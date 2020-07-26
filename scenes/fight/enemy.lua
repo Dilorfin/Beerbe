@@ -1,20 +1,6 @@
 local enemy_mt = {}
 enemy_mt.__index = enemy_mt
 
-local slots = {
-    { 
-        x= 0.08125 * love.graphics.getWidth(),
-        y= 0.4166666666666667 * love.graphics.getHeight()
-    },
-    { 
-        x= 0.24375 * love.graphics.getWidth(),
-        y= 0.2833333333333333 * love.graphics.getHeight()
-    },
-    { 
-        x= 0.4 * love.graphics.getWidth(),
-        y= 0.375 * love.graphics.getHeight()
-    }
-}
 local types = {
     {
         image = "asserts/fight/enemies/1.png",
@@ -44,20 +30,22 @@ function enemy_mt:getWidth()
 end
 
 function enemy_mt:draw()
-    love.graphics.draw(self.image, self.position.x, self.position.y, 0, love.graphics.getHeight()/600)
+    love.graphics.draw(self.image, self.position.x, self.position.y, 0, self.scale)
 end
 
 function newEnemy(type, slot)
+    local slots = require "scenes/fight/slots"
+
     e = {}
 
     for key, value in pairs(types[type]) do
         e[key] = value
     end
-
     e.image = love.graphics.newImage(types[type].image)
     e.position = {
         x = slots[slot].x,
         y = slots[slot].y
     }
+    e.scale = love.graphics.getHeight()/600
     return setmetatable(e, enemy_mt)
 end

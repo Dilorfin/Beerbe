@@ -1,24 +1,18 @@
 local target = {
-    positions = {
-        {
-            x=0.06875 * love.graphics.getWidth(),
-            y=0.43333333333333335 * love.graphics.getHeight()
-        },
-        {
-            x=0.23125 * love.graphics.getWidth(),
-            y=0.3 * love.graphics.getHeight()
-        }, 
-        {
-            x=0.3875 * love.graphics.getWidth(),
-            y=0.39166666666666666 * love.graphics.getHeight()
-        } 
-    },
     index = 1,
     rotate = 0,
     type = ""
 }
 
 target.image = love.graphics.newImage("asserts/fight/select.png")
+
+target.positions = {}
+local slots = require "scenes/fight/slots"
+for i = 1, #slots - 1 do
+    target.positions[i] = {}
+    target.positions[i].x = slots[i].x - 0.0125*love.graphics.getWidth()
+    target.positions[i].y = slots[i].y + 0.016667*love.graphics.getHeight()
+end
 
 function target:left()
     self.index = self.index - 1

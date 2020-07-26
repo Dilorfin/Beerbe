@@ -22,11 +22,17 @@ function character.animation:load()
     local heroSourceImage = love.graphics.newArrayImage(heroFilenames)
     self.animation = newAnimation(heroSourceImage, 64, 64, 0.11, 3)
     
+    local slots = require "scenes/fight/slots"
+    self.animation.screenCoordinates = {}
+    self.animation.screenCoordinates.x = slots[#slots].x
+    self.animation.screenCoordinates.y = slots[#slots].y
+    
     self:setState("stand")
 end
 
 function character.animation:unload()
-    character.animation = nil
+    self.animation.screenCoordinates = nil
+    self.animation = nil
 end
 
 function character.animation:setState(st)
@@ -49,7 +55,9 @@ end
 
 function character.animation:draw()
     -- add scaling...
-    self.animation:drawLayer(self.state, 0.75*love.graphics.getWidth(), 0.4166666666666667*love.graphics.getHeight(), 0, love.graphics.getHeight()/600)
+    local x = self.animation.screenCoordinates.x
+    local y = self.animation.screenCoordinates.y
+    self.animation:drawLayer(self.state, x, y, 0, love.graphics.getHeight()/600)
 end
 
 return character
