@@ -11,6 +11,7 @@ local sceneState = {
     magic = 2,
     effect = 3
 }
+local enemies = {}
 
 function scene.load()
     -- load character
@@ -36,16 +37,35 @@ function scene.load()
     icons = love.graphics.newArrayImage(iconsFilenames)
     
     -- create enemies
-    enemies = {}
     local type = 0
     local number = 3--love.math.random(3)
     for i=1, number do
         table.insert(enemies, newEnemy(2, i))
     end
-    
+    enemies.current = 0
+    enemies.finished = true
+
     -- init variables
     choose = 0
     state = sceneState.action
+end
+
+function attackTarget(attackerId, targetId)
+
+end
+
+
+function enemies:turn()
+    local slots = require "scenes/fight/slots"
+    self.current = self.current + 1
+    if self.current < #slots then
+        state = sceneState.effect
+        effects:start("hit", target.character.id)
+    else
+        state = sceneState.action
+        self.current = 0
+        self.finished = true
+    end
 end
 
 function scene.unload()
@@ -61,8 +81,8 @@ function scene.update(delta_time)
     if state == sceneState.effect then
         effects:update(delta_time)
         if not effects:isPlaying() then
-            state = sceneState.action
             character.animation:setState("stand")
+            enemies:turn()
         end
     end
 end
@@ -103,12 +123,12 @@ function scene.control_button(command)
             if target.spell == "attack" then
                 character.animation:setState("attack")
                 effects:start("sword", target.index)
-                state = sceneState.effect
             else
                 character.animation:setState("cast")
                 effects:start(target.spell, target.index)
-                state = sceneState.effect
             end
+            state = sceneState.effect
+            attackTarget(target.character.id, target.index)
         elseif command == Command.Deny then
             state = sceneState.action
         end

@@ -8,8 +8,8 @@ local files = {
 }
 
 effects.animations = {
-    hit = newAnimation(love.graphics.newImage(files["hit"]), 192, 192, 0.035, 6),
-    sword = newAnimation(love.graphics.newImage(files["sword"]), 192, 192, 0.035, 6),
+    hit = newAnimation(love.graphics.newImage(files["hit"]), 192, 192, 0.05, 6),
+    sword = newAnimation(love.graphics.newImage(files["sword"]), 192, 192, 0.05, 6),
     --thunder = newAnimation(love.graphics.newImage(files["thunder"]), 192, 192, 0.035, 6)
 }
 

@@ -7,12 +7,19 @@ local target = {
 target.image = love.graphics.newImage("asserts/fight/select.png")
 
 target.positions = {}
+
 local slots = require "scenes/fight/slots"
 for i = 1, #slots - 1 do
     target.positions[i] = {}
     target.positions[i].x = slots[i].x - 0.0125*love.graphics.getWidth()
     target.positions[i].y = slots[i].y + 0.016667*love.graphics.getHeight()
 end
+
+target.character = {}
+target.character.id = #slots
+target.character.position = {}
+target.character.position.x = slots[#slots].x
+target.character.position.y = slots[#slots].y
 
 function target:left()
     self.index = self.index - 1
@@ -22,7 +29,7 @@ function target:left()
 end
 function target:right()
     self.index = self.index + 1
-    if self.index > #enemies then
+    if self.index >= self.character.id then
         self.index = 1
     end
 end
