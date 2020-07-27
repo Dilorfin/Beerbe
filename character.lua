@@ -94,7 +94,6 @@ function character:takeDamage(damage)
 	-- damage = damage - 
 	if damage > 0 then
 		self.health = self.health - damage
-		print("ch: "..damage)
 		self:increaseSkill("health")
 	end
 end

@@ -64,12 +64,8 @@ function attackTarget(attackerId, targetId, skill)
     local damage = attackerUnit:getDamage(skill)
     targetUnit:takeDamage(damage)
 
-    if targetUnit.health <= 0 then
-        if targetId ~= target.character.id then
-            table.remove(enemies, targetId)
-        else
-            -- TODO: wasted scene
-        end
+    if targetUnit.health <= 0 and targetId ~= target.character.id then
+        table.remove(enemies, targetId)
     end
 end
 
@@ -88,6 +84,9 @@ function enemies:turn()
 
     if #enemies <= 0 then 
         -- TODO: return to world 
+    end
+    if character.health <= 0 then
+        Scene.Load("wasted")
     end
 end
 
