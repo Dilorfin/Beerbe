@@ -21,21 +21,21 @@ target.character.position = {}
 target.character.position.x = slots[#slots].x
 target.character.position.y = slots[#slots].y
 
-function target:left()
+function target:left(enemies)
     self.index = self.index - 1
     if self.index <= 0 then
-        self.index = #self.positions
+        self.index = #enemies
     end
 end
-function target:right()
+function target:right(enemies)
     self.index = self.index + 1
-    if self.index >= self.character.id then
+    if self.index > #enemies then
         self.index = 1
     end
 end
 
-function target:draw()
-    love.graphics.draw(self.image, self.positions[self.index].x, self.positions[self.index].y, 0, love.graphics.getHeight()/1200)
+function target:draw(enemies)
+    love.graphics.draw(self.image, self.positions[enemies[self.index].slot].x, self.positions[enemies[self.index].slot].y, 0, love.graphics.getHeight()/1200)
 end
 
 return target

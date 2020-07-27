@@ -42,6 +42,7 @@ function newEnemy(type, slot)
         e[key] = value
     end
     e.image = love.graphics.newImage(types[type].image)
+    e.slot = slot
     e.position = {
         x = slots[slot].x,
         y = slots[slot].y

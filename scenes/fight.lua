@@ -50,7 +50,7 @@ function scene.load()
     state = sceneState.action
 end
 
-function attackTarget(attackerId, targetId)
+function attackTarget(attackerId, targetId, skill)
 
 end
 
@@ -58,7 +58,7 @@ end
 function enemies:turn()
     local slots = require "scenes/fight/slots"
     self.current = self.current + 1
-    if self.current < #slots then
+    if self.current <= #enemies then
         state = sceneState.effect
         effects:start("hit", target.character.id)
     else
@@ -66,8 +66,13 @@ function enemies:turn()
         self.current = 0
         self.finished = true
     end
+
+    if #enemies <= 0 then 
+        -- TODO: return to world 
+    end
 end
 
+-- TODO: clearing
 function scene.unload()
     character.animation:unload()
     background = nil
@@ -101,11 +106,13 @@ function scene.control_button(command)
             if choose == 0 then
                 state = sceneState.target
                 target.spell = "attack"
+                target.index = 1
             elseif choose == 1 then
                 character.animation:setState("protect")
             elseif choose == 2 then
                 character.animation:setState("cast")
                 target.spell = "magic"
+                target.index = 1
             elseif choose == 3 then
                 love.event.quit()
             elseif choose == 4 then
@@ -116,16 +123,17 @@ function scene.control_button(command)
         end
     elseif state == sceneState.target then
         if command == Command.Left then
-            target:left()
+            target:left(enemies)
         elseif command == Command.Right then
-            target:right()
+            target:right(enemies)
         elseif command == Command.Confirm then
+            local id = enemies[target.index].slot
             if target.spell == "attack" then
                 character.animation:setState("attack")
-                effects:start("sword", target.index)
+                effects:start("sword", id)
             else
                 character.animation:setState("cast")
-                effects:start(target.spell, target.index)
+                effects:start(target.spell, id)
             end
             state = sceneState.effect
             attackTarget(target.character.id, target.index)
@@ -159,7 +167,7 @@ function scene.draw()
         end
 
     elseif state == sceneState.target then
-        target:draw()
+        target:draw(enemies)
     elseif state == sceneState.effect then
         effects:draw()
     end
