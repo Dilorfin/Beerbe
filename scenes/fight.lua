@@ -51,9 +51,27 @@ function scene.load()
 end
 
 function attackTarget(attackerId, targetId, skill)
+    local attackerUnit = character
+    if attackerId ~= target.character.id then
+        attackerUnit = enemies[attackerId]
+    end
+    
+    local targetUnit = character
+    if targetId ~= target.character.id then
+        targetUnit = enemies[targetId]
+    end
 
+    local damage = attackerUnit:getDamage(skill)
+    targetUnit:takeDamage(damage)
+
+    if targetUnit.health <= 0 then
+        if targetId ~= target.character.id then
+            table.remove(enemies, targetId)
+        else
+            -- TODO: wasted scene
+        end
+    end
 end
-
 
 function enemies:turn()
     local slots = require "scenes/fight/slots"
@@ -61,6 +79,7 @@ function enemies:turn()
     if self.current <= #enemies then
         state = sceneState.effect
         effects:start("hit", target.character.id)
+        attackTarget(self.current, target.character.id, "hit")
     else
         state = sceneState.action
         self.current = 0
@@ -136,7 +155,7 @@ function scene.control_button(command)
                 effects:start(target.spell, id)
             end
             state = sceneState.effect
-            attackTarget(target.character.id, target.index)
+            attackTarget(target.character.id, target.index, target.spell)
         elseif command == Command.Deny then
             state = sceneState.action
         end

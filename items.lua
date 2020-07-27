@@ -1,13 +1,16 @@
 items = {
-	sword = {
-		id = 1,
+	{
+        id = 1,
+        title = "Novice sword",
 		type = "sword",
-		damage = 2,
-		defence = 1
+		damage = 2
     },
-    beer = {
+    {
         id = 2,
-        type = "potion"
-        heal = 10
-    }
+        title = "Beer",
+        type = "potion",
+        health = 5,
+        mana = 5
+    },
+
 }
