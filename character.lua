@@ -23,7 +23,7 @@ local character = {
         thunder = 0
 	},
 
-	bag = { 1 }, -- index from items table
+	bag = { 1, 2 }, -- index from items table
 	equipped = {
 		right_hand = 1 -- index from bag
 	}

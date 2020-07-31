@@ -7,10 +7,9 @@ items = {
     },
     {
         id = 2,
-        title = "Beer",
+        title = "Beer 0.33",
         type = "potion",
-        health = 5,
-        mana = 5
-    },
-
+        health = 10,
+        mana = 10
+    }
 }
