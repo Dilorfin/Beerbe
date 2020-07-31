@@ -84,6 +84,7 @@ function character:useSkill(skill)
 	if skill == "attack" then
 		self:increaseSkill("sword")
 	else
+		self.mana = self.mana - self:getSkillLevel(skill)
 		self:increaseSkill(skill)
 		self:increaseSkill("mana")
 	end
