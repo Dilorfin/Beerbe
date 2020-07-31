@@ -4,13 +4,14 @@ local effects = {}
 
 local files = {
     hit = "asserts/fight/effects/hit.png",
-    sword = "asserts/fight/effects/sword.png"
+    sword = "asserts/fight/effects/sword.png",
+    thunder = "asserts/fight/effects/sword.png"
 }
 
 effects.animations = {
     hit = newAnimation(love.graphics.newImage(files["hit"]), 192, 192, 0.05, 6),
     sword = newAnimation(love.graphics.newImage(files["sword"]), 192, 192, 0.05, 6),
-    --thunder = newAnimation(love.graphics.newImage(files["thunder"]), 192, 192, 0.035, 6)
+    thunder = newAnimation(love.graphics.newImage(files["thunder"]), 192, 192, 0.1, 5)
 }
 
 for k, v in pairs(effects.animations) do
