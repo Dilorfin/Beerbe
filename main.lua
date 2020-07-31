@@ -33,7 +33,11 @@ function love.keypressed(key)
     -- for debug
     if key == "`" then
         love.event.quit()
+    elseif key == "f12" then
+        local command = io.read()
+        loadstring(command)()
     end
+    
     if key == "w" or key == "up" then
         Scene.control_axis(0, -1)
         Scene.control_button(Command.Up)
