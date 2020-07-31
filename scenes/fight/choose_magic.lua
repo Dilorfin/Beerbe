@@ -10,13 +10,13 @@ for skill, value in pairs(character.active_skills) do
 end
 table.sort(chooseMagic.skills)
 
-function chooseMagic:control_button(command)
+function chooseMagic:control_button(command, sceneState)
     if command == Command.Confirm then
-        state = sceneState.target
+        sceneState.current = sceneState.target
         target.spell = self.skills[self.index]
     elseif command == Command.Deny then
         character.animation:setState("stand")
-        state = sceneState.action
+        sceneState.current = sceneState.action
     elseif command == Command.Up then
         if self.index > 3 then 
             self.index = self.index - 3
@@ -41,13 +41,12 @@ function chooseMagic:draw()
 
     local cellWidth = love.graphics.getWidth()/3
     local cellHeight = 100
-    local i = 1
+    
     for i, skill in pairs(self.skills) do
         local posX = cellWidth*((i-1)%3)
         local posY = cellHeight*math.ceil(i/3)
         love.graphics.printf(skill, posX, posY, cellWidth, "center")
         love.graphics.printf("LV: "..character:getSkillLevel(skill).." MP: "..character:getSkillLevel(skill), posX, posY + fontHeight, cellWidth, "center")
-        i = i + 1
     end
     
     love.graphics.setLineWidth(4)

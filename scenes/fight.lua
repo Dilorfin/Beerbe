@@ -5,12 +5,16 @@ require "animation"
 
 local scene = {}
 
-sceneState = {
+local sceneState = {
+    current = 0,
     action = 0,
     target = 1,
     magic = 2,
     effect = 3
 }
+
+local choose = 0
+
 local enemies = {}
 
 function scene.load()
@@ -45,10 +49,16 @@ function scene.load()
     end
     enemies.current = 0
     enemies.finished = true
+end
 
-    -- init variables
-    choose = 0
-    state = sceneState.action
+function scene.unload()
+    character.animation:unload()
+    background = nil
+    icons = nil
+    enemies = nil
+    target = nil
+    effects = nil
+    chooseMagic = nil
 end
 
 function attackTarget(attackerId, targetId, skill)
@@ -74,11 +84,11 @@ function enemies:turn()
     local slots = require "scenes/fight/slots"
     self.current = self.current + 1
     if self.current <= #enemies then
-        state = sceneState.effect
+        sceneState.current = sceneState.effect
         effects:start("hit", target.character.id)
         attackTarget(self.current, target.character.id, "hit")
     else
-        state = sceneState.action
+        sceneState.current = sceneState.action
         self.current = 0
         self.finished = true
     end
@@ -91,18 +101,9 @@ function enemies:turn()
     end
 end
 
--- TODO: clearing
-function scene.unload()
-    character.animation:unload()
-    background = nil
-    icons = nil
-    enemies = nil
-    target = nil
-end
-
 function scene.update(delta_time)
     character.animation:update(delta_time)
-    if state == sceneState.effect then
+    if sceneState.current == sceneState.effect then
         effects:update(delta_time)
         if not effects:isPlaying() then
             character.animation:setState("stand")
@@ -112,7 +113,7 @@ function scene.update(delta_time)
 end
 
 function scene.control_button(command)
-    if state == sceneState.action then
+    if sceneState.current == sceneState.action then
         if command == Command.Left then
             if choose > 0 then
                 choose = choose - 1
@@ -123,13 +124,13 @@ function scene.control_button(command)
             end
         elseif command == Command.Confirm then
             if choose == 0 then
-                state = sceneState.target
+                sceneState.current = sceneState.target
                 target.spell = "attack"
                 target.index = 1
             elseif choose == 1 then
                 --character.animation:setState("protect")
             elseif choose == 2 then
-                state = sceneState.magic
+                sceneState.current = sceneState.magic
                 character.animation:setState("cast")
                 target.spell = "magic"
                 target.index = 1
@@ -141,7 +142,7 @@ function scene.control_button(command)
         elseif command == Command.Deny then
             --character.animation:setState("stand")
         end
-    elseif state == sceneState.target then
+    elseif sceneState.current == sceneState.target then
         if command == Command.Left then
             target:left(enemies)
         elseif command == Command.Right then
@@ -155,19 +156,20 @@ function scene.control_button(command)
                 character.animation:setState("cast")
                 effects:start(target.spell, id)
             end
-            state = sceneState.effect
+            sceneState.current = sceneState.effect
             attackTarget(target.character.id, target.index, target.spell)
         elseif command == Command.Deny then
-            state = sceneState.action
+            sceneState.current = sceneState.action
+            character.animation:setState("stand")
         end
-    elseif state == sceneState.magic then
-        chooseMagic:control_button(command)
+    elseif sceneState.current == sceneState.magic then
+        chooseMagic:control_button(command, sceneState)
     end
 end
 
 function scene.draw()
 
-    if state == sceneState.magic then
+    if sceneState.current == sceneState.magic then
         chooseMagic:draw()
         return
     end
@@ -182,7 +184,7 @@ function scene.draw()
 
     character.animation:draw()
 
-    if state == sceneState.action then
+    if sceneState.current == sceneState.action then
         local menuItemSize = love.graphics.getHeight() / 7
         local offset = (menuHeight - menuItemSize)/2
 
@@ -193,9 +195,9 @@ function scene.draw()
         for i = 1, icons:getLayerCount() do
             love.graphics.drawLayer(icons, i, offset + (i - 1) * menuHeight, offset + love.graphics.getHeight() - menuHeight, 0, menuItemSize / icons:getWidth())
         end
-    elseif state == sceneState.target then
+    elseif sceneState.current == sceneState.target then
         target:draw(enemies)
-    elseif state == sceneState.effect then
+    elseif sceneState.current == sceneState.effect then
         effects:draw()
     end
 

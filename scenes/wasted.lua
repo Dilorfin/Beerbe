@@ -11,7 +11,8 @@ function scene.load()
 end
 
 function scene.unload()
-
+    wastedText = nil
+    wastedTransform = nil
 end
 
 function scene.update(delta_time)
