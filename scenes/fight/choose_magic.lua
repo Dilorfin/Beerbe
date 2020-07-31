@@ -12,8 +12,10 @@ table.sort(chooseMagic.skills)
 
 function chooseMagic:control_button(command, sceneState)
     if command == Command.Confirm then
-        sceneState.current = sceneState.target
-        target.spell = self.skills[self.index]
+        if character:getSkillLevel(self.skills[self.index]) <= character.mana then
+            sceneState.current = sceneState.target
+            target.spell = self.skills[self.index]
+        end
     elseif command == Command.Deny then
         character.animation:setState("stand")
         sceneState.current = sceneState.action

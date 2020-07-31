@@ -23,7 +23,7 @@ local character = {
         thunder = 0
 	},
 
-	bag = { 1 }, -- index from items table
+	bag = { 1, 2 }, -- index from items table
 	equipped = {
 		right_hand = 1 -- index from bag
 	}
@@ -84,6 +84,7 @@ function character:useSkill(skill)
 	if skill == "attack" then
 		self:increaseSkill("sword")
 	else
+		self.mana = self.mana - self:getSkillLevel(skill)
 		self:increaseSkill(skill)
 		self:increaseSkill("mana")
 	end

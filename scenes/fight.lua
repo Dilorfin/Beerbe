@@ -10,7 +10,8 @@ local sceneState = {
     action = 0,
     target = 1,
     magic = 2,
-    effect = 3
+    effect = 3,
+    item = 4
 }
 
 local choose = 0
@@ -28,6 +29,7 @@ function scene.load()
     -- load targeting
     target = require "scenes/fight/targeting"
     chooseMagic = require "scenes/fight/choose_magic"
+    chooseItem = require "scenes/fight/choose_item"
 
     -- load resources
     background = love.graphics.newImage("asserts/fight/background.png")
@@ -59,6 +61,7 @@ function scene.unload()
     target = nil
     effects = nil
     chooseMagic = nil
+    chooseItem = nil
 end
 
 function attackTarget(attackerId, targetId, skill)
@@ -135,7 +138,7 @@ function scene.control_button(command)
                 target.spell = "magic"
                 target.index = 1
             elseif choose == 3 then
-                love.event.quit()
+                sceneState.current = sceneState.item
             elseif choose == 4 then
                 love.event.quit()
             end
@@ -164,6 +167,8 @@ function scene.control_button(command)
         end
     elseif sceneState.current == sceneState.magic then
         chooseMagic:control_button(command, sceneState)
+    elseif sceneState.current == sceneState.item then
+        chooseItem:control_button(command, sceneState)
     end
 end
 
@@ -171,6 +176,9 @@ function scene.draw()
 
     if sceneState.current == sceneState.magic then
         chooseMagic:draw()
+        return
+    elseif sceneState.current == sceneState.item then
+        chooseItem:draw()
         return
     end
 
