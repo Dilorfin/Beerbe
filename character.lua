@@ -28,15 +28,6 @@ local character = {
 		right_hand = 1 -- index from bag
 	}
 }
---[[
-UnitStats = {
-    health
-    mana
-    attack
-    magic
-    defense
-}
-]]
 
 function character:getMaxHealth()
 	return 15 * self:getSkillLevel("health")
@@ -78,23 +69,34 @@ function character:getDamage(skill)
 		if self.equipped.left_hand ~= nil then
 			damage = damage + items[self.bag[self.equipped.left_hand]].damage
 		end
+
+		damage = damage * self:getSkillLevel("sword")		
 		
-		damage = damage * self:getSkillLevel("sword")
-		self:increaseSkill("sword")
 	else
 		damage = self:getSkillLevel("mana") * self:getSkillLevel(skill)
-		self:increaseSkill(skill)
-		self:increaseSkill("mana")
 	end
 	
 	return damage
 end
 
+function character:useSkill(skill)
+	local damage = self:getDamage(skill)
+	if skill == "attack" then
+		self:increaseSkill("sword")
+	else
+		self:increaseSkill(skill)
+		self:increaseSkill("mana")
+	end
+
+	print("char_deal: "..damage)
+	return damage
+end
+
 function character:takeDamage(damage)
-	-- damage = damage - 
 	if damage > 0 then
 		self.health = self.health - damage
 		self:increaseSkill("health")
+		print("char_take: "..damage)
 	end
 end
 

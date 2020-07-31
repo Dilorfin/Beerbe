@@ -19,7 +19,7 @@ local types = {
     }
 }
 
-function enemy_mt:getDamage(skill)
+function enemy_mt:useSkill(skill)
     return self.damage
 end
 

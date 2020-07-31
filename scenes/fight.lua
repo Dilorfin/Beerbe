@@ -5,7 +5,7 @@ require "animation"
 
 local scene = {}
 
-local sceneState = {
+sceneState = {
     action = 0,
     target = 1,
     magic = 2,
@@ -23,6 +23,7 @@ function scene.load()
 
     -- load targeting
     target = require "scenes/fight/targeting"
+    chooseMagic = require "scenes/fight/choose_magic"
 
     -- load resources
     background = love.graphics.newImage("asserts/fight/background.png")
@@ -61,7 +62,7 @@ function attackTarget(attackerId, targetId, skill)
         targetUnit = enemies[targetId]
     end
 
-    local damage = attackerUnit:getDamage(skill)
+    local damage = attackerUnit:useSkill(skill)
     targetUnit:takeDamage(damage)
 
     if targetUnit.health <= 0 and targetId ~= target.character.id then
@@ -126,8 +127,9 @@ function scene.control_button(command)
                 target.spell = "attack"
                 target.index = 1
             elseif choose == 1 then
-                character.animation:setState("protect")
+                --character.animation:setState("protect")
             elseif choose == 2 then
+                state = sceneState.magic
                 character.animation:setState("cast")
                 target.spell = "magic"
                 target.index = 1
@@ -137,7 +139,7 @@ function scene.control_button(command)
                 love.event.quit()
             end
         elseif command == Command.Deny then
-            character.animation:setState("stand")
+            --character.animation:setState("stand")
         end
     elseif state == sceneState.target then
         if command == Command.Left then
@@ -158,10 +160,18 @@ function scene.control_button(command)
         elseif command == Command.Deny then
             state = sceneState.action
         end
+    elseif state == sceneState.magic then
+        chooseMagic:control_button(command)
     end
 end
 
 function scene.draw()
+
+    if state == sceneState.magic then
+        chooseMagic:draw()
+        return
+    end
+
     local menuHeight = love.graphics.getHeight() / 6
     
     love.graphics.draw(background, 0, 0, 0, love.graphics.getWidth() / background:getWidth(), (love.graphics.getHeight() - menuHeight) / background:getHeight())
@@ -183,7 +193,6 @@ function scene.draw()
         for i = 1, icons:getLayerCount() do
             love.graphics.drawLayer(icons, i, offset + (i - 1) * menuHeight, offset + love.graphics.getHeight() - menuHeight, 0, menuItemSize / icons:getWidth())
         end
-
     elseif state == sceneState.target then
         target:draw(enemies)
     elseif state == sceneState.effect then
