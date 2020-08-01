@@ -6,7 +6,7 @@ love.graphics.setFont(mainFont)
 
 function love.load()
     --love.mouse.setVisible(false)
-    Scene.Load("fight")
+    Scene.Load("world")
     
     character = require "character"
     --character:load()
