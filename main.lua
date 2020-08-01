@@ -6,7 +6,7 @@ love.graphics.setFont(mainFont)
 
 function love.load()
     --love.mouse.setVisible(false)
-    Scene.Load("fight")
+    Scene.Load("world")
     
     character = require "character"
 end
@@ -37,16 +37,16 @@ function love.keypressed(key)
     end
     
     if key == "w" or key == "up" then
-        Scene.control_axis("lefty", -1)
+        Scene.control_axis("y", -1)
         Scene.control_button(Command.Up)
     elseif key == "s" or key == "down" then
-        Scene.control_axis("lefty", 1)
+        Scene.control_axis("y", 1)
         Scene.control_button(Command.Down)
     elseif key == "a" or key == "left" then
-        Scene.control_axis("leftx", -1)
+        Scene.control_axis("x", -1)
         Scene.control_button(Command.Left)
     elseif key == "d" or key == "right" then
-        Scene.control_axis("leftx", 1)
+        Scene.control_axis("x", 1)
         Scene.control_button(Command.Right)
     elseif key == "escape" then
         Scene.control_button(Command.Menu)
@@ -61,11 +61,11 @@ function love.keyreleased(key)
     if key == "w" or key == "up" 
        or key == "s" or key == "down"
     then
-        Scene.control_axis("lefty", 0)
+        Scene.control_axis("y", 0)
     elseif key == "a" or key == "left" 
         or key == "d" or key == "right"
     then
-        Scene.control_axis("leftx", 0)
+        Scene.control_axis("x", 0)
     end
 end
 

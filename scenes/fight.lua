@@ -18,22 +18,26 @@ local choose = 0
 
 local enemies = {}
 
+local characterAnimation = require "scenes/fight/character"
+
+-- load effects
+local effects = require "scenes/fight/effects"
+
+-- load targeting
+local target = require "scenes/fight/targeting"
+--load menus
+local chooseMagic = require "scenes/fight/choose_magic"
+local chooseItem = require "scenes/fight/choose_item"
+
 function scene.load()
     -- load character
-    character = require "scenes/fight/character"
-    character.animation:load()
+    character = require "character"
     
-    -- load effects
-    effects = require "scenes/fight/effects"
-
-    -- load targeting
-    target = require "scenes/fight/targeting"
-    chooseMagic = require "scenes/fight/choose_magic"
-    chooseItem = require "scenes/fight/choose_item"
-
+    characterAnimation:load()
+    
     -- load resources
     background = love.graphics.newImage("asserts/fight/background.png")
-    
+
     local iconsFilenames = {
         "asserts/fight/sword.png",
         "asserts/fight/shield.png",
@@ -54,7 +58,7 @@ function scene.load()
 end
 
 function scene.unload()
-    character.animation:unload()
+    --characterAnimation:unload()
     background = nil
     icons = nil
     enemies = nil
@@ -105,11 +109,11 @@ function enemies:turn()
 end
 
 function scene.update(delta_time)
-    character.animation:update(delta_time)
+    characterAnimation:update(delta_time)
     if sceneState.current == sceneState.effect then
         effects:update(delta_time)
         if not effects:isPlaying() then
-            character.animation:setState("stand")
+            characterAnimation:setState("stand")
             enemies:turn()
         end
     end
@@ -131,10 +135,10 @@ function scene.control_button(command)
                 target.spell = "attack"
                 target.index = 1
             elseif choose == 1 then
-                --character.animation:setState("protect")
+                --characterAnimation:setState("protect")
             elseif choose == 2 then
                 sceneState.current = sceneState.magic
-                character.animation:setState("cast")
+                characterAnimation:setState("cast")
                 target.spell = "magic"
                 target.index = 1
             elseif choose == 3 then
@@ -143,7 +147,7 @@ function scene.control_button(command)
                 love.event.quit()
             end
         elseif command == Command.Deny then
-            --character.animation:setState("stand")
+            --characterAnimation:setState("stand")
         end
     elseif sceneState.current == sceneState.target then
         if command == Command.Left then
@@ -153,20 +157,20 @@ function scene.control_button(command)
         elseif command == Command.Confirm then
             local id = enemies[target.index].slot
             if target.spell == "attack" then
-                character.animation:setState("attack")
+                characterAnimation:setState("attack")
                 effects:start("sword", id)
             else
-                character.animation:setState("cast")
+                characterAnimation:setState("cast")
                 effects:start(target.spell, id)
             end
             sceneState.current = sceneState.effect
             attackTarget(target.character.id, target.index, target.spell)
         elseif command == Command.Deny then
             sceneState.current = sceneState.action
-            character.animation:setState("stand")
+            characterAnimation:setState("stand")
         end
     elseif sceneState.current == sceneState.magic then
-        chooseMagic:control_button(command, sceneState)
+        chooseMagic:control_button(command, sceneState, target)
     elseif sceneState.current == sceneState.item then
         chooseItem:control_button(command, sceneState)
     end
@@ -190,7 +194,7 @@ function scene.draw()
         enemies[i]:draw()
     end
 
-    character.animation:draw()
+    characterAnimation:draw()
 
     if sceneState.current == sceneState.action then
         local menuItemSize = love.graphics.getHeight() / 7

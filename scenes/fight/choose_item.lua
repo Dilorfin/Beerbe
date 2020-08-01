@@ -5,7 +5,7 @@ chooseItem.index = 1
 chooseItem.items = {}
 
 local fontHeight = love.graphics.getFont():getHeight()
-local character = require "scenes/fight/character"
+local character = require "character"
 
 for i, itemId in pairs(character.bag) do
     if items[itemId].type == "potion" then

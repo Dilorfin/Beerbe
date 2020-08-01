@@ -3,21 +3,21 @@ chooseMagic.index = 1
 chooseMagic.skills = {}
 
 local fontHeight = love.graphics.getFont():getHeight()
-local character = require "scenes/fight/character"
+local character = require "character"
 
 for skill, value in pairs(character.active_skills) do
     table.insert(chooseMagic.skills, skill)
 end
 table.sort(chooseMagic.skills)
 
-function chooseMagic:control_button(command, sceneState)
+function chooseMagic:control_button(command, sceneState, target)
     if command == Command.Confirm then
         if character:getSkillLevel(self.skills[self.index]) <= character.mana then
             sceneState.current = sceneState.target
             target.spell = self.skills[self.index]
         end
     elseif command == Command.Deny then
-        character.animation:setState("stand")
+        characterAnimation:setState("stand")
         sceneState.current = sceneState.action
     elseif command == Command.Up then
         if self.index > 3 then 

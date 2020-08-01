@@ -3,36 +3,43 @@ require "commands"
 
 local scene = {}
 
+local sceneState = {
+    current = 1,
+    moving = 1
+}
+
+local moving = require "scenes/world/moving"
+
 function scene.load ()
-    print "scene loaded"
+    character = require "character"
+    moving:load()
 end
 
 function scene.unload()
-    print "scene unloaded"
 end
 
 function scene.update(delta_time)
-    print("scene update: "..delta_time)
-end
-
-function scene.control_button(command)
-    if command == Command.Menu then
-        print "menu"
-    elseif command == Command.Confirm then
-        print "confirm"
-    elseif command == Command.Deny then
-        print "deny"
-    elseif command == Command.Up then
-        print "up"
+    if sceneState.current == sceneState.moving then
+        moving:update(delta_time)
     end
 end
 
-function scene.control_axis(x_axis, y_axis)
-    print(x_axis.." - "..y_axis)
+function scene.control_button(command)
+    if sceneState.current == sceneState.moving then
+        moving:control_button(command)
+    end
+end
+
+function scene.control_axis(axis, value)
+    if sceneState.current == sceneState.moving then
+        moving:control_axis(axis, value)
+    end
 end
 
 function scene.draw()
-    love.graphics.print("Hello world",0,0)
+    if sceneState.current == sceneState.moving then
+        moving:draw()
+    end
 end
 
 return scene
