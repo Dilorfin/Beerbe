@@ -22,6 +22,7 @@ function character.animation:load()
     self.animation:setMode("bounce")
 
     self:setState("downward")
+    self:stop()
 end
 
 function character.animation:unload()
