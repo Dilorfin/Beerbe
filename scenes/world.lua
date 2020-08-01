@@ -8,15 +8,14 @@ local sceneState = {
     moving = 1
 }
 
+local moving = require "scenes/world/moving"
+
 function scene.load ()
-    moving = require "scenes/world/moving"
-    character = require "scenes/world/character"
-    character.animation:load()
+    character = require "character"
+    moving:load()
 end
 
 function scene.unload()
-    character.animation:unload()
-    moving = nil
 end
 
 function scene.update(delta_time)
@@ -38,7 +37,9 @@ function scene.control_axis(axis, value)
 end
 
 function scene.draw()
-    character.animation:draw()
+    if sceneState.current == sceneState.moving then
+        moving:draw()
+    end
 end
 
 return scene

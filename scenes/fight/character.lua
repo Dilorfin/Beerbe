@@ -1,7 +1,6 @@
 require "animation"
 
-local character = require "character"
-character.animation = {
+local characterAnimation = {
     states = {
         stand = 1,
         attack = 2,
@@ -11,7 +10,7 @@ character.animation = {
     }
 }
 
-function character.animation:load()
+function characterAnimation:load()
     local heroFilenames = {
         "asserts/fight/animations/stand.png",
         "asserts/fight/animations/attack.png",
@@ -30,12 +29,12 @@ function character.animation:load()
     self:setState("stand")
 end
 
-function character.animation:unload()
+function characterAnimation:unload()
     self.animation.screenCoordinates = nil
     self.animation = nil
 end
 
-function character.animation:setState(st)
+function characterAnimation:setState(st)
     self.state = self.states[st]
     if st == "stand" then
         self.animation:setMode("bounce")
@@ -49,15 +48,15 @@ function character.animation:setState(st)
     self.animation:play()
 end
 
-function character.animation:update(dt)
+function characterAnimation:update(dt)
     self.animation:update(dt)
 end
 
-function character.animation:draw()
+function characterAnimation:draw()
     -- add scaling...
     local x = self.animation.screenCoordinates.x
     local y = self.animation.screenCoordinates.y
     self.animation:drawLayer(self.state, x, y, 0, love.graphics.getHeight()/600)
 end
 
-return character
+return characterAnimation

@@ -1,7 +1,6 @@
 require "animation"
 
-local character = require "character"
-character.animation = {
+local characterAnimation  = {
     states = {
         upward = 1,
         downward = 2,
@@ -9,8 +8,9 @@ character.animation = {
         rightward = 4
     }
 }
+local character = require "character"
 
-function character.animation:load()
+function characterAnimation:load()
     local heroFilenames = {
         "asserts/world/animations/upward.png",
         "asserts/world/animations/downward.png",
@@ -25,27 +25,27 @@ function character.animation:load()
     self:stop()
 end
 
-function character.animation:unload()
+function characterAnimation:unload()
     self.animation = nil
 end
 
-function character.animation:play()
+function characterAnimation:play()
     self.animation:play()
 end
-function character.animation:stop()
+function characterAnimation:stop()
     self.animation:stop()
 end
 
-function character.animation:setState(st)
+function characterAnimation:setState(st)
     self.state = self.states[st]
 end
 
-function character.animation:update(dt)
+function characterAnimation:update(dt)
     self.animation:update(dt)
 end
 
-function character.animation:draw()
+function characterAnimation:draw()
     self.animation:drawLayer(self.state, character.position.x, character.position.y, 0, 1)
 end
 
-return character
+return characterAnimation

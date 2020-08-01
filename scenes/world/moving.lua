@@ -1,17 +1,24 @@
-local moving = {
+local movingCharacter = {
     speed = {
         x = 0,
         y = 0
     }
 }
 
-function moving:update(delta_time)
-    character.position.x = 100 * self.speed.x * delta_time + character.position.x
-    character.position.y = 100 * self.speed.y * delta_time + character.position.y
-    character.animation:update(delta_time)
+local characterAnimation = require "scenes/world/character"
+local character = require "character"
+
+function movingCharacter:load()
+    characterAnimation:load()
 end
 
-function moving:control_button(command)
+function movingCharacter:update(delta_time)
+    character.position.x = 100 * self.speed.x * delta_time + character.position.x
+    character.position.y = 100 * self.speed.y * delta_time + character.position.y
+    characterAnimation:update(delta_time)
+end
+
+function movingCharacter:control_button(command)
     if command == Command.Menu then
         print "menu"
     elseif command == Command.Confirm then
@@ -21,29 +28,33 @@ function moving:control_button(command)
     end
 end
 
-function moving:control_axis(axis, value)
+function movingCharacter:control_axis(axis, value)
     if math.abs(value) < 0.24 and value ~= 0 then
         return
     end
 
     self.speed[axis] = value
     
-    character.animation:play()
+    characterAnimation:play()
     if math.abs(self.speed.x) > math.abs(self.speed.y) then
         if self.speed.x < 0 then
-            character.animation:setState("leftward")
+            characterAnimation:setState("leftward")
         elseif self.speed.x > 0 then
-            character.animation:setState("rightward")
+            characterAnimation:setState("rightward")
         end
     elseif self.speed.x == self.speed.y and self.speed.y == 0 then
-        character.animation:stop()
+        characterAnimation:stop()
     else
         if self.speed.y < 0 then
-            character.animation:setState("upward")
+            characterAnimation:setState("upward")
         elseif self.speed.y > 0 then
-            character.animation:setState("downward")
+            characterAnimation:setState("downward")
         end
     end
 end
 
-return moving
+function movingCharacter:draw()
+    characterAnimation:draw()
+end
+
+return movingCharacter
