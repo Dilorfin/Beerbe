@@ -9,7 +9,6 @@ function love.load()
     Scene.Load("fight")
     
     character = require "character"
-    --character:load()
 end
 
 function love.update(dt)
@@ -22,7 +21,6 @@ end
 
 function love.quit()
     Scene.unload()
-    --character:save()
 end
 
 function love.lowmemory()
@@ -39,16 +37,16 @@ function love.keypressed(key)
     end
     
     if key == "w" or key == "up" then
-        Scene.control_axis(0, -1)
+        Scene.control_axis("lefty", -1)
         Scene.control_button(Command.Up)
     elseif key == "s" or key == "down" then
-        Scene.control_axis(0, 1)
+        Scene.control_axis("lefty", 1)
         Scene.control_button(Command.Down)
     elseif key == "a" or key == "left" then
-        Scene.control_axis(-1, 0)
+        Scene.control_axis("leftx", -1)
         Scene.control_button(Command.Left)
     elseif key == "d" or key == "right" then
-        Scene.control_axis(1, 0)
+        Scene.control_axis("leftx", 1)
         Scene.control_button(Command.Right)
     elseif key == "escape" then
         Scene.control_button(Command.Menu)
@@ -61,55 +59,54 @@ end
 
 function love.keyreleased(key)
     if key == "w" or key == "up" 
-        or key == "s" or key == "down"
-        or key == "a" or key == "left"
-        or key == "d" or key == "right" 
+       or key == "s" or key == "down"
     then
-        Scene.control_axis(0, 0)
+        Scene.control_axis("lefty", 0)
+    elseif key == "a" or key == "left" 
+        or key == "d" or key == "right"
+    then
+        Scene.control_axis("leftx", 0)
     end
 end
 
-function love.joystickpressed( joystick, button )
-    --print(tostring(button))
+function love.gamepadreleased( joystick, button )
     -- for debug
-    if button == 7 then
+    if button == "back" then
         love.event.quit()
     end
-    if button == 8 then
+    
+    if button == "start" then
         Scene.control_button(Command.Menu)
-    elseif button == 1 then
+    elseif button == "a" then
         Scene.control_button(Command.Confirm)
-    elseif button == 2 then
+    elseif button == "b" then
         Scene.control_button(Command.Deny)
-    end
-end
-
-function love.joystickaxis( joystick, axis, value )
-    --print(axis.." : "..value)
-    -- x
-    if axis == 1 or axis == 4 then
-        Scene.control_axis(value, 0)
-    -- y
-    elseif axis == 2 or axis == 5 then
-        Scene.control_axis(0, value)
-    end
-end
-
-function love.joystickhat( joystick, hat, direction )
-    --print(hat.." : "..direction)
-    if direction == "d" then
-        Scene.control_axis(0, 1)
-        Scene.control_button(Command.Down)
-    elseif direction == "u" then
-        Scene.control_axis(0, -1)
+    elseif button == "dpup" then
         Scene.control_button(Command.Up)
-    elseif direction == "l" then
-        Scene.control_axis(-1, 0)
+    elseif button == "dpdown" then
+        Scene.control_button(Command.Down)
+    elseif button == "dpleft" then
         Scene.control_button(Command.Left)
-    elseif direction == "r" then
-        Scene.control_axis(1, 0)
+    elseif button == "dpright" then
         Scene.control_button(Command.Right)
-    elseif direction == "c" then
-        Scene.control_axis(0, 0)
+    end
+end
+
+function love.gamepadaxis(joystick, axis, value)
+    local axis = string.sub(axis,#axis,#axis)    
+    --print(axis.." : "..value)
+    Scene.control_axis(axis, value)
+    if value == -1 then
+        if axis == "x" then
+            Scene.control_button(Command.Left)
+        elseif axis == "y" then
+            Scene.control_button(Command.Up) 
+        end
+    elseif value == 1 then
+        if axis == "x" then
+            Scene.control_button(Command.Right) 
+        elseif axis == "y" then
+            Scene.control_button(Command.Down) 
+        end
     end
 end
