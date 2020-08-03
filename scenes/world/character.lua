@@ -29,6 +29,10 @@ function characterAnimation:unload()
     self.animation = nil
 end
 
+function characterAnimation:getSize()
+    return self.animation:getWidth(), self.animation:getHeight()
+end
+
 function characterAnimation:play()
     self.animation:play()
 end

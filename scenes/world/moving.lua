@@ -28,6 +28,10 @@ function movingCharacter:control_button(command)
     end
 end
 
+function movingCharacter:getCharacterSize()
+    return characterAnimation:getSize()
+end
+
 function movingCharacter:control_axis(axis, value)
     if math.abs(value) < 0.24 and value ~= 0 then
         return
