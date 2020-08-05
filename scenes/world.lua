@@ -10,9 +10,12 @@ local sceneState = {
 
 local moving = require "scenes/world/moving"
 local camera = require "scenes/world/camera"
+local map = require "scenes/world/map"
 
 function scene.load ()
     character = require "character"
+    
+    map:load(character)
     moving:load()
 end
 
@@ -23,6 +26,7 @@ function scene.update(delta_time)
     if sceneState.current == sceneState.moving then
         moving:update(delta_time)
         camera:update(character)
+        map:update(delta_time)
     end
 end
 
@@ -40,8 +44,10 @@ end
 
 function scene.draw()
     if sceneState.current == sceneState.moving then
+        love.graphics.scale(love.graphics.getHeight()/600)
         camera:influence()
         
+        map:draw()
         moving:draw()
     end
 end
