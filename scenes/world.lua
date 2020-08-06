@@ -11,12 +11,14 @@ local sceneState = {
 local moving = require "scenes/world/moving"
 local camera = require "scenes/world/camera"
 local map = require "scenes/world/map"
+local colliding = require "scenes/world/colliding"
 
 function scene.load ()
     character = require "character"
     
     map:load(character)
     moving:load()
+    colliding:load(moving:getCharacterSize())
 end
 
 function scene.unload()
@@ -26,7 +28,10 @@ function scene.update(delta_time)
     if sceneState.current == sceneState.moving then
         moving:update(delta_time)
         camera:update(character)
+        
         map:update(delta_time)
+        
+        colliding:collide(moving, map, character)
     end
 end
 
