@@ -31,7 +31,7 @@ function scene.update(delta_time)
         
         map:update(delta_time)
         
-        colliding:collide(moving, map, character)
+        colliding:collide(moving, map)
     end
 end
 
