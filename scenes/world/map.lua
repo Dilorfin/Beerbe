@@ -66,7 +66,11 @@ function map:getCell(x, y)
 end
 
 function map:getObject(x, y)
-    return self:getCell(x, y).object
+    local cell = self:getCell(x, y)
+    if cell then 
+        return cell.object 
+    end
+    return nil
 end
 
 function map:loadObject(id, x, y)
