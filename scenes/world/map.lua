@@ -1,7 +1,7 @@
 local spritesheet = {}
 local objectsCollection = require "scenes/world/objects"
 
-debug = false
+debug = true
 
 function spritesheet:load()
     self.image = love.graphics.newImage("asserts/world/1.png")
@@ -52,7 +52,7 @@ function map:load(character)
     character.position.x = self.spawnPosition.x * self:getTileSide()
     character.position.y = self.spawnPosition.y * self:getTileSide()
 
-    self:loadObject(1, 5, 5)
+    self:loadObject(3, 5, 5)
 end
 
 function map:unload()
@@ -106,7 +106,7 @@ function map:update(dt)
     end
 end
 
-function map:draw(camera)
+function map:draw()
     for i = 1, #self.map do
         spritesheet:drawTile(self.map[i].tile, ((i-1)%self.width)*48, math.ceil(i/self.width)*48)
     end

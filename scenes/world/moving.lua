@@ -10,13 +10,22 @@ local character = require "character"
 
 function movingCharacter:load()
     characterAnimation:load()
+    
+    self.info = {
+        isShown = false,
+        text = "",
+        onConfirm = nil
+    }
 end
 
 function movingCharacter:unload()
     characterAnimation:unload()
+    self.info = nil
 end
 
 function movingCharacter:update(delta_time)
+    self.info.isShown = false
+
     character.position.x = 100 * self.speed.x * delta_time + character.position.x
     character.position.y = 100 * self.speed.y * delta_time + character.position.y
     characterAnimation:update(delta_time)
@@ -26,7 +35,9 @@ function movingCharacter:control_button(command)
     if command == Command.Menu then
         print "menu"
     elseif command == Command.Confirm then
-        print "confirm"
+        if self.info.isShown and self.info.onConfirm then
+            self.info.onConfirm()
+        end
     elseif command == Command.Deny then
         print "deny"
     end
@@ -63,6 +74,19 @@ end
 
 function movingCharacter:draw()
     characterAnimation:draw()
+    
+    if self.info.isShown then
+        local h = love.graphics.getHeight()/9
+        local x, y = love.graphics.inverseTransformPoint(0, love.graphics.getHeight()-h)
+
+        love.graphics.setColor(1, 1, 1, 0.7)
+        love.graphics.rectangle("fill", x, y, love.graphics.getWidth(), h)
+        love.graphics.setColor(0, 0, 0)
+
+        y = y + love.graphics.getFont():getHeight()/1.5
+        love.graphics.printf(self.info.text, x, y, love.graphics.getWidth(), "center")
+        love.graphics.setColor(1, 1, 1)
+    end
 end
 
 return movingCharacter

@@ -8,7 +8,6 @@ local obj = {
 }
 
 function obj:onCollide()
-    print("on collide")
 end
 
 function obj:update(dt)
