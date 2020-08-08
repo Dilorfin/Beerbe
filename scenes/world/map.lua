@@ -1,6 +1,8 @@
 local spritesheet = {}
 local objectsCollection = require "scenes/world/objects"
 
+debug = false
+
 function spritesheet:load()
     self.image = love.graphics.newImage("asserts/world/1.png")
     self.tiles = {
@@ -10,14 +12,20 @@ function spritesheet:load()
         love.graphics.newQuad(0, 3*48+24, 48, 48, self.image:getDimensions()), -- right border
     }
 end
-
+function spritesheet:unload()
+    self.image = nil
+    self.tiles = nil
+end
 function spritesheet:drawTile(id, x, y)
     love.graphics.draw(self.image, self.tiles[id], x, y)
 end
 
-local map = {
-    width = 28,
-    map = { 
+local map = {}
+
+function map:load(character)
+    spritesheet:load()
+    
+    self.map = { 
         { tile = 3}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 4}, 
         { tile = 3}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 4}, 
         { tile = 3}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 4}, 
@@ -29,28 +37,28 @@ local map = {
         { tile = 3}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 4}, 
         { tile = 3}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 4}, 
         { tile = 3}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 4}
-    },
-    objects = {},
-    spawnPosition = {
+    }
+
+    self.width = 28
+    self.height = math.ceil(#self.map/self.width)
+
+    self.objects = {}
+
+    self.spawnPosition = {
         x = 2,
         y = 2
     }
-}
 
-function map:load(character)
-    spritesheet:load()
-    
-    self.height = math.ceil(#self.map/self.width)
     character.position.x = self.spawnPosition.x * self:getTileSide()
     character.position.y = self.spawnPosition.y * self:getTileSide()
 
-    local obj = objectsCollection:loadObject(1, 5, 5)
-    table.insert(self.objects, obj)
-    for x = obj.position.x + 1, obj.position.x+obj.width do
-        for y = obj.position.y, obj.position.y+obj.height - 1 do
-            self:getCell(x, y).object = obj
-        end
-    end
+    self:loadObject(1, 5, 5)
+end
+
+function map:unload()
+    self.objects = nil
+    self.map = nil
+    spritesheet:unload()
 end
 
 function map:getCell(x, y)
@@ -59,6 +67,16 @@ end
 
 function map:getObject(x, y)
     return self:getCell(x, y).object
+end
+
+function map:loadObject(id, x, y)
+    local obj = objectsCollection:loadObject(id, x, y)
+    table.insert(self.objects, obj)
+    for x = obj.position.x + 1, obj.position.x+obj.width do
+        for y = obj.position.y, obj.position.y+obj.height - 1 do
+            self:getCell(x, y).object = obj
+        end
+    end
 end
 
 function map:isTilePassable(x, y)

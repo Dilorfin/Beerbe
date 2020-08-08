@@ -22,6 +22,8 @@ function scene.load ()
 end
 
 function scene.unload()
+    map:unload()
+    moving:unload()
 end
 
 function scene.update(delta_time)

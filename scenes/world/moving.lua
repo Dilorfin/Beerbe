@@ -12,6 +12,10 @@ function movingCharacter:load()
     characterAnimation:load()
 end
 
+function movingCharacter:unload()
+    characterAnimation:unload()
+end
+
 function movingCharacter:update(delta_time)
     character.position.x = 100 * self.speed.x * delta_time + character.position.x
     character.position.y = 100 * self.speed.y * delta_time + character.position.y
