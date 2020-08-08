@@ -11,18 +11,8 @@ function colliding:collide(moving, map)
     local x = math.floor((character.position.x/map:getTileSide()) + 1)
     local y = math.floor(character.position.y/map:getTileSide())
     
-    if map:getObject(x, y) then
-        map:getObject(x, y):onCollide()
-    end
-    if map:getObject(x+1, y) then
-        map:getObject(x+1, y):onCollide()
-    end
-    if map:getObject(x, y+1) then
-        map:getObject(x, y+1):onCollide()
-    end
-    if map:getObject(x+1, y+1) then
-        map:getObject(x+1, y+1):onCollide()
-    end
+    self:collideWithObjects(moving, map)
+
     if (moving.speed.x < 0) -- down
         and (not map:isTilePassable(x, y)
         or not map:isTilePassable(x, y+1))
@@ -45,6 +35,24 @@ function colliding:collide(moving, map)
         or not map:isTilePassable(x+1, y+1))
     then
         character.position.y = y * map:getTileSide()
+    end
+end
+
+function colliding:collideWithObjects(moving, map)
+    local x = math.floor((character.position.x/map:getTileSide()) + 1)
+    local y = math.floor(character.position.y/map:getTileSide())
+
+    if map:getObject(x, y) then
+        map:getObject(x, y):onCollide(moving)
+    end
+    if map:getObject(x+1, y) then
+        map:getObject(x+1, y):onCollide(moving)
+    end
+    if map:getObject(x, y+1) then
+        map:getObject(x, y+1):onCollide(moving)
+    end
+    if map:getObject(x+1, y+1) then
+        map:getObject(x+1, y+1):onCollide(moving)
     end
 end
 
