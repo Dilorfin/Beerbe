@@ -1,6 +1,7 @@
 local camera = {
     x = -200,
-    y = -200
+    y = -200,
+    scale = love.graphics.getHeight()/600
 }
 
 function camera:update(character)
@@ -20,7 +21,8 @@ function camera:update(character)
 end
 
 function camera:influence()
-    love.graphics.translate(-camera.x, -camera.y)
+    love.graphics.scale(self.scale)
+    love.graphics.translate(-self.x, -self.y)
 end
 
 return camera

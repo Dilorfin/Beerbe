@@ -51,7 +51,6 @@ end
 
 function scene.draw()
     if sceneState.current == sceneState.moving then
-        love.graphics.scale(love.graphics.getHeight()/600)
         camera:influence()
         
         map:draw()
