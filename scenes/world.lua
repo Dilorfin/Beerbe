@@ -53,8 +53,8 @@ function scene.draw()
     if sceneState.current == sceneState.moving then
         camera:influence()
         
-        map:draw()
-        moving:draw()
+        map:draw(camera)
+        moving:draw(camera)
     end
 end
 

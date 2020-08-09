@@ -72,9 +72,9 @@ function movingCharacter:control_axis(axis, value)
     end
 end
 
-function movingCharacter:draw()
+function movingCharacter:draw(camera)
     characterAnimation:draw()
-    
+
     if self.info.isShown then
         local h = love.graphics.getHeight()/9
         local x, y = love.graphics.inverseTransformPoint(0, love.graphics.getHeight()-h)
@@ -84,7 +84,8 @@ function movingCharacter:draw()
         love.graphics.setColor(0, 0, 0)
 
         y = y + love.graphics.getFont():getHeight()/1.5
-        love.graphics.printf(self.info.text, x, y, love.graphics.getWidth(), "center")
+        
+        love.graphics.printf(self.info.text, x, y, (1/camera.scale)*love.graphics.getWidth(), "center")
         love.graphics.setColor(1, 1, 1)
     end
 end
