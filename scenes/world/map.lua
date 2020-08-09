@@ -25,34 +25,14 @@ local map = {}
 function map:load(character)
     spritesheet:load()
     
-    self.map = { 
-        { tile = 3}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 2}, { tile = 4}, 
-        { tile = 3}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 4}, 
-        { tile = 3}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 4}, 
-        { tile = 3}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 4}, 
-        { tile = 3}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 4}, 
-        { tile = 3}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 4}, 
-        { tile = 3}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 4}, 
-        { tile = 3}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 4}, 
-        { tile = 3}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 4}, 
-        { tile = 3}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 4}, 
-        { tile = 3}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 1}, { tile = 4}
-    }
-
-    self.width = 28
-    self.height = math.ceil(#self.map/self.width)
-
     self.objects = {}
-
-    self.spawnPosition = {
-        x = 2,
-        y = 2
-    }
+    
+    love.filesystem.load("scenes/world/maps/dev_room.lua")()(self)
+    
+    self.height = math.ceil(#self.map/self.width)
 
     character.position.x = self.spawnPosition.x * self:getTileSide()
     character.position.y = self.spawnPosition.y * self:getTileSide()
-
-    self:loadObject(3, 5, 5)
 end
 
 function map:unload()
@@ -73,7 +53,7 @@ function map:getObject(x, y)
     return nil
 end
 
-function map:loadObject(id, x, y)
+function map:setObject(id, x, y)
     local obj = objectsCollection:loadObject(id, x, y)
     table.insert(self.objects, obj)
     for x = obj.position.x + 1, obj.position.x+obj.width do
