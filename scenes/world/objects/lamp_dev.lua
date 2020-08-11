@@ -1,5 +1,5 @@
 local obj = {
-    id = 3,
+    id = 8,
     animation = newAnimation(love.graphics.newImage("asserts/world/objects/lamp_dev.png"), 48, 96, 0.1, 3),
     isPassable = false,
     position = {},
