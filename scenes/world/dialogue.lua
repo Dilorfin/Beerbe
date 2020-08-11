@@ -26,11 +26,11 @@ function dialogue:control_button(command)
     end
 end
 function dialogue:draw(camera)
-    local h = love.graphics.getHeight()/9
-    local x, y = love.graphics.inverseTransformPoint(0, love.graphics.getHeight()-h)
+    local h = love.graphics.getHeight()/7
+    local x, y = love.graphics.inverseTransformPoint(0, 0)
 
     love.graphics.setColor(1, 1, 1, 0.7)
-    love.graphics.rectangle("fill", x, 0, love.graphics.getWidth(), h)
+    love.graphics.rectangle("fill", x, y, love.graphics.getWidth(), h)
     love.graphics.setColor(0, 0, 0)
 
     local y = love.graphics.getFont():getHeight()
