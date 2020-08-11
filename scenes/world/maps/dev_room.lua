@@ -24,6 +24,7 @@ local function createMap(map)
         x = 2,
         y = 2
     }
+    map.styleId = 7
     
     map:setObject(3, 5, 5)
 end

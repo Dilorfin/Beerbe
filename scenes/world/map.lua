@@ -1,15 +1,15 @@
 local spritesheet = {}
 local objectsCollection = require "scenes/world/objects"
 
-debug = true
+debug = false
 
-function spritesheet:load()
-    self.image = love.graphics.newImage("asserts/world/1.png")
+function spritesheet:load(styleId)
+    self.image = love.graphics.newImage("asserts/world/tiles.png")
     self.tiles = {
-        love.graphics.newQuad(24, 48+24, 48, 48, self.image:getDimensions()), -- usual floor
-        love.graphics.newQuad(24, 4*48, 48, 48, self.image:getDimensions()), -- top border
-        love.graphics.newQuad(48, 3*48+24, 48, 48, self.image:getDimensions()), -- left border
-        love.graphics.newQuad(0, 3*48+24, 48, 48, self.image:getDimensions()), -- right border
+        love.graphics.newQuad(styleId*96 + 24, 48+24, 48, 48, self.image:getDimensions()), -- usual floor
+        love.graphics.newQuad(styleId*96 + 24, 4*48, 48, 48, self.image:getDimensions()), -- top border
+        love.graphics.newQuad(styleId*96 + 48, 3*48+24, 48, 48, self.image:getDimensions()), -- left border
+        love.graphics.newQuad(styleId*96, 3*48+24, 48, 48, self.image:getDimensions()), -- right border
     }
 end
 function spritesheet:unload()
@@ -23,12 +23,12 @@ end
 local map = {}
 
 function map:load(character)
-    spritesheet:load()
-    
     self.objects = {}
     
     love.filesystem.load("scenes/world/maps/dev_room.lua")()(self)
-    
+
+    spritesheet:load(self.styleId or 1)
+
     self.height = math.ceil(#self.map/self.width)
 
     character.position.x = self.spawnPosition.x * self:getTileSide()
