@@ -1,10 +1,10 @@
 local obj = {
-    id = 9,
-    image = love.graphics.newImage("asserts/world/objects/tree_big.png"),
+    id = 10,
+    image = love.graphics.newImage("asserts/world/objects/dev_room/tree.png"),
     isPassable = false,
     position = {},
-    width = 2,
-    height = 3
+    width = 1,
+    height = 2
 }
 
 function obj:onCollide(moving)
