@@ -7,6 +7,7 @@ local movingCharacter = {
 
 local characterAnimation = require "scenes/world/character"
 local character = require "character"
+local dialogue = require "scenes/world/dialogue"
 
 function movingCharacter:load()
     characterAnimation:load()
@@ -18,9 +19,14 @@ function movingCharacter:load()
     }
 end
 
+function movingCharacter:startDialogue(replicas)
+    dialogue:start(replicas)
+end
+
 function movingCharacter:unload()
     characterAnimation:unload()
     self.info = nil
+    self.dialogue = nil
 end
 
 function movingCharacter:update(delta_time)
@@ -32,11 +38,15 @@ function movingCharacter:update(delta_time)
 end
 
 function movingCharacter:control_button(command)
+    if dialogue.started then
+        dialogue:control_button(command)
+        return
+    end
     if command == Command.Menu then
         print "menu"
     elseif command == Command.Confirm then
         if self.info.isShown and self.info.onConfirm then
-            self.info.onConfirm()
+            self.info.onConfirm(self)
         end
     elseif command == Command.Deny then
         print "deny"
@@ -48,7 +58,7 @@ function movingCharacter:getCharacterSize()
 end
 
 function movingCharacter:control_axis(axis, value)
-    if math.abs(value) < 0.24 and value ~= 0 then
+    if dialogue.started or (math.abs(value) < 0.24 and value ~= 0) then
         return
     end
 
@@ -75,7 +85,9 @@ end
 function movingCharacter:draw(camera)
     characterAnimation:draw()
 
-    if self.info.isShown then
+    if dialogue.started then
+        dialogue:draw(camera)
+    elseif self.info.isShown then
         local h = love.graphics.getHeight()/9
         local x, y = love.graphics.inverseTransformPoint(0, love.graphics.getHeight()-h)
 
