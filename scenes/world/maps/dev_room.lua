@@ -31,6 +31,9 @@ local function createMap(map)
     map:setObject(5, 7, 7)
     map:setObject(6, 2, 1)
     map:setObject(7, 3, 2)
+    
+    map:setObject(9, 12, 1)
+    map:setObject(10, 14, 3)
 end
 
 return createMap
