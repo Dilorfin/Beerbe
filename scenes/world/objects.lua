@@ -2,22 +2,11 @@ local objects = {
     filenames = {}
 }
 
-function recursiveEnumerate(folder)
-	local lfs = love.filesystem
-	local filesTable = lfs.getDirectoryItems(folder)
-	for i,v in ipairs(filesTable) do
-		local file = folder.."/"..v
-		local fileInfo = lfs.getInfo(file)
-		if fileInfo.type == "file" then
-            local obj = love.filesystem.load(file)()
-            objects.filenames[obj.id] = file
-		elseif fileInfo.type == "directory" then
-			recursiveEnumerate(file)
-		end
-	end
+local files = love.filesystem.getFilesRecursively("scenes/world/objects")
+for i = 1, #files do
+	local obj = love.filesystem.load(files[i])()
+    objects.filenames[obj.id] = files[i]
 end
-
-recursiveEnumerate("scenes/world/objects")
 
 function objects:loadObject(id, x, y)
     local obj = love.filesystem.load(self.filenames[id])()

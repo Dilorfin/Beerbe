@@ -30,15 +30,12 @@ function itemsMenu:control_button(command)
         end
 
         local item = items[self.usableItems[self.index]]
-        if item.use then
-            item:use(character)
-            table.remove(self.usableItems, self.index)
-            for i = 1, #character.bag do
-                if character.bag[i] == item.id then
-                    table.remove(character.bag, i)
-                    return
-                end
-            end
+        item:use(character)
+        table.remove(self.usableItems, self.index)
+        table.removeByValue(character.bag, item.id)
+
+        if self.index > #self.usableItems then
+            self.index = #self.usableItems
         end
     elseif command == Command.Up then
         if self.index > 3 then 

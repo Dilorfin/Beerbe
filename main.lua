@@ -1,5 +1,6 @@
 require "scene_manager"
 require "commands"
+require "utils"
 
 local mainFont = love.graphics.newFont("asserts/Arial.ttf", 25);
 love.graphics.setFont(mainFont)
