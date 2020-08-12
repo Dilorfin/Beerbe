@@ -5,9 +5,11 @@ local scene = {}
 
 local sceneState = {
     current = 1,
-    moving = 1
+    moving = 1,
+    menu = 2
 }
 
+local menu = require "scenes/world/menu"
 local moving = require "scenes/world/moving"
 local camera = require "scenes/world/camera"
 local map = require "scenes/world/map"
@@ -19,11 +21,14 @@ function scene.load ()
     map:load(character)
     moving:load()
     colliding:load(moving:getCharacterSize())
+
+    menu:load()
 end
 
 function scene.unload()
     map:unload()
     moving:unload()
+    menu:unload()
 end
 
 function scene.update(delta_time)
@@ -34,12 +39,22 @@ function scene.update(delta_time)
         map:update(delta_time)
         
         colliding:collide(moving, map)
+    elseif sceneState.current == sceneState.menu then
+        menu:update(delta_time)
     end
 end
 
 function scene.control_button(command)
-    if sceneState.current == sceneState.moving then
+    if command == Command.Menu then
+        if sceneState.current ~= sceneState.menu then
+            sceneState.current = sceneState.menu
+        else
+            sceneState.current = sceneState.moving
+        end
+    elseif sceneState.current == sceneState.moving then
         moving:control_button(command)
+    elseif sceneState.current == sceneState.menu then
+        menu:control_button(command)
     end
 end
 
@@ -55,6 +70,8 @@ function scene.draw()
         
         map:draw(camera)
         moving:draw(camera)
+    elseif sceneState.current == sceneState.menu then
+        menu:draw()
     end
 end
 

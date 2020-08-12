@@ -42,9 +42,7 @@ function movingCharacter:control_button(command)
         dialogue:control_button(command)
         return
     end
-    if command == Command.Menu then
-        print "menu"
-    elseif command == Command.Confirm then
+    if command == Command.Confirm then
         if self.info.isShown and self.info.onConfirm then
             self.info.onConfirm(self)
         end
