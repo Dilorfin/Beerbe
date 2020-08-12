@@ -15,7 +15,6 @@ local camera = require "scenes/world/camera"
 local map = require "scenes/world/map"
 local colliding = require "scenes/world/colliding"
 
-function scene.load ()
 character = require "character"
 
 function scene.load ()
@@ -47,11 +46,7 @@ end
 
 function scene.control_button(command)
     if command == Command.Menu and sceneState.current ~= sceneState.menu then
-        if sceneState.current ~= sceneState.menu then
         sceneState.current = sceneState.menu
-        else
-            sceneState.current = sceneState.moving
-        end
     elseif sceneState.current == sceneState.moving then
         moving:control_button(command)
     elseif sceneState.current == sceneState.menu then
