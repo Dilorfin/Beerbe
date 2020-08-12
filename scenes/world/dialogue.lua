@@ -26,16 +26,20 @@ function dialogue:control_button(command)
     end
 end
 function dialogue:draw(camera)
-    local h = love.graphics.getHeight()/7
+    local width = (1/camera.scale)*love.graphics.getWidth()
+    local height = love.graphics.getHeight()/7
     local x, y = love.graphics.inverseTransformPoint(0, 0)
 
     love.graphics.setColor(1, 1, 1, 0.7)
-    love.graphics.rectangle("fill", x, y, love.graphics.getWidth(), h)
+    love.graphics.rectangle("fill", x, y, love.graphics.getWidth(), height)
     love.graphics.setColor(0, 0, 0)
 
-    local y = love.graphics.getFont():getHeight()
+    local font = love.graphics.getFont()
+    local _, wrappedtext = font:getWrap(self.replicas[self.index],  width)
 
-    love.graphics.printf(self.replicas[self.index], x, y, (1/camera.scale)*love.graphics.getWidth(), "center")
+    y = y + height/2 - #wrappedtext * font:getHeight()/2
+
+    love.graphics.printf(self.replicas[self.index], x, y, width, "center")
     love.graphics.setColor(1, 1, 1)
 end
 
