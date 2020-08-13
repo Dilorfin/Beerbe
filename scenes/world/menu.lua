@@ -45,10 +45,10 @@ end
 
 function menu:control_button(command, sceneState)
     if command == Command.Deny and menuState.current == menuState.chooseMenu then
-        chooseMenu.index = 1
+        menus[menuState.current].index = 1
         sceneState.current = sceneState.moving
     elseif command == Command.Menu then
-        chooseMenu.index = 1
+        menus[menuState.current].index = 1
         menuState.current = menuState.chooseMenu
         sceneState.current = sceneState.moving
     end
