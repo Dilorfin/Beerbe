@@ -1,9 +1,6 @@
 local menu = {}
 
 character = require "character"
-local chooseMenu = require "scenes/world/menus/choose"
-local items = require "scenes/world/menus/items"
-local donate = require "scenes/world/menus/donate"
 
 local menuState = {
     current = 6,
@@ -14,55 +11,53 @@ local menuState = {
     settings = 5,
     chooseMenu = 6
 }
-
+local menus = {
+    -- TODO: remove nil
+    require "scenes/world/menus/items",
+    nil,
+    nil,-- require "scenes/world/menus/equipment" 
+    require "scenes/world/menus/donate",
+    nil,
+    require "scenes/world/menus/choose",
+}
 function menu:load()
     self.font = love.graphics.newFont("asserts/Arial.ttf", love.graphics.getHeight()/24)
-    chooseMenu:load(self.font)
-    items:load(self.font)
-    donate:load(self.font)
+    for i = 1, #menus do
+        -- TODO: remove nil check
+        if menus[i] then
+            menus[i]:load(self.font)
+        end
+    end
 end
 
 function menu:unload()
     self.font = nil
-    chooseMenu:unload()
-    items:unload()
-    donate:unload()
+    for i = 1, #menus do
+        -- TODO: remove nil check
+        if menus[i] then
+            menus[i]:unload()
+        end
+    end
 end
 
 function menu:update(delta_time)
 end
 
 function menu:control_button(command, sceneState)
-    if command == Command.Deny then
-        if menuState.current == menuState.chooseMenu then
-            chooseMenu.index = 1
-            sceneState.current = sceneState.moving
-        else
-            menuState.current = menuState.chooseMenu
-        end
+    if command == Command.Deny and menuState.current == menuState.chooseMenu then
+        chooseMenu.index = 1
+        sceneState.current = sceneState.moving
     elseif command == Command.Menu then
         chooseMenu.index = 1
         menuState.current = menuState.chooseMenu
         sceneState.current = sceneState.moving
     end
-
-    if menuState.current == menuState.chooseMenu then
-        chooseMenu:control_button(command, menuState)
-    elseif menuState.current == menuState.items then
-        items:control_button(command)
-    elseif menuState.current == menuState.donate then
-        donate:control_button(command)
-    end
+    
+    menus[menuState.current]:control_button(command, menuState)
 end
 
 function menu:draw()
-    if menuState.current == menuState.chooseMenu then
-        chooseMenu:draw()
-    elseif menuState.current == menuState.items then
-        items:draw()
-    elseif menuState.current == menuState.donate then
-        donate:draw()
-    end
+    menus[menuState.current]:draw()
 end
 
 return menu
