@@ -22,29 +22,16 @@ function chooseItem:control_button(command, sceneState)
         
         sceneState.current = sceneState.effect
         local item = items[self.items[self.index]]
-        if item.type == "potion" then
-            if item.health ~= nil then
-                character.health = character.health + item.health
-                if character.health > character:getMaxHealth() then
-                    character.health = character:getMaxHealth()
-                end
-            end
-            if item.mana ~= nil then
-                character.mana = character.mana + item.mana
-                if character.mana > character:getMaxMana() then
-                    character.mana = character:getMaxMana()
+        if item.use then
+            item:use(character)
+            table.remove(self.items, self.index)
+            for i = 1, #character.bag do
+                if character.bag[i] == item.id then
+                    table.remove(character.bag, i)
+                    return
                 end
             end
         end
-
-        table.remove(self.items, self.index)
-        for i = 1, #character.bag do
-            if character.bag[i] == item.id then
-                table.remove(character.bag, i)
-                return
-            end
-        end
-        
     elseif command == Command.Deny then
         sceneState.current = sceneState.action
     elseif command == Command.Up then

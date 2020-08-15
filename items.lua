@@ -1,15 +1,9 @@
-items = {
-	{
-        id = 1,
-        title = "Novice sword",
-		type = "sword",
-		damage = 2
-    },
-    {
-        id = 2,
-        title = "Beer 0.33",
-        type = "potion",
-        health = 10,
-        mana = 10
-    }
-}
+items = {}
+
+local files = love.filesystem.getFilesRecursively("items")
+for i = 1, #files do
+	local item = love.filesystem.load(files[i])()
+    items[item.id] = item
+end
+
+return items

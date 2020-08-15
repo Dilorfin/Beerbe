@@ -103,11 +103,11 @@ function anim_mt:setSpeed(speed)
 end
 
 function anim_mt:getWidth()
-	return self.frames[self.position]:getWidth()
+	return self.fw
 end
 
 function anim_mt:getHeight()
-	return self.frames[self.position]:getHeight()
+	return self.fh
 end
 
 function anim_mt:setMode(mode)
