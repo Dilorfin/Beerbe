@@ -15,7 +15,7 @@ local menus = {
     -- TODO: remove nil
     require "scenes/world/menus/items",
     nil,
-    nil,-- require "scenes/world/menus/equipment" 
+    require "scenes/world/menus/equipment",
     require "scenes/world/menus/donate",
     nil,
     require "scenes/world/menus/choose",
