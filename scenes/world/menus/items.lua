@@ -23,8 +23,10 @@ end
 function itemsMenu:update(delta_time)
 end
 
-function itemsMenu:control_button(command)
-    if command == Command.Confirm then
+function itemsMenu:control_button(command, menuState)
+    if command == Command.Deny then
+        menuState.current = menuState.chooseMenu
+    elseif command == Command.Confirm then
         if #self.usableItems < 1 then
             return
         end
