@@ -18,7 +18,11 @@ end
 function donate:update(delta_time)
 end
 
-function donate:control_button(command)
+function donate:control_button(command, menuState)
+    if command == Command.Deny then
+        menuState.current = menuState.chooseMenu
+    end
+    
     self.index = love.math.random(1, #self.replicas)
 end
 
