@@ -101,7 +101,7 @@ function enemies:turn()
     end
 
     if #enemies <= 0 then 
-        -- TODO: return to world 
+        Scene.GoBack()
     end
     if character.health <= 0 then
         Scene.Load("wasted")

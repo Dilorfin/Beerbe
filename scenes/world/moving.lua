@@ -9,9 +9,11 @@ local characterAnimation = require "scenes/world/character"
 local character = require "character"
 local dialogue = require "scenes/world/dialogue"
 
-function movingCharacter:load()
+function movingCharacter:load(fightFrequency)
     characterAnimation:load()
     
+    self.timer = newTimer(fightFrequency)
+
     self.info = {
         isShown = false,
         text = "",
@@ -23,10 +25,15 @@ function movingCharacter:startDialogue(replicas)
     dialogue:start(replicas)
 end
 
+function movingCharacter:isMoving()
+    return (math.abs(self.speed.x) + math.abs(self.speed.y)) ~= 0
+end
+
 function movingCharacter:unload()
     characterAnimation:unload()
     self.info = nil
     self.dialogue = nil
+    self.timer = nil
 end
 
 function movingCharacter:update(delta_time)
@@ -35,6 +42,16 @@ function movingCharacter:update(delta_time)
     character.position.x = 100 * self.speed.x * delta_time + character.position.x
     character.position.y = 100 * self.speed.y * delta_time + character.position.y
     characterAnimation:update(delta_time)
+    
+    if not self:isMoving() then return end
+
+    self.timer:update(delta_time)
+    if self.timer:isTime() then
+        self.timer:restart()
+        self.speed.x = 0
+        self.speed.y = 0
+        Scene.LoadNext("fight")
+    end
 end
 
 function movingCharacter:control_button(command)
@@ -46,8 +63,6 @@ function movingCharacter:control_button(command)
         if self.info.isShown and self.info.onConfirm then
             self.info.onConfirm(self)
         end
-    elseif command == Command.Deny then
-        print "deny"
     end
 end
 
