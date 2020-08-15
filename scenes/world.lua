@@ -17,9 +17,9 @@ local colliding = require "scenes/world/colliding"
 
 character = require "character"
 
-function scene.load ()
+function scene.load()
     map:load(character)
-    moving:load()
+    moving:load(map:getFightFrequency())
     colliding:load(moving:getCharacterSize())
 
     menu:load()

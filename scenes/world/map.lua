@@ -29,6 +29,8 @@ function map:load(character)
 
     spritesheet:load(self.styleId or 1)
 
+    self.fightFrequency = self.fightFrequency or 4294967296 -- ~int max seconds
+    
     self.height = math.ceil(#self.map/self.width)
 
     character.position.x = self.spawnPosition.x * self:getTileSide()
@@ -78,6 +80,10 @@ end
 
 function map:getTileSide()
     return 48
+end
+
+function map:getFightFrequency()
+    return self.fightFrequency
 end
 
 function map:update(dt)
