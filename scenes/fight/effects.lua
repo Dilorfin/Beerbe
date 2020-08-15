@@ -37,7 +37,9 @@ function effects:start(effects, slot)
 end
 
 function effects:isPlaying()
-    return self.animation.playing
+    if self.animation then
+        return self.animation.playing
+    end
 end
 
 function effects:update(dt)
