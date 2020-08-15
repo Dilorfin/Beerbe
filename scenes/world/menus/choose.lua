@@ -6,7 +6,7 @@ function chooseMenu:load(font)
     self.font = font
     self.options = {
         love.graphics.newText(self.font, "Items"),
-        love.graphics.newText(self.font, "Magic"),
+        love.graphics.newText(self.font, "Stats"),
         love.graphics.newText(self.font, "Equipment"),
         love.graphics.newText(self.font, "Donate"),
         love.graphics.newText(self.font, "Settings"),

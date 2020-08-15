@@ -5,38 +5,31 @@ character = require "character"
 local menuState = {
     current = 6,
     items = 1,
-    magic = 2,
+    stats = 2,
     equipment = 3,
     donate = 4,
     settings = 5,
     chooseMenu = 6
 }
 local menus = {
-    -- TODO: remove nil
     require "scenes/world/menus/items",
-    nil,
+    require "scenes/world/menus/stats",
     require "scenes/world/menus/equipment",
     require "scenes/world/menus/donate",
-    nil,
+    require "scenes/world/menus/settings",
     require "scenes/world/menus/choose",
 }
 function menu:load()
     self.font = love.graphics.newFont("asserts/Arial.ttf", love.graphics.getHeight()/24)
     for i = 1, #menus do
-        -- TODO: remove nil check
-        if menus[i] then
-            menus[i]:load(self.font)
-        end
+        menus[i]:load(self.font)
     end
 end
 
 function menu:unload()
     self.font = nil
     for i = 1, #menus do
-        -- TODO: remove nil check
-        if menus[i] then
-            menus[i]:unload()
-        end
+        menus[i]:unload()
     end
 end
 
