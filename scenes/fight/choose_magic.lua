@@ -47,7 +47,7 @@ function chooseMagic:draw()
     for i, skill in pairs(self.skills) do
         local posX = cellWidth*((i-1)%3)
         local posY = cellHeight*math.ceil(i/3)
-        love.graphics.printf(skill, posX, posY, cellWidth, "center")
+        love.graphics.printf(character:getSkillTitle(skill), posX, posY, cellWidth, "center")
         love.graphics.printf("LV: "..character:getSkillLevel(skill).." MP: "..character:getSkillLevel(skill), posX, posY + fontHeight, cellWidth, "center")
     end
     
