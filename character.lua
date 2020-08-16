@@ -3,7 +3,6 @@ require "items"
 local character = {
 	name = "Миша",
 	position = {
-		world_seed = nil,
 		room = 1,
 		x = 0,
 		y = 0
@@ -16,11 +15,10 @@ local character = {
 	-- usages numbers
     passive_skills = {
 		health = 1,
-		mana = 1,
-		sword = 0
+		mana = 1
 	},
     active_skills = {
-        thunder = 0
+		thunder = 0
 	},
 
 	bag = { 1, 2 }, -- index from items table
@@ -37,6 +35,11 @@ function character:getMaxMana()
 	return 5 * self:getSkillLevel("mana")
 end
 
+function character:getSkillTitle(name)
+	-- format for displaying "right_hand" -> "Right hand"
+	return name:gsub("_", " "):gsub("^%l", string.upper)
+end
+
 function character:getSkillUsages(skill)
 	if self.passive_skills[skill] ~= nil then
 		return self.passive_skills[skill]
@@ -51,12 +54,18 @@ function character:getSkillLevel(skill)
 	return math.ceil(self:getSkillUsages(skill)/10)
 end
 
-function character:increaseSkill(skill)
-	if self.passive_skills[skill] ~= nil then
-		self.passive_skills[skill] = self.passive_skills[skill] + 1
-	elseif self.active_skills[skill] ~= nil then
-		self.active_skills[skill] = self.active_skills[skill] + 1
+function character:increasePassiveSkill(skill)
+	if self.passive_skills[skill] == nil then
+		self.passive_skills[skill] = 0
 	end
+	self.passive_skills[skill] = self.passive_skills[skill] + 1
+end
+
+function character:increaseActiveSkill(skill)
+	if self.active_skills[skill] == nil then
+		self.active_skills[skill] = 0
+	end
+	self.active_skills[skill] = self.active_skills[skill] + 1
 end
 
 function character:getDamage(skill)
@@ -82,11 +91,11 @@ end
 function character:useSkill(skill)
 	local damage = self:getDamage(skill)
 	if skill == "attack" then
-		self:increaseSkill("sword")
+		self:increasePassiveSkill("sword")
 	else
 		self.mana = self.mana - self:getSkillLevel(skill)
-		self:increaseSkill(skill)
-		self:increaseSkill("mana")
+		self:increaseActiveSkill(skill)
+		self:increasePassiveSkill("mana")
 	end
 
 	print("char_deal: "..damage)
@@ -96,7 +105,7 @@ end
 function character:takeDamage(damage)
 	if damage > 0 then
 		self.health = self.health - damage
-		self:increaseSkill("health")
+		self:increasePassiveSkill("health")
 		print("char_take: "..damage)
 	end
 end
