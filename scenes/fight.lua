@@ -1,4 +1,4 @@
-require "scenes/fight/enemy"
+require "scenes/fight/enemies"
 require "scene_manager"
 require "commands"
 require "animation"
