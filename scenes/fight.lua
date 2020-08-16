@@ -127,7 +127,6 @@ function scene.control_button(command)
                 scene.characterAnimation:setState("attack")
                 effects:start("sword", id)
             else
-                scene.characterAnimation:setState("cast")
                 effects:start(scene.target.spell, id)
             end
             scene.sceneState.current = scene.sceneState.effect
@@ -137,7 +136,7 @@ function scene.control_button(command)
             scene.characterAnimation:setState("stand")
         end
     elseif scene.sceneState.current == scene.sceneState.magic then
-        chooseMagic:control_button(command, scene.sceneState, scene.target)
+        chooseMagic:control_button(command, scene)
     elseif scene.sceneState.current == scene.sceneState.item then
         chooseItem:control_button(command, scene.sceneState)
     end

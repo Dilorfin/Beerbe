@@ -10,15 +10,15 @@ for skill, value in pairs(character.active_skills) do
 end
 table.sort(chooseMagic.skills)
 
-function chooseMagic:control_button(command, sceneState, target)
+function chooseMagic:control_button(command, scene)
     if command == Command.Confirm then
         if character:getSkillLevel(self.skills[self.index]) <= character.mana then
-            sceneState.current = sceneState.target
-            target.spell = self.skills[self.index]
+            scene.characterAnimation:setState("cast")
+            scene.sceneState.current = scene.sceneState.target
+            scene.target.spell = self.skills[self.index]
         end
     elseif command == Command.Deny then
-        characterAnimation:setState("stand")
-        sceneState.current = sceneState.action
+        scene.sceneState.current = scene.sceneState.action
     elseif command == Command.Up then
         if self.index > 3 then 
             self.index = self.index - 3

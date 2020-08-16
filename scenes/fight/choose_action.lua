@@ -32,7 +32,6 @@ function chooseAction:control_button(command, scene)
             --scene.characterAnimation:setState("protect")
         elseif self.index == 2 then
             scene.sceneState.current = scene.sceneState.magic
-            scene.characterAnimation:setState("cast")
             scene.target.spell = "magic"
             scene.target.index = 1
         elseif self.index == 3 then
