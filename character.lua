@@ -3,9 +3,7 @@ require "items"
 local character = {
 	name = "Миша",
 	position = {
-		room = 1,
-		x = 0,
-		y = 0
+		room = 1
 	},
 
 	-- current values
