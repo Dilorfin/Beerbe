@@ -32,9 +32,8 @@ function musicManager:update(dt)
             self.current = self.next
             self.next = nil
         else
-            local coefficient = 0.2
+            local coefficient = 0.5
             self.sources[self.current]:setVolume(self.sources[self.current]:getVolume() - dt*coefficient)
-            self.sources[self.next]:setVolume(self.sources[self.next]:getVolume() + dt*coefficient)
         end
     end
 end
