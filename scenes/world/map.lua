@@ -31,8 +31,6 @@ function map:load(character)
 
     self.fightFrequency = self.fightFrequency or 4294967296 -- ~int max seconds
     
-    self.height = math.ceil(#self.map/self.width)
-
     character.position.x = self.spawnPosition.x * self:getTileSide()
     character.position.y = self.spawnPosition.y * self:getTileSide()
 end
@@ -44,6 +42,9 @@ function map:unload()
 end
 
 function map:getCell(x, y)
+    if x <= 0 or x > self.width then
+        return nil
+    end
     return self.map[(y-1)*self.width + x]
 end
 
