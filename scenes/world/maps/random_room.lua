@@ -7,9 +7,10 @@ local function createMap(map)
 
     map.spawnPosition = {
         x = 1,
-        y = character.position.y or love.math.random(3, map.height-2)
+        y = love.math.random(3, map.height-2)
     }
 
+    print(map.spawnPosition.x, map.spawnPosition.y)
     local exit = {
         x = map.width-1,
         y = love.math.random(3, map.height-2)
@@ -68,7 +69,7 @@ local function createMap(map)
     -- other objects
 
     -- doors
-    map:setObject(2, 0, map.spawnPosition.y)
+    map:setObject(15, 0, map.spawnPosition.y)
     map:setObject(2, exit.x, exit.y)
 end
 
