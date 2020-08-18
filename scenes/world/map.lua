@@ -66,6 +66,18 @@ function map:setObject(id, x, y, initData)
     end
 end
 
+function map:removeObject(x, y)
+    local obj = self:getObject(x, y)
+    if not obj then return end
+
+    for x = obj.position.x + 1, obj.position.x+obj.width do
+        for y = obj.position.y, obj.position.y+obj.height - 1 do            
+            self:getCell(x, y).object = nil
+        end
+    end
+    table.removeByValue(self.objects, obj)
+end
+
 function map:isTilePassable(x, y)
     local cell = self:getCell(x, y)
     if (not cell) or (cell.object and (not cell.object.isPassable))
