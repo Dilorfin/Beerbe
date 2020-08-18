@@ -1,8 +1,6 @@
 local spritesheet = {}
 local objectsCollection = require "scenes/world/objects"
 
-debug = false
-
 function spritesheet:load(styleId)
     self.image = love.graphics.newImage("asserts/world/tiles.png")
     self.tiles = {
@@ -25,7 +23,11 @@ local map = {}
 function map:load(character)
     self.objects = {}
     
-    love.filesystem.load("scenes/world/maps/random_room.lua")()(self)
+    if character.position.room >= 0 then
+        love.filesystem.load("scenes/world/maps/random_room.lua")()(self)
+    else
+        love.filesystem.load("scenes/world/maps/dev_room.lua")()(self)
+    end
 
     spritesheet:load(self.styleId or 1)
 
@@ -115,17 +117,6 @@ function map:draw()
     for i = 1, #self.objects do
         self.objects[i]:draw(tileSide)
     end
-    
-    -- debug
-    if not debug then return end
-    love.graphics.setColor(0, 1, 0)
-    for i = 1, self.height+1 do
-        love.graphics.rectangle("fill", 0, map:getTileSide()*i, map:getTileSide()*self.width, 2)
-    end
-    for i = 0, self.width+1 do
-        love.graphics.rectangle("fill", map:getTileSide()*i, map:getTileSide(), 2, map:getTileSide()*self.height)
-    end
-    love.graphics.setColor(1, 1, 1)
 end
 
 return map

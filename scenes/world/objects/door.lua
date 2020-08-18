@@ -21,7 +21,13 @@ function obj:update(dt)
         self.timer = self.timer + dt
         
         if self.timer >= self.timeEnd then
-            Scene.Load("world")
+            local character = require "character"
+            character.position.room = character.position.room + 1
+            if character.position.room >= character.position.last_room then
+                -- TODO: goto dialogue
+            else
+                Scene.Load("world")
+            end
         end
     end
 end
