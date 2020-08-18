@@ -21,7 +21,12 @@ end
 
 function Scene.LoadNext(name)
   if previousScene then error("several scenes in stack is not supported") end
-  if currentScene then previousScene = currentScene end
+  
+  if currentScene then
+    if Scene.pause then Scene.pause() end
+    previousScene = currentScene 
+  end
+
   local chunk = love.filesystem.load(scenesFolder.."/"..name..".lua")
   if not chunk then error("Attempt to load scene \"" .. name .. "\", but it was not found in \""..scenesFolder.."\" folder.", 2) end
   currentScene = chunk()
@@ -34,6 +39,7 @@ function Scene.GoBack()
   
   Scene.unload()
   currentScene = previousScene
+  if Scene.resume then Scene.resume() end
   previousScene = nil
   collectgarbage()
 end
