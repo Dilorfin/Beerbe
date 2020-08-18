@@ -25,7 +25,7 @@ local map = {}
 function map:load(character)
     self.objects = {}
     
-    love.filesystem.load("scenes/world/maps/dev_room.lua")()(self)
+    love.filesystem.load("scenes/world/maps/random_room.lua")()(self)
 
     spritesheet:load(self.styleId or 1)
 
@@ -71,7 +71,7 @@ function map:removeObject(x, y)
     if not obj then return end
 
     for x = obj.position.x + 1, obj.position.x+obj.width do
-        for y = obj.position.y, obj.position.y+obj.height - 1 do            
+        for y = obj.position.y, obj.position.y+obj.height - 1 do
             self:getCell(x, y).object = nil
         end
     end
@@ -107,7 +107,9 @@ end
 
 function map:draw()
     for i = 1, #self.map do
-        spritesheet:drawTile(self.map[i].tile, ((i-1)%self.width)*48, math.ceil(i/self.width)*48)
+        if self.map[i] then
+            spritesheet:drawTile(self.map[i].tile, ((i-1)%self.width)*48, math.ceil(i/self.width)*48)
+        end
     end
     local tileSide = self:getTileSide()
     for i = 1, #self.objects do
