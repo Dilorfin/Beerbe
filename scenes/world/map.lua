@@ -56,8 +56,8 @@ function map:getObject(x, y)
     return nil
 end
 
-function map:setObject(id, x, y)
-    local obj = objectsCollection:loadObject(id, x, y)
+function map:setObject(id, x, y, initData)
+    local obj = objectsCollection:loadObject(id, x, y, initData)
     table.insert(self.objects, obj)
     for x = obj.position.x + 1, obj.position.x+obj.width do
         for y = obj.position.y, obj.position.y+obj.height - 1 do
