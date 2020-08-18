@@ -55,6 +55,7 @@ function movingCharacter:pause()
     self.timer:restart()
     self.speed.x = 0
     self.speed.y = 0
+    characterAnimation:stop()
 end
 
 function movingCharacter:control_button(command)
