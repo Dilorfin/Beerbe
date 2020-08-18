@@ -33,6 +33,8 @@ function map:load(character)
     
     self.height = math.ceil(#self.map/self.width)
 
+    self.musicTheme = self.musicTheme or "main"
+
     character.position.x = self.spawnPosition.x * self:getTileSide()
     character.position.y = self.spawnPosition.y * self:getTileSide()
 end

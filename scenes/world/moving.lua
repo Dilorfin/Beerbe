@@ -6,8 +6,8 @@ local movingCharacter = {
 }
 
 local characterAnimation = require "scenes/world/character"
-local character = require "character"
 local dialogue = require "scenes/world/dialogue"
+local character = require "character"
 
 function movingCharacter:load(fightFrequency)
     characterAnimation:load()
@@ -47,11 +47,14 @@ function movingCharacter:update(delta_time)
 
     self.timer:update(delta_time)
     if self.timer:isTime() then
-        self.timer:restart()
-        self.speed.x = 0
-        self.speed.y = 0
         Scene.LoadNext("fight")
     end
+end
+
+function movingCharacter:pause()
+    self.timer:restart()
+    self.speed.x = 0
+    self.speed.y = 0
 end
 
 function movingCharacter:control_button(command)
