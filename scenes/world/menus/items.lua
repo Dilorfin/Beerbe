@@ -5,8 +5,7 @@ local itemsMenu = {
 character = require "character"
 require "items"
 
-function itemsMenu:load(font)
-    self.font = font
+function itemsMenu:filter()    
     self.usableItems = {}
     for i = 1, #character.bag do
         local item = items[character.bag[i]]
@@ -16,11 +15,18 @@ function itemsMenu:load(font)
     end
 end
 
+function itemsMenu:load(font)
+    self.font = font
+    self:filter()
+end
+
 function itemsMenu:unload()
     self.usableItems = nil
 end
 
 function itemsMenu:update(delta_time)
+    -- TODO: remove this crutch...
+    self:filter()
 end
 
 function itemsMenu:control_button(command, menuState)
