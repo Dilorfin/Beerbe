@@ -11,9 +11,11 @@ function love.load()
     Scene.Load("world")
     
     character = require "character"
+    music = require "music_manager"
 end
 
 function love.update(dt)
+    music:update(dt)
     Scene.update(dt)
 end
 
