@@ -19,6 +19,7 @@ local function createMap(map)
     end
     
     map.width = 16
+    map.height = math.ceil(#map.map/map.width)
     
     map.spawnPosition = {
         x = 7,

@@ -1,9 +1,9 @@
 local item = {
-    id = 2,
-    title = "Beer 0.33l",
+    id = 4,
+    title = "Beer 0.5l",
     type = "potion",
-    health = 10,
-    mana = 10
+    health = 50,
+    mana = 50
 }
 
 function item:use(character)

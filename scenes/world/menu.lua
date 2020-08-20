@@ -34,6 +34,9 @@ function menu:unload()
 end
 
 function menu:update(delta_time)
+    if menus[menuState.current].update then
+        menus[menuState.current]:update()
+    end
 end
 
 function menu:control_button(command, sceneState)

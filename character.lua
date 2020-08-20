@@ -4,8 +4,7 @@ local character = {
 	name = "Миша",
 	position = {
 		room = 1,
-		x = 0,
-		y = 0
+		last_room = 1
 	},
 
 	-- current values

@@ -8,9 +8,10 @@ love.graphics.setFont(mainFont)
 
 function love.load()
     --love.mouse.setVisible(false)
-    Scene.Load("world")
-    
     character = require "character"
+    character.position.last_room = love.math.random(5, 7)
+    
+    Scene.Load("world")
 end
 
 function love.update(dt)
