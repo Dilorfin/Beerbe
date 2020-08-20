@@ -14,7 +14,8 @@ function obj:onCollide(moving)
 end
 
 function obj.onConfirm()
-    print("confirm")
+    character.position.room = love.math.random(1, character.position.last_room)
+    Scene.Load("world")
 end
 
 function obj:update(dt)
