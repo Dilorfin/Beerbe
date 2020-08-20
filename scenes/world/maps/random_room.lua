@@ -5,12 +5,13 @@ local function createMap(map)
     map.width = love.math.random(18, 23)
     map.height = love.math.random(12, 18)
 
+    map.fightFrequency = (map.height * map.width / 48) - 1
+
     map.spawnPosition = {
         x = 1,
         y = love.math.random(3, map.height-2)
     }
 
-    print(map.spawnPosition.x, map.spawnPosition.y)
     local exit = {
         x = map.width-1,
         y = love.math.random(3, map.height-2)
@@ -40,15 +41,36 @@ local function createMap(map)
             end
         end
     end
-    
     for y = 2, map.height - 1 do
         for x = 2, map.width - 3 do
+            -- big growths
             if map:getCell(x, y).tile == 1 and love.math.randomNormal() >= 2 then
+                map:removeObject(x, y)
                 map:setObject(14, x, y, map.styleId)
+            -- lamps
+            elseif map:getCell(x, y).tile == 1 and love.math.random(0, 100) < 1 then
+                map:setObject(1, x, y, map.styleId)
             end
         end
     end
     
+    -- chests
+    local chestsNumber = love.math.random(1, 2)
+    for i = 1, chestsNumber do
+        local x = love.math.random(math.ceil(2+map.width/3), map.width - 5)
+        local y = love.math.random(2, map.height - 3)
+        map:removeObject(x, y)
+        map:setObject(11, x, y)
+    end
+
+    -- dev lamps
+    if math.abs(love.math.randomNormal()) >= 0.5 then
+        local x = love.math.random(math.ceil(2+map.width/3), map.width - 5)
+        local y = love.math.random(2, map.height - 2)
+        map:removeObject(x, y)
+        map:setObject(8, x, y)
+    end
+
     -- clear objects near player
     for y = map.spawnPosition.y - 1, map.spawnPosition.y + 1 do
         for x = map.spawnPosition.x - 1, map.spawnPosition.x + 2 do
@@ -63,9 +85,6 @@ local function createMap(map)
         end
     end
     
-    -- frequency of fights
-    -- lamps
-    -- chests
     -- other objects
 
     -- doors
