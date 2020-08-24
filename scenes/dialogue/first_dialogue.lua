@@ -67,9 +67,21 @@ local scenario = {
             }
         },
         {
-            background = 4,
+            background = 2,
             title = love.graphics.newText(love.graphics.getFont(), "Голос За Кадром"),
             replica = "и вот однажды...",
+            animations = {
+                {
+                    id = 1,
+                    x = 500,
+                    y = 400
+                }
+            }
+        },
+        {
+            background = 2,
+            title = love.graphics.newText(love.graphics.getFont(), "Голос За Кадром"),
+            replica = "...",
             animations = {
                 {
                     id = 1,
