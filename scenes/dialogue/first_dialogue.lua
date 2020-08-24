@@ -5,10 +5,14 @@ local scenario = {
             [2] = love.graphics.newImage("asserts/dialogue/first/frame1.png"),
             [3] = love.graphics.newImage("asserts/dialogue/first/frame2.png"),
             [4] = love.graphics.newImage("asserts/dialogue/first/frame3.png"),
+            [5] = love.graphics.newImage("asserts/dialogue/first/frame4.png"),
         },
         animations = {
-            [1] = newAnimation(love.graphics.newImage("asserts/fight/animations/stand.png"), 64, 64, 0.175, 3),
-            [2] = newAnimation(love.graphics.newImage("asserts/dialogue/first/Thunder3.png"), 74, 74, 0.15, 4)
+            [1] = newAnimation(love.graphics.newImage("asserts/dialogue/first/stand_left.png"), 64, 64, 0.175, 3),
+            [2] = newAnimation(love.graphics.newImage("asserts/dialogue/first/stand_right.png"), 64, 64, 0.175, 3),
+            [3] = newAnimation(love.graphics.newImage("asserts/dialogue/first/Thunder3.png"), 74, 74, 0.15, 4),
+            [4] = newAnimation(love.graphics.newImage("asserts/dialogue/first/Thunder2.png"), 154, 154, 0.15, 4),
+            [5] = newAnimation(love.graphics.newImage("asserts/dialogue/first/zeus.png"), 282, 285, 0, 1)
         }
     },
     frames = {
@@ -80,8 +84,8 @@ local scenario = {
         },
         {
             background = 2,
-            title = love.graphics.newText(love.graphics.getFont(), "Голос За Кадром"),
-            replica = "...",
+            title = love.graphics.newText(love.graphics.getFont(), "..."),
+            replica = "*бабах*",
             animations = {
                 {
                     id = 1,
@@ -89,12 +93,177 @@ local scenario = {
                     y = 400
                 },
                 {
-                    id = 2,
+                    id = 3,
                     x = 495,
                     y = 395
                 }
             }
         },
+        {
+            background = 5,
+            title = love.graphics.newText(love.graphics.getFont(), "..."),
+            replica = "*бабах*",
+            animations = {
+                {
+                    id = 2,
+                    x = 250,
+                    y = 275
+                },
+                {
+                    id = 3,
+                    x = 245,
+                    y = 270
+                }
+            }
+        },
+        {
+            background = 5,
+            title = love.graphics.newText(love.graphics.getFont(), "Миша"),
+            replica = "... ээм? Что? Где я?",
+            animations = {
+                {
+                    id = 2,
+                    x = 250,
+                    y = 275
+                }
+            }
+        },
+        {
+            background = 5,
+            title = love.graphics.newText(love.graphics.getFont(), "..."),
+            replica = "*опять бабах*",
+            animations = {
+                {
+                    id = 2,
+                    x = 250,
+                    y = 275
+                },
+                {
+                    id = 4,
+                    x = 495,
+                    y = 205
+                }
+            }
+        },
+        {
+            background = 5,
+            title = love.graphics.newText(love.graphics.getFont(), "Зевс"),
+            replica = "Ну привет гандон ушастый...",
+            animations = {
+                {
+                    id = 2,
+                    x = 250,
+                    y = 275
+                },
+                {
+                    id = 5,
+                    x = 500,
+                    y = 210
+                }
+            }
+        },
+        {
+            background = 5,
+            title = love.graphics.newText(love.graphics.getFont(), "Миша"),
+            replica = "..э!?",
+            animations = {
+                {
+                    id = 2,
+                    x = 250,
+                    y = 275
+                },
+                {
+                    id = 5,
+                    x = 500,
+                    y = 210
+                }
+            }
+        },
+        {
+            background = 5,
+            title = love.graphics.newText(love.graphics.getFont(), "Зевс"),
+            replica = "Шо вылупился?",
+            animations = {
+                {
+                    id = 2,
+                    x = 250,
+                    y = 275
+                },
+                {
+                    id = 5,
+                    x = 500,
+                    y = 210
+                }
+            }
+        },
+        {
+            background = 5,
+            title = love.graphics.newText(love.graphics.getFont(), "Зевс"),
+            replica = "Значит сначала пользуется добрым именем, а потом удивляется шо с ним пришли беседы беседовать!!!",
+            animations = {
+                {
+                    id = 2,
+                    x = 250,
+                    y = 275
+                },
+                {
+                    id = 5,
+                    x = 500,
+                    y = 210
+                }
+            }
+        },
+        {
+            background = 5,
+            title = love.graphics.newText(love.graphics.getFont(), "Миша"),
+            replica = "Чеэгооо?! О.О",
+            animations = {
+                {
+                    id = 2,
+                    x = 250,
+                    y = 275
+                },
+                {
+                    id = 5,
+                    x = 500,
+                    y = 210
+                }
+            }
+        },
+        {
+            background = 5,
+            title = love.graphics.newText(love.graphics.getFont(), "Зевс"),
+            replica = "Того!.. Кароче, я обиделся...",
+            animations = {
+                {
+                    id = 2,
+                    x = 250,
+                    y = 275
+                },
+                {
+                    id = 5,
+                    x = 500,
+                    y = 210
+                }
+            }
+        },
+        {
+            background = 5,
+            title = love.graphics.newText(love.graphics.getFont(), "Зевс"),
+            replica = "...теперь крутись как хочешь!",
+            animations = {
+                {
+                    id = 2,
+                    x = 250,
+                    y = 275
+                },
+                {
+                    id = 5,
+                    x = 500,
+                    y = 210
+                }
+            }
+        }
     }
 }
 
