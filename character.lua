@@ -3,7 +3,7 @@ require "items"
 local character = {
 	name = "Миша",
 	position = {
-		room = 1,
+		room = 0,
 		last_room = 1
 	},
 
@@ -20,9 +20,9 @@ local character = {
 		thunder = 0
 	},
 
-	bag = { 1, 2 }, -- index from items table
+	bag = { }, -- index from items table
 	equipped = {
-		right_hand = 1 -- index from bag
+		-- index from bag
 	}
 }
 
@@ -71,10 +71,10 @@ function character:getDamage(skill)
 	local damage = 0
 	
 	if skill == "attack" then
-		if self.equipped.right_hand ~= nil then
+		if self.equipped.right_hand then
 			damage = items[self.bag[self.equipped.right_hand]].damage
 		end
-		if self.equipped.left_hand ~= nil then
+		if self.equipped.left_hand then
 			damage = damage + items[self.bag[self.equipped.left_hand]].damage
 		end
 

@@ -1,7 +1,7 @@
 local function createMap(map)
     character = require "character"
 
-    map.styleId = love.math.random(1, 6)
+    map.styleId = love.math.random(0, 6)
     map.width = love.math.random(18, 23)
     map.height = love.math.random(12, 18)
 

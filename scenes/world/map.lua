@@ -23,7 +23,9 @@ local map = {}
 function map:load(character)
     self.objects = {}
     
-    if character.position.room >= 0 then
+    if character.position.room == 0 then
+        love.filesystem.load("scenes/world/maps/zero_room.lua")()(self)
+    elseif character.position.room > 0 then
         love.filesystem.load("scenes/world/maps/random_room.lua")()(self)
     else
         love.filesystem.load("scenes/world/maps/dev_room.lua")()(self)
@@ -44,7 +46,7 @@ function map:unload()
 end
 
 function map:getCell(x, y)
-    if x <= 0 or x > self.width then
+    if not self.map or x <= 0 or x > self.width then
         return nil
     end
     return self.map[(y-1)*self.width + x]
