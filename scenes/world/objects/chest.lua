@@ -31,8 +31,35 @@ local function getReplicas(itemsToGive)
 end
 
 function obj.onConfirm(moving)
-    -- TODO: random objects
-    local itemsToGive = { 5, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3}
+    local itemsToGive = {}
+
+    -- some healing
+    local prob = love.math.random(0, 100)
+    if prob <= 75 then -- 0.33l
+        local num = love.math.random(1, 3)
+        for i = 1, num do
+            itemsToGive[#itemsToGive+1] = 2
+        end
+    elseif prob <= 95 then -- 0.5l
+        local num = love.math.random(1, 2)
+        for i = 1, num do
+            itemsToGive[#itemsToGive+1] = 4
+        end
+    else -- 1l
+        itemsToGive[#itemsToGive+1] = 3
+    end
+
+    local prob = love.math.random(0, 100)
+
+    -- weapon
+    if prob <= 5 then 
+        local prob = love.math.random(0, 100)
+        if prob >= 100 then
+            itemsToGive[#itemsToGive+1] = 6
+        else
+            itemsToGive[#itemsToGive+1] = 1
+        end
+    end
 
     for i = 1, #itemsToGive do
         character.bag[#character.bag + 1] = itemsToGive[i]
