@@ -17,6 +17,7 @@ local function createMap(map)
     for i = 1, #tiles do
         map.map[i] = { tile = tiles[i] }
     end
+    map.fightFrequency = 4294967296 -- ~int max seconds
     
     map.width = 16
     map.height = math.ceil(#map.map/map.width)
