@@ -5,8 +5,14 @@ require "animation"
 local scene = {}
 
 local index = 1
+character = require "character"
+
 function scene.load()
-    scene.scenario = love.filesystem.load("scenes/dialogue/first_dialogue.lua")()
+    local title = "scenes/dialogue/first_dialogue.lua"
+    if character.position.room == character.position.last_room then
+        title = "scenes/dialogue/last_dialogue.lua"
+    end
+    scene.scenario = love.filesystem.load(title)()
 end
 
 function scene.unload()
