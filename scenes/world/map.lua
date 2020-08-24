@@ -23,7 +23,9 @@ local map = {}
 function map:load(character)
     self.objects = {}
     
-    if character.position.room >= 0 then
+    if character.position.room == 0 then
+        love.filesystem.load("scenes/world/maps/zero_room.lua")()(self)
+    elseif character.position.room > 0 then
         love.filesystem.load("scenes/world/maps/random_room.lua")()(self)
     else
         love.filesystem.load("scenes/world/maps/dev_room.lua")()(self)

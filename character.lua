@@ -3,7 +3,7 @@ require "items"
 local character = {
 	name = "Миша",
 	position = {
-		room = 1,
+		room = 0,
 		last_room = 1
 	},
 
@@ -20,9 +20,9 @@ local character = {
 		thunder = 0
 	},
 
-	bag = { 1, 2 }, -- index from items table
+	bag = { }, -- index from items table
 	equipped = {
-		right_hand = 1 -- index from bag
+		-- index from bag
 	}
 }
 
