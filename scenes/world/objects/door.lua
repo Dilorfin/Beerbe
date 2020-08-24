@@ -24,7 +24,7 @@ function obj:update(dt)
             local character = require "character"
             character.position.room = character.position.room + 1
             if character.position.room >= character.position.last_room then
-                -- TODO: goto dialogue
+                Scene.Load("dialogue")
             else
                 Scene.Load("world")
             end
