@@ -5,7 +5,7 @@ local scenario = {
             [2] = love.graphics.newImage("asserts/dialogue/first/frame1.png"),
             [3] = love.graphics.newImage("asserts/dialogue/first/frame2.png"),
             [4] = love.graphics.newImage("asserts/dialogue/first/frame3.png"),
-            [5] = love.graphics.newImage("asserts/dialogue/first/frame4.png"),
+            [5] = love.graphics.newImage("asserts/dialogue/first/frame4.png")
         },
         animations = {
             [1] = newAnimation(love.graphics.newImage("asserts/dialogue/first/stand_left.png"), 64, 64, 0.175, 3),
@@ -261,6 +261,40 @@ local scenario = {
                     id = 5,
                     x = 500,
                     y = 210
+                }
+            }
+        },
+        {
+            background = 5,
+            title = love.graphics.newText(love.graphics.getFont(), "..."),
+            replica = "*и снова бабах*",
+            animations = {
+                {
+                    id = 2,
+                    x = 250,
+                    y = 275
+                },
+                {
+                    id = 5,
+                    x = 500,
+                    y = 210
+                },
+                {
+                    id = 4,
+                    x = 495,
+                    y = 205
+                }
+            }
+        },
+        {
+            background = 5,
+            title = love.graphics.newText(love.graphics.getFont(), "Миша"),
+            replica = "Ох блин...",
+            animations = {
+                {
+                    id = 2,
+                    x = 250,
+                    y = 275
                 }
             }
         }
