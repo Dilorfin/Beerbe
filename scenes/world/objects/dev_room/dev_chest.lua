@@ -22,14 +22,6 @@ function obj:onCollide(moving)
     end
 end
 
-local function getReplicas(itemsToGive)
-    local replicas = {}
-    for i = 1, #itemsToGive do
-        replicas[#replicas+1] = "You got \""..items[itemsToGive[i]].title.."\""
-    end
-    return replicas
-end
-
 function obj.onConfirm(moving)
     local itemsToGive = { 5, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3}
 
@@ -40,7 +32,7 @@ function obj.onConfirm(moving)
     obj.animation:play()
     obj.isOpened = true
     local replicas = {
-        "You got \"Go with beer sword\"",
+        "You got \"Меч: под пивко пойдет\"",
         "You got \"Beer 1l\" x10"
     }
     

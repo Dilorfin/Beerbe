@@ -1,6 +1,6 @@
 local item = {
     id = 5,
-    title = "Go with beer sword",
+    title = "Меч: под пивко пойдет",
     type = "sword",
     damage = 5
 }
