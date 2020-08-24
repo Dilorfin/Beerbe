@@ -44,7 +44,7 @@ function map:unload()
 end
 
 function map:getCell(x, y)
-    if x <= 0 or x > self.width then
+    if not self.map or x <= 0 or x > self.width then
         return nil
     end
     return self.map[(y-1)*self.width + x]

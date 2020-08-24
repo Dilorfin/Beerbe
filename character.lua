@@ -71,10 +71,10 @@ function character:getDamage(skill)
 	local damage = 0
 	
 	if skill == "attack" then
-		if self.equipped.right_hand ~= nil then
+		if self.equipped.right_hand then
 			damage = items[self.bag[self.equipped.right_hand]].damage
 		end
-		if self.equipped.left_hand ~= nil then
+		if self.equipped.left_hand then
 			damage = damage + items[self.bag[self.equipped.left_hand]].damage
 		end
 
