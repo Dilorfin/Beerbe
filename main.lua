@@ -11,7 +11,7 @@ function love.load()
     character = require "character"
     character.position.last_room = love.math.random(5, 7)
     
-    Scene.Load("world")
+    Scene.Load("dialogue")
 end
 
 function love.update(dt)

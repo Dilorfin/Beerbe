@@ -22,8 +22,8 @@ local function createMap(map)
     map.height = math.ceil(#map.map/map.width)
     
     map.spawnPosition = {
-        x = 7,
-        y = 10
+        x = 5,
+        y = 6
     }
     map.styleId = 2
 
@@ -39,7 +39,7 @@ local function createMap(map)
         map:setObject(1, 13, i*2)
         map:setObject(1, 13, 6+i*2)
     end
-    
+    -- door
     map:setObject(2, 14, 7)
 end
 
