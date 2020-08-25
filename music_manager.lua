@@ -1,8 +1,7 @@
 local musicManager = {
     sources = {
-        main = love.audio.newSource("asserts/music/happy piozdy.wav", "stream"),
-        fight = love.audio.newSource("asserts/music/напряженный фон.wav", "stream"),
-        dev_room = love.audio.newSource("asserts/music/напряженный фон.wav", "stream")
+        main = love.audio.newSource("asserts/music/main.wav", "stream"),
+        fight = love.audio.newSource("asserts/music/battle.wav", "stream")
     },
     current = nil,
     next = nil
