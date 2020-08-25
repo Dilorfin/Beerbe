@@ -52,9 +52,9 @@ function obj.onConfirm(moving)
     local prob = love.math.random(0, 100)
 
     -- weapon
-    if prob <= 5 then 
+    if prob <= 15 then 
         local prob = love.math.random(0, 100)
-        if prob >= 100 then
+        if prob >= 90 then
             itemsToGive[#itemsToGive+1] = 6
         else
             itemsToGive[#itemsToGive+1] = 1
