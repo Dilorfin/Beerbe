@@ -9,12 +9,13 @@ local obj = {
 
 function obj:onCollide(moving)
     moving.info.isShown = true
-    moving.info.text = "test"
+    moving.info.text = "Random?"
     moving.info.onConfirm = self.onConfirm
 end
 
 function obj.onConfirm()
-    print("confirm")
+    character.position.room  = -1
+    Scene.Load("world")
 end
 
 function obj:update(dt)

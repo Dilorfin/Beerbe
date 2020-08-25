@@ -1,6 +1,6 @@
 local camera = {
-    x = -200,
-    y = -200,
+    x = -40,
+    y = 0,
     scale = love.graphics.getHeight()/600
 }
 

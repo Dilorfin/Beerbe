@@ -8,10 +8,13 @@ for i = 1, #files do
     objects.filenames[obj.id] = files[i]
 end
 
-function objects:loadObject(id, x, y)
+function objects:loadObject(id, x, y, initData)
     local obj = love.filesystem.load(self.filenames[id])()
     obj.position.x = x
     obj.position.y = y
+    if obj.init then
+        obj:init(initData)
+    end
     return obj
 end
 

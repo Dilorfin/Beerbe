@@ -1,25 +1,26 @@
 local obj = {
-    id = 5,
-    animation = newAnimation(love.graphics.newImage("asserts/world/objects/dev_room/portal.png"), 48, 48, 0.15, 12),
+    id = 15,
+    animation = newAnimation(love.graphics.newImage("asserts/world/objects/door.png"), 48, 48, 0.1, 3),
     isPassable = true,
     position = {},
     width = 1,
     height = 1,
 }
 
+obj.animation:stop()
+
 function obj:onCollide(moving)
     moving.info.isShown = true
-    moving.info.text = "Go to random room?"
+    moving.info.text = "Talk to The Door?"
     moving.info.onConfirm = self.onConfirm
 end
 
-function obj.onConfirm()
-    character.position.room = love.math.random(1, character.position.last_room)
-    Scene.Load("world")
+function obj.onConfirm(moving)
+    local replicas = { "The door is closed." }
+    moving:startDialogue(replicas)
 end
 
 function obj:update(dt)
-    self.animation:update(dt)
 end
 
 function obj:draw(tileSide)

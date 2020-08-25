@@ -5,7 +5,7 @@ local effects = {}
 local files = {
     hit = "asserts/fight/effects/hit.png",
     sword = "asserts/fight/effects/sword.png",
-    thunder = "asserts/fight/effects/sword.png"
+    thunder = "asserts/fight/effects/thunder.png"
 }
 
 effects.animations = {
@@ -18,18 +18,24 @@ for k, v in pairs(effects.animations) do
     v:setMode("once")
 end
 
-function effects:start(effects, slot)
+function effects:start(effect, slot)
     local slots = require "scenes/fight/slots"
     self.position = {}
     self.position.x = slots[slot].x
     self.position.y = slots[slot].y
 
+    -- wtf?
     if slot == #slots then
         self.position.x = self.position.x - 0.035 * love.graphics.getWidth()
-        self.position.y = self.position.y - 0.075*love.graphics.getHeight()
+        self.position.y = self.position.y - 0.075 * love.graphics.getHeight()
     end
 
-    self.animation = self.animations[effects]
+    if effect == "thunder" then
+        self.position.x = self.position.x - 0.01875 * love.graphics.getWidth()
+        self.position.y = self.position.y - 0.042 * love.graphics.getHeight()
+    end
+
+    self.animation = self.animations[effect]
     self.animation:play()
     if self.animation:getCurrentFrame() ~= 0 then
         self.animation:reset()

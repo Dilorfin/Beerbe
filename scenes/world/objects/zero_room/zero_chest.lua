@@ -1,6 +1,6 @@
 local obj = {
-    id = 7,
-    animation = newAnimation(love.graphics.newImage("asserts/world/objects/dev_room/chest_dev.png"), 48, 96, 0.1, 3),
+    id = 16,
+    animation = newAnimation(love.graphics.newImage("asserts/world/objects/chest.png"), 48, 96, 0.1, 3),
     isPassable = false,
     position = {},
     width = 1,
@@ -17,13 +17,13 @@ obj.animation:setMode("once")
 function obj:onCollide(moving)
     if not self.isOpened then
         moving.info.isShown = true
-        moving.info.text = "Open dev chest?"
+        moving.info.text = "Open chest?"
         moving.info.onConfirm = self.onConfirm
     end
 end
 
 function obj.onConfirm(moving)
-    local itemsToGive = { 5, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3}
+    local itemsToGive = { 1, 2, 2 }
 
     for i = 1, #itemsToGive do
         character.bag[#character.bag + 1] = itemsToGive[i]
@@ -31,11 +31,12 @@ function obj.onConfirm(moving)
     
     obj.animation:play()
     obj.isOpened = true
-    local replicas = {
-        "You got \"Меч: под пивко пойдет\"",
-        "You got \"Beer 1l\" x10"
-    }
     
+    local replicas = {
+        "You got \"Novice sword\"",
+        "You got \"Beer 0.3l\" x2"
+    }
+
     moving:startDialogue(replicas)
 end
 

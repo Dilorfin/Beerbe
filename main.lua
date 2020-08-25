@@ -7,11 +7,13 @@ local mainFont = love.graphics.newFont("asserts/Arial.ttf", 25);
 love.graphics.setFont(mainFont)
 
 function love.load()
-    --love.mouse.setVisible(false)
-    Scene.Load("world")
-    
+    love.mouse.setVisible(false)
     character = require "character"
     music = require "music_manager"
+  
+    character.position.last_room = love.math.random(5, 7)
+    
+    Scene.Load("dialogue")
 end
 
 function love.update(dt)
@@ -32,14 +34,6 @@ function love.lowmemory()
 end
 
 function love.keypressed(key)
-    -- for debug
-    if key == "`" then
-        love.event.quit()
-    elseif key == "f12" then
-        local command = io.read()
-        loadstring(command)()
-    end
-    
     if key == "w" or key == "up" then
         Scene.control_axis("y", -1)
         Scene.control_button(Command.Up)

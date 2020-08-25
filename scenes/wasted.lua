@@ -35,13 +35,11 @@ function scene.control_button(command)
     if command == Command.Confirm then
         character.name = "Миша"
         character.position = {
-            room = 1,
-            x = 0,
-            y = 0
+            room = 0
         }
         
-        character.health = 15,
-        character.mana = 5,
+        character.health = 15
+        character.mana = 5
         
         character.passive_skills = {
             health = 1,
@@ -51,13 +49,11 @@ function scene.control_button(command)
             thunder = 0
         }
     
-        character.bag = { 1, 2 }
-        character.equipped = {
-            right_hand = 1
-        }
+        character.bag = {}
+        character.equipped = {}
         
-        -- TODO: load starting scene
-    elseif command == Command.Deny then
+        Scene.Load("dialogue")
+    elseif command == Command.Deny or command == Command.Menu then
         love.event.quit()
     end
 end
