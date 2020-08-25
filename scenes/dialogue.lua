@@ -13,6 +13,9 @@ function scene.load()
         title = "scenes/dialogue/last_dialogue.lua"
     end
     scene.scenario = love.filesystem.load(title)()
+    if scene.scenario.frames[index].music then
+        music:playNext(scene.scenario.frames[index].music)
+    end
 end
 
 function scene.unload()
@@ -34,6 +37,8 @@ function scene.control_button(command)
         index = index + 1
         if index > #scene.scenario.frames then
             scene.scenario:onFinish()
+        elseif scene.scenario.frames[index].music then
+            music:playNext(scene.scenario.frames[index].music)
         end
     end
 end

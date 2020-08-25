@@ -20,6 +20,7 @@ local scenario = {
             background = 1,
             title = love.graphics.newText(love.graphics.getFont(), "Disclaimer"),
             replica = "All characters appearing in this work are fictitious.\nAny resemblance to real persons, living or dead, is purely coincidental.",
+            music = "main",
             animations = {}
         },
         {
