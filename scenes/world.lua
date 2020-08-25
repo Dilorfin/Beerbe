@@ -16,6 +16,7 @@ local map = require "scenes/world/map"
 local colliding = require "scenes/world/colliding"
 
 character = require "character"
+music = require "music_manager"
 
 function scene.load()
     map:load(character)
@@ -23,6 +24,16 @@ function scene.load()
     colliding:load(moving:getCharacterSize())
 
     menu:load()
+
+    music:playNext(map.musicTheme)
+end
+
+function scene.resume()
+    music:playNext(map.musicTheme)
+end
+
+function scene.pause()
+    moving:pause()
 end
 
 function scene.unload()

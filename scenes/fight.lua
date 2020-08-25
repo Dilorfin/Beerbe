@@ -26,6 +26,9 @@ local chooseMagic = love.filesystem.load("scenes/fight/choose_magic.lua")()
 local chooseItem = love.filesystem.load("scenes/fight/choose_item.lua")()
 
 function scene.load()
+    -- start fight music theme
+    music:playNext("fight")
+    
     -- load character
     character = require "character"
     

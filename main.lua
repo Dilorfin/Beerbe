@@ -9,12 +9,15 @@ love.graphics.setFont(mainFont)
 function love.load()
     love.mouse.setVisible(false)
     character = require "character"
+    music = require "music_manager"
+  
     character.position.last_room = love.math.random(5, 7)
     
     Scene.Load("dialogue")
 end
 
 function love.update(dt)
+    music:update(dt)
     Scene.update(dt)
 end
 

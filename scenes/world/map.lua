@@ -34,7 +34,9 @@ function map:load(character)
     spritesheet:load(self.styleId or 1)
 
     self.fightFrequency = self.fightFrequency or 4294967296 -- ~int max seconds
-    
+
+    self.musicTheme = self.musicTheme or "main"
+
     character.position.x = self.spawnPosition.x * self:getTileSide()
     character.position.y = self.spawnPosition.y * self:getTileSide()
 end
