@@ -35,7 +35,8 @@ function scene.control_button(command)
     if command == Command.Confirm then
         character.name = "Миша"
         character.position = {
-            room = 0
+            room = 0,
+            last_room = love.math.random(5, 7)
         }
         
         character.health = 15
