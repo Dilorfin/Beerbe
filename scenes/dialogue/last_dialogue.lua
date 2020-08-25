@@ -14,7 +14,7 @@ local scenario = {
         {
             background = 1,
             title = love.graphics.newText(love.graphics.getFont(), "Миша"),
-            replica = "Хух, Gotcha!",
+            replica = "Фух, Gotcha!",
             animations = {
                 {
                     id = 1,
@@ -82,7 +82,7 @@ local scenario = {
         {
             background = 1,
             title = love.graphics.newText(love.graphics.getFont(), "Зевс"),
-            replica = "Ну ладно, вали к себе, если чё потом пообщаемся, я сейчас немного занят...",
+            replica = "Ну ладно, вали к себе, если что потом пообщаемся, я сейчас немного занят...",
             animations = {
                 {
                     id = 1,
@@ -150,7 +150,7 @@ local scenario = {
         {
             background = 1,
             title = love.graphics.newText(love.graphics.getFont(), "Голос За Кадром"),
-            replica = "Вот и закончилось эпичное приключение Миши!",
+            replica = "Вот и закончилось сие эпичное приключение Миши!",
             animations = {}
         },
         {
@@ -174,7 +174,7 @@ local scenario = {
         {
             background = 2,
             title = love.graphics.newText(love.graphics.getFont(), "Голос За Кадром"),
-            replica = "и ебаться не только с лабками в универе :)",
+            replica = "и ебаться не только с лабками в универ :)",
             animations = {}
         },
         {

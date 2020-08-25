@@ -26,7 +26,7 @@ local scenario = {
         {
             background = 2,
             title = love.graphics.newText(love.graphics.getFont(), "Голос За Кадром"),
-            replica = "Жил был на свете забавный чувачёк, звали его Мишей",
+            replica = "Жил был на свете один забавный молодой человек, звали его Мишей",
             animations = {
                 {
                     id = 1,
@@ -149,7 +149,7 @@ local scenario = {
         {
             background = 5,
             title = love.graphics.newText(love.graphics.getFont(), "Зевс"),
-            replica = "Ну привет гандон ушастый...",
+            replica = "Ну привет, гандон ушастый...",
             animations = {
                 {
                     id = 2,
