@@ -27,5 +27,5 @@ jobs:
       #uses: android-actions/setup-android@v2
         
       - name: Run create_apk.ps1 script
-        run: ..\.github\scripts\create_apk.ps1
+        run: .\.github\scripts\create_apk.ps1
         shell: powershell
