@@ -22,10 +22,13 @@ jobs:
           repository: 'love2d/love-android'
           path: './love-android'
           submodules: 'recursive'
-          
-      #- name: Setup Android SDK
-      #uses: android-actions/setup-android@v2
-        
+
       - name: Run create_apk.ps1 script
         run: .\.github\scripts\create_apk.ps1
         shell: powershell
+
+      - name: Upload apk-debug
+        uses: actions/upload-artifact@v2
+        with:
+          name: apk-debug
+          path: ./love-android/app/build/outputs/apk/normal/debug/app-normal-debug.apk
