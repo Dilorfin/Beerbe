@@ -1,0 +1,30 @@
+name: Create APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Beerbe
+        uses: actions/checkout@v2
+      
+      - uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          
+      - name: Checkout love-android
+        uses: actions/checkout@v2
+        with:
+          repository: 'love2d/love-android'
+          path: './love-android'
+          submodules: 'recursive'
+          
+      #- name: Setup Android SDK
+      #uses: android-actions/setup-android@v2
+        
+      - name: Run create_apk.ps1 script
+        run: ..\.github\scripts\create_apk.ps1
+        shell: powershell
