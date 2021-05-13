@@ -11,11 +11,6 @@ jobs:
       - name: Checkout Beerbe
         uses: actions/checkout@v2
       
-      - uses: actions/setup-java@v2
-        with:
-          distribution: 'adopt'
-          java-version: '11'
-          
       - name: Checkout love-android
         uses: actions/checkout@v2
         with:
@@ -26,8 +21,15 @@ jobs:
       - name: Use cache
         uses: actions/cache@v2
         with:
-          path: ./love-android/love
+          path: |
+            ./love-android/love/.cxx
+            ./love-android/love/build
           key: ${{ runner.os }}-love
+
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
 
       - name: Run create_apk.ps1 script
         run: .\.github\scripts\create_apk.ps1
