@@ -23,6 +23,12 @@ jobs:
           path: './love-android'
           submodules: 'recursive'
 
+      - name: Use cache
+        uses: actions/cache@v2
+        with:
+          path: ./love-android/love
+          key: ${{ runner.os }}-love
+
       - name: Run create_apk.ps1 script
         run: .\.github\scripts\create_apk.ps1
         shell: powershell
@@ -32,9 +38,3 @@ jobs:
         with:
           name: apk-debug
           path: ./love-android/app/build/outputs/apk/normal/debug/app-normal-debug.apk
-
-      - name: Create cache
-        uses: actions/cache@v2
-        with:
-          path: ./love-android/love
-          key: ${{ runner.os }}-love
