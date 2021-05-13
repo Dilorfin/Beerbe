@@ -32,3 +32,9 @@ jobs:
         with:
           name: apk-debug
           path: ./love-android/app/build/outputs/apk/normal/debug/app-normal-debug.apk
+
+      - name: Create cache
+        uses: actions/cache@v2
+        with:
+          path: ./love-android/love
+          key: ${{ runner.os }}-love
