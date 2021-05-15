@@ -31,8 +31,8 @@ jobs:
           distribution: 'adopt'
           java-version: '11'
 
-      - name: Run create_apk.ps1 script
-        run: .\.github\scripts\create_apk.ps1
+      - name: Run create-apk.ps1 script
+        run: .\.github\scripts\create-apk.ps1
         shell: powershell
 
       - name: Upload apk-debug
