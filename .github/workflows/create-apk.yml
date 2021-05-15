@@ -24,7 +24,7 @@ jobs:
           path: |
             ./love-android/love/.cxx
             ./love-android/love/build
-          key: ${{ runner.os }}-love
+          key: apk-data
 
       - uses: actions/setup-java@v2
         with:

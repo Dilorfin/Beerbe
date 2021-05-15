@@ -1,5 +1,5 @@
 Write-Host "Create game.love"
-.\.github\scripts\create_love.ps1
+.\.github\scripts\create-love.ps1
 
 Write-Host "Copy game.love to android project"
 Copy-Item ".\.build\game.love" -Destination ".\love-android\app\src\main\assets\game.love" -Force

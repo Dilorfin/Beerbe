@@ -7,7 +7,7 @@ $output_path = Join-Path -Path $data_path -ChildPath "game-x32"
 Remove-Item -Path $output_path -Force -Recurse -ErrorAction SilentlyContinue
 
 Write-Host "Create game.love"
-.\.github\scripts\create_love.ps1
+.\.github\scripts\create+love.ps1
 
 Write-Host "Loading rcedit..."
 $rcedit_url=((Invoke-WebRequest -URI 'https://api.github.com/repos/electron/rcedit/releases/latest' | ConvertFrom-Json).assets | Where-Object { $_.name -eq "rcedit-x86.exe" }).browser_download_url
