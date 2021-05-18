@@ -3,7 +3,6 @@ chooseMagic.index = 1
 chooseMagic.skills = {}
 
 local fontHeight = love.graphics.getFont():getHeight()
-local character = require "character"
 
 for skill, value in pairs(character.active_skills) do
     table.insert(chooseMagic.skills, skill)
@@ -13,7 +12,7 @@ table.sort(chooseMagic.skills)
 function chooseMagic:control_button(command, scene)
     if command == Command.Confirm then
         if character:getSkillLevel(self.skills[self.index]) <= character.mana then
-            scene.characterAnimation:setState("cast")
+            character.animation:setState("cast")
             scene.sceneState.current = scene.sceneState.target
             scene.target.spell = self.skills[self.index]
         end
@@ -47,7 +46,7 @@ function chooseMagic:draw()
     for i, skill in pairs(self.skills) do
         local posX = cellWidth*((i-1)%3)
         local posY = cellHeight*math.ceil(i/3)
-        love.graphics.printf(character:getSkillTitle(skill), posX, posY, cellWidth, "center")
+        love.graphics.printf(character:normalizeTitle(skill), posX, posY, cellWidth, "center")
         love.graphics.printf("LV: "..character:getSkillLevel(skill).." MP: "..character:getSkillLevel(skill), posX, posY + fontHeight, cellWidth, "center")
     end
     

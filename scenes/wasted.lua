@@ -1,7 +1,3 @@
-require "scene_manager"
-require "character"
-require "commands"
-
 local scene = {}
 
 function scene.load()
@@ -33,34 +29,14 @@ end
 
 function scene.control_button(command)
     if command == Command.Confirm then
-        character.name = "Миша"
-        character.position = {
-            room = 0,
-            last_room = love.math.random(5, 7)
-        }
-        
-        character.health = 15
-        character.mana = 5
-        
-        character.passive_skills = {
-            health = 1,
-            mana = 1
-        }
-        character.active_skills = {
-            thunder = 0
-        }
-    
-        character.bag = {}
-        character.equipped = {}
-        
-        Scene.Load("dialogue")
+        character = love.filesystem.load("character.lua")()
+        Scene.Load("world")
     elseif command == Command.Deny or command == Command.Menu then
         love.event.quit()
     end
 end
 
 function scene.control_axis(x_axis, y_axis)
-    
 end
 
 function scene.draw()

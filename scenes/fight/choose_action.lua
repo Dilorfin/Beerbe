@@ -1,4 +1,3 @@
-
 local chooseAction = {
     index = 0
 }
@@ -8,7 +7,7 @@ function chooseAction:load()
         "asserts/fight/sword.png",
         "asserts/fight/shield.png",
         "asserts/fight/magic.png",
-        "asserts/fight/beer-bottle.png",
+        "asserts/fight/swap-bag.png",
         "asserts/fight/run.png"
     }
     self.icons = love.graphics.newArrayImage(iconsFilenames)

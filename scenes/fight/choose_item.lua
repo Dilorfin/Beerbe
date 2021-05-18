@@ -1,18 +1,8 @@
-require "items"
-
 local chooseItem = {}
 chooseItem.index = 1
-chooseItem.items = {}
+chooseItem.items = character.inventory:getUsableItems()
 
 local fontHeight = love.graphics.getFont():getHeight()
-local character = require "character"
-
-for i, itemId in pairs(character.bag) do
-    if items[itemId].type == "potion" then
-        table.insert(chooseItem.items, itemId)
-    end
-end
-table.sort(chooseItem.items)
 
 function chooseItem:control_button(command, sceneState)
     if command == Command.Confirm then
@@ -20,17 +10,11 @@ function chooseItem:control_button(command, sceneState)
             return
         end
         
-        sceneState.current = sceneState.effect
         local item = items[self.items[self.index]]
         if item.use then
             item:use(character)
+            character.inventory:removeItem(item.id)
             table.remove(self.items, self.index)
-            for i = 1, #character.bag do
-                if character.bag[i] == item.id then
-                    table.remove(character.bag, i)
-                    return
-                end
-            end
         end
     elseif command == Command.Deny then
         sceneState.current = sceneState.action

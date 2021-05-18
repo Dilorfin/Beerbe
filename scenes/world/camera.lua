@@ -4,6 +4,16 @@ local camera = {
     scale = love.graphics.getHeight()/600
 }
 
+function camera:getViewport()
+    local globalX, globalY = love.graphics.inverseTransformPoint(love.graphics.getWidth(), love.graphics.getHeight())
+    return {
+        left = self.x,
+        top = self.y,
+        right = globalX,
+        bottom = globalY
+    }
+end
+
 function camera:update(character)
     local globalX, globalY = love.graphics.inverseTransformPoint(love.graphics.getWidth(), love.graphics.getHeight())
 

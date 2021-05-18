@@ -1,23 +1,22 @@
-require "scene_manager"
+require "utils/scene_manager"
+require "utils/timer"
+require "utils/utils"
+require "character/items"
 require "commands"
-require "timer"
-require "utils"
 
 local mainFont = love.graphics.newFont("asserts/Arial.ttf", 25);
 love.graphics.setFont(mainFont)
 
+character = require "character"
+events = require "utils/event_queue"
+
 function love.load()
-    love.mouse.setVisible(false)
-    character = require "character"
-    music = require "music_manager"
-  
-    character.position.last_room = love.math.random(5, 7)
+    --love.mouse.setVisible(false)
     
-    Scene.Load("dialogue")
+    Scene.Load("world")
 end
 
 function love.update(dt)
-    music:update(dt)
     Scene.update(dt)
 end
 
@@ -27,10 +26,6 @@ end
 
 function love.quit()
     Scene.unload()
-end
-
-function love.lowmemory()
-    
 end
 
 function love.keypressed(key)

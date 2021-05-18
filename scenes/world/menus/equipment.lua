@@ -1,14 +1,8 @@
 local equipmentMenu = {}
 
-character = require "character"
-require "items"
-
 function equipmentMenu:load(font)
     self.font = font
-    self.options = {
-        "right_hand",
-        "left_hand"
-    }
+    self.options = character.equipment:getPlaces()
     self.index = 1
     self.chooseItem = {
         menu = love.filesystem.load("scenes/world/menus/choose_equipment.lua")(),
@@ -59,20 +53,17 @@ function equipmentMenu:draw()
 
     love.graphics.printf("Equipment", self.font, 0, 20, love.graphics.getWidth(), "center")
 
-    for i = 1, #self.options do 
+    local i = 1
+    for place, itemId in pairs(character.equipment:getCurrent()) do
         local offsetY = (i+1)*1.5*self.font:getHeight()
-        
-        -- format for displaying "right_hand" -> "Right hand"
-        local title = self.options[i]:gsub("_", " "):gsub("^%l", string.upper)
-        love.graphics.print(title, self.font, offsetX, offsetY)
-        
-        local bagId = character.equipped[self.options[i]]
-        if bagId then
-            local itemId = character.bag[character.equipped[self.options[i]]]
+        love.graphics.print(character:normalizeTitle(place), self.font, offsetX, offsetY)
+
+        if itemId > 0 then
             love.graphics.printf(items[itemId].title, self.font, cellWidth - offsetX, offsetY, 2*cellWidth, "right")
         else
             love.graphics.printf("nothing", self.font, cellWidth - offsetX, offsetY, 2*cellWidth, "right")
         end
+        i = i + 1
     end
     
     --local cellHeight = 100

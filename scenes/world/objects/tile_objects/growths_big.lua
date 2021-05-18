@@ -5,20 +5,39 @@ local obj = {
     position = {},
     width = 1,
     height = 2,
+
+    physics = {
+        size = {
+            x = 48,
+            y = 96
+        },
+        offset = {
+            x = 24,
+            y = 48
+        }
+    }
 }
 
-function obj:init(styleId)
-    self.frame = love.graphics.newQuad((styleId)*48, 0, 48, 96, self.image:getWidth(), self.image:getHeight())
+function obj:init(initData)
+    local tileSide = 48
+
+    self.body = love.physics.newBody(initData.world, self.position.x, self.position.y, "static")
+    self.shape = love.physics.newRectangleShape(self.physics.offset.x, self.physics.offset.y, self.physics.size.x, self.physics.size.y)
+    self.fixture = love.physics.newFixture(self.body, self.shape)
+    self.fixture:setUserData(self)
+
+    self.frame = love.graphics.newQuad((initData.styleId)*tileSide, 0, tileSide, 2*tileSide, self.image:getWidth(), self.image:getHeight())
 end
 
-function obj:onCollide(moving)
+function obj:onStartCollide(moving)
 end
 
 function obj:update(dt)
 end
 
-function obj:draw(tileSide)
-    love.graphics.draw(self.image, self.frame, tileSide * self.position.x, tileSide * self.position.y)
+function obj:draw(camera)
+    love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints()))
+    love.graphics.draw(self.image, self.frame, self.position.x, self.position.y)
 end
 
 return obj
