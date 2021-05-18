@@ -1,0 +1,32 @@
+name: Create EXE
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Beerbe
+        uses: actions/checkout@v2
+
+      - name: Run create-exe-x32.ps1 script
+        run: .\.github\scripts\create-exe-x32.ps1
+        shell: powershell
+
+      - name: Run create-exe-x64.ps1 script
+        run: .\.github\scripts\create-exe-x64.ps1
+        shell: powershell
+
+      - name: Upload x32
+        uses: actions/upload-artifact@v2
+        with:
+          name: win-x32
+          path: ./.build/game-x32
+
+      - name: Upload x64
+        uses: actions/upload-artifact@v2
+        with:
+          name: win-x64
+          path: ./.build/game-x64

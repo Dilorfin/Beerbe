@@ -1,0 +1,42 @@
+name: Create APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Beerbe
+        uses: actions/checkout@v2
+      
+      - name: Checkout love-android
+        uses: actions/checkout@v2
+        with:
+          repository: 'love2d/love-android'
+          path: './love-android'
+          submodules: 'recursive'
+
+      - name: Use cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./love-android/love/.cxx
+            ./love-android/love/build
+          key: apk-data
+
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Run create-apk.ps1 script
+        run: .\.github\scripts\create-apk.ps1
+        shell: powershell
+
+      - name: Upload apk-debug
+        uses: actions/upload-artifact@v2
+        with:
+          name: apk-debug
+          path: ./love-android/app/build/outputs/apk/normal/debug/app-normal-debug.apk
