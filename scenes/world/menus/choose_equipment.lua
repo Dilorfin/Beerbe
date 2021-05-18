@@ -1,39 +1,14 @@
 local chooseItem = {}
 
-character = require "character"
-require "items"
-
 function chooseItem:load(font)
     self.font = font
-end
-
-local function filter(type, equipped)
-    equipped = equipped or 0
-    filteredItems = { 0 }
-    for i = 1, equipped - 1 do
-        if items[character.bag[i]].type == type then
-            table.insert(filteredItems, i)
-        end
-    end
-    for i = equipped + 1, #character.bag do
-        if items[character.bag[i]].type == type then
-            table.insert(filteredItems, i)
-        end
-    end
-    return filteredItems
 end
 
 function chooseItem:open(place)
     self.place = place
     self.index = 1
 
-    local secondHand = self.place
-    if self.place == "right_hand" then
-        secondHand = "left_hand"
-    elseif self.place == "left_hand" then
-        secondHand = "right_hand"
-    end
-    self.filteredItems = filter("sword", character.equipped[secondHand])
+    self.filteredItems = character.equipment:possible(place)
 end
 
 function chooseItem:unload()
@@ -46,12 +21,9 @@ function chooseItem:control_button(command, itemChooseMenu)
             return
         end
 
-        local bagId = self.filteredItems[self.index]
-        if bagId == 0 then
-            character.equipped[self.place] = nil
-        else
-            character.equipped[self.place] = bagId
-        end
+        local itemId = self.filteredItems[self.index]
+        character.equipment:equip(self.place, itemId)
+        
         itemChooseMenu.active = false
         self.index = 1
     elseif command == Command.Up then
@@ -80,12 +52,12 @@ function chooseItem:draw()
     local cellHeight = 100
     
     -- items grid
-    for i, bagId in pairs(self.filteredItems) do
+    for i, itemId in pairs(self.filteredItems) do
         local posX = cellWidth*((i-1)%3)
         local posY = cellHeight*math.ceil(i/3)
         local title = "nothing"
-        if bagId ~= 0 then
-            title = items[character.bag[bagId]].title
+        if itemId > 0 then
+            title = items[itemId].title
         end
         love.graphics.printf(title, self.font, posX, posY, cellWidth, "center")
     end

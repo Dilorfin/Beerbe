@@ -5,46 +5,76 @@ local obj = {
     position = {},
     width = 1,
     height = 1,
-    isOpened = false
+    isOpened = false,
+
+    physics = {
+        size = {
+            x = 48,
+            y = 48
+        },
+        offset = {
+            x = 24,
+            y = 24
+        }
+    }
 }
 
-local character = require "character"
-local items = require "items"
+function obj:init(initData)
+    self.body = love.physics.newBody(initData.world, self.position.x, self.position.y, "static")
+    self.shape = love.physics.newRectangleShape(self.physics.offset.x, self.physics.offset.y, self.physics.size.x, self.physics.size.y)
+    self.fixture = love.physics.newFixture(self.body, self.shape)
+    self.fixture:setUserData(self)
+    
+    self.animation:stop()
+    self.animation:setMode("once")
 
-obj.animation:stop()
-obj.animation:setMode("once")
-
-function obj:onCollide(moving)
-    if not self.isOpened then
-        moving.info.isShown = true
-        moving.info.text = "Open dev chest?"
-        moving.info.onConfirm = self.onConfirm
-    end
+    self.infoText = "Open dev chest?"
 end
 
-function obj.onConfirm(moving)
-    local itemsToGive = { 5, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3}
-
-    for i = 1, #itemsToGive do
-        character.bag[#character.bag + 1] = itemsToGive[i]
+function obj:onStartCollide(movable)
+    if self.isOpened 
+        or not movable.character 
+        or movable.character.name ~= "Hero" 
+    then
+        return nil
     end
-    
-    obj.animation:play()
-    obj.isOpened = true
-    local replicas = {
-        "You got \"Меч: под пивко пойдет\"",
-        "You got \"Beer 1l\" x10"
+
+    return { 
+        type = "show_info",
+        text = self.infoText,
+        onConfirm = function()
+            obj.animation:play()
+            obj.isOpened = true
+            events:push({
+                type = "close_info",
+                text = self.infoText
+            })
+            events:push({
+                type = "give_items",
+                items = obj.generateContent()
+            })
+        end
     }
-    
-    moving:startDialogue(replicas)
+end
+
+function obj:onEndCollide(movable)
+    return {
+        type = "close_info",
+        text = self.infoText
+    }
+end
+
+function obj.generateContent()
+    return { 5, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3}
 end
 
 function obj:update(dt)
     self.animation:update(dt)
 end
 
-function obj:draw(tileSide)
-    self.animation:draw(tileSide * self.position.x, tileSide * self.position.y)
+function obj:draw()
+    love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints()))
+    self.animation:draw(self.position.x, self.position.y)
 end
 
 return obj

@@ -1,7 +1,5 @@
 local menu = {}
 
-character = require "character"
-
 local menuState = {
     current = 6,
     items = 1,

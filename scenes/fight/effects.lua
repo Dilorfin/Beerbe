@@ -1,4 +1,4 @@
-require "animation"
+require "utils/animation"
 
 local effects = {}
 
@@ -18,14 +18,13 @@ for k, v in pairs(effects.animations) do
     v:setMode("once")
 end
 
-function effects:start(effect, slot)
-    local slots = require "scenes/fight/slots"
+function effects:start(effect, position)
     self.position = {}
-    self.position.x = slots[slot].x
-    self.position.y = slots[slot].y
+    self.position.x = position.x
+    self.position.y = position.y
 
-    -- wtf?
-    if slot == #slots then
+    -- wtf? is used only for character attacked
+    if effect == "hit" then
         self.position.x = self.position.x - 0.035 * love.graphics.getWidth()
         self.position.y = self.position.y - 0.075 * love.graphics.getHeight()
     end
@@ -46,11 +45,16 @@ function effects:isPlaying()
     if self.animation then
         return self.animation.playing
     end
+    return false
 end
 
 function effects:update(dt)
     if self.animation then
         self.animation:update(dt)
+        if not self.animation.playing then
+            self.animation = nil
+            events:push("end_effect")
+        end
     end
 end
 function effects:draw()

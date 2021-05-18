@@ -1,10 +1,43 @@
-require "items"
+local inventory = {
+	items = { 1, 2 }
+}
+
+function inventory:addItem(id)
+	table.insert(self.items, id)
+end
+
+function inventory:addItemsList(list)
+	table.move(list, 1, #list, #self.items + 1, self.items)
+end
+
+function inventory:removeItem(id)
+	table.removeByValue(self.items, id)
+end
+
+function inventory:getEquippable()
+	local result = {}
+	for index, id in ipairs(self.items) do
+		if items[id].type == "sword" then
+			table.insert(result, id)
+		end
+	end
+	return result
+end
+
+function inventory:getUsableItems()
+	local result = {}
+	for index, id in ipairs(self.items) do
+		if items[id].use then
+			table.insert(result, id)
+		end
+	end
+	return result
+end
 
 local character = {
-	name = "Миша",
+	name = "Hero",
 	position = {
-		room = 0,
-		last_room = 1
+		room = 0
 	},
 
 	-- current values
@@ -17,14 +50,50 @@ local character = {
 		mana = 1
 	},
     active_skills = {
-		thunder = 0
+		thunder = 1
 	},
 
-	bag = { }, -- index from items table
-	equipped = {
-		-- index from bag
+	inventory = inventory,
+	equipment = { -- items ids
+		right_hand = 0,
+		left_hand = 0
 	}
 }
+
+function character.equipment:possible(place)
+	local result = character.inventory:getEquippable()
+	for p, itemId in pairs(self:getCurrent()) do
+		if p ~= place then
+			table.removeByValue(result, itemId)
+		end
+	end
+	table.insert(result, 1, 0)
+	return result
+end
+
+function character.equipment:equip(place, itemId)
+	character.equipment[place] = itemId or 0
+end
+
+function character.equipment:getPlaces()
+	local places = {}
+	for k, v in pairs(self) do
+		if type(v) == "number" then
+			table.insert(places, k)
+		end
+	end
+	return places
+end
+
+function character.equipment:getCurrent()
+	local current = {}
+	for k, v in pairs(self) do
+		if type(v) == "number" then
+			current[k] = v
+		end
+	end
+	return current
+end
 
 function character:getMaxHealth()
 	return 15 * self:getSkillLevel("health")
@@ -34,7 +103,7 @@ function character:getMaxMana()
 	return 5 * self:getSkillLevel("mana")
 end
 
-function character:getSkillTitle(name)
+function character:normalizeTitle(name)
 	-- format for displaying "right_hand" -> "Right hand"
 	return name:gsub("_", " "):gsub("^%l", string.upper)
 end
@@ -70,12 +139,12 @@ end
 function character:getDamage(skill)
 	local damage = 0
 	
-	if skill == "attack" then
-		if self.equipped.right_hand then
-			damage = items[self.bag[self.equipped.right_hand]].damage
+	if skill == "sword" then
+		if self.equipment.right_hand > 0 then
+			damage = items[self.equipment.right_hand].damage
 		end
-		if self.equipped.left_hand then
-			damage = damage + items[self.bag[self.equipped.left_hand]].damage
+		if self.equipment.left_hand > 0 then
+			damage = damage + items[self.equipment.left_hand].damage
 		end
 
 		damage = damage * self:getSkillLevel("sword")		
@@ -89,7 +158,7 @@ end
 
 function character:useSkill(skill)
 	local damage = self:getDamage(skill)
-	if skill == "attack" then
+	if skill == "sword" then
 		self:increasePassiveSkill("sword")
 	else
 		self.mana = self.mana - self:getSkillLevel(skill)
@@ -97,7 +166,6 @@ function character:useSkill(skill)
 		self:increasePassiveSkill("mana")
 	end
 
-	print("char_deal: "..damage)
 	return damage
 end
 
@@ -105,8 +173,13 @@ function character:takeDamage(damage)
 	if damage > 0 then
 		self.health = self.health - damage
 		self:increasePassiveSkill("health")
-		print("char_take: "..damage)
 	end
+end
+
+function character:turn()
+	events:push({
+        type = "user_action"
+    })
 end
 
 return character

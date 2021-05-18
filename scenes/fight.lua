@@ -1,7 +1,5 @@
+require "utils/animation"
 require "scenes/fight/enemies"
-require "scene_manager"
-require "commands"
-require "animation"
 
 local scene = {}
 
@@ -10,11 +8,11 @@ scene.sceneState = {
     action = 0,
     target = 1,
     magic = 2,
-    effect = 3,
-    item = 4
+    item = 3,
+    none = 4
 }
 
-local enemies = {}
+local actors = love.filesystem.load("scenes/fight/actors.lua")()
 
 local chooseAction = love.filesystem.load("scenes/fight/choose_action.lua")()
 
@@ -26,117 +24,101 @@ local chooseMagic = love.filesystem.load("scenes/fight/choose_magic.lua")()
 local chooseItem = love.filesystem.load("scenes/fight/choose_item.lua")()
 
 function scene.load()
-    -- start fight music theme
-    music:playNext("fight")
-    
-    -- load character
-    character = require "character"
-    
+    while not events:isEmpty() do
+        local event = events:pop()
+        if event.type == "start_fight" then
+            for i=1, #event.enemies do
+                actors:addActor(newEnemy(event.enemies[i], i))
+            end
+        end
+    end
+    -- add character
+    actors:addActor(character)
     -- load targeting
     scene.target = love.filesystem.load("scenes/fight/targeting.lua")()
 
     -- load character animation
-    scene.characterAnimation = love.filesystem.load("scenes/fight/character.lua")()
-    scene.characterAnimation:load()
+    character.animation = love.filesystem.load("scenes/fight/ch_animation.lua")()
+    character.animation:load()
+    character.draw = function(self, x, y)
+        self.animation:draw(x, y)
+    end
     
     -- load resources
     scene.background = love.graphics.newImage("asserts/fight/background.png")
 
     chooseAction:load()
-    
-    -- create enemies
-    local number = love.math.random(3)
-    for i=1, number do
-        table.insert(enemies, newEnemy(love.math.random(3), i))
-    end
-    enemies.current = 0
-    enemies.finished = true
 end
 
 function scene.unload()
-    scene.characterAnimation:unload()
-    scene.characterAnimation = nil
+    character.animation:unload()
+    character.animation = nil
+
     scene.background = nil
     scene.icons = nil
-    enemies = nil
     scene.target = nil
     effects = nil
     chooseMagic = nil
     chooseItem = nil
-end
-
-function attackTarget(attackerId, targetId, skill)
-    local attackerUnit = character
-    if attackerId ~= scene.target.character.id then
-        attackerUnit = enemies[attackerId]
-    end
-    
-    local targetUnit = character
-    if targetId ~= scene.target.character.id then
-        targetUnit = enemies[targetId]
-    end
-
-    local damage = attackerUnit:useSkill(skill)
-    targetUnit:takeDamage(damage)
-
-    if targetUnit.health <= 0 and targetId ~= scene.target.character.id then
-        table.remove(enemies, targetId)
-    end
-end
-
-function enemies:turn()
-    local slots = require "scenes/fight/slots"
-    self.current = self.current + 1
-    if self.current <= #enemies then
-        scene.sceneState.current = scene.sceneState.effect
-        effects:start("hit", scene.target.character.id)
-        attackTarget(self.current, scene.target.character.id, "hit")
-    else
-        scene.sceneState.current = scene.sceneState.action
-        self.current = 0
-        self.finished = true
-    end
-
-    if #enemies <= 0 then 
-        Scene.GoBack()
-    end
-    if character.health <= 0 then
-        Scene.Load("wasted")
-    end
+    chooseAction = nil
 end
 
 function scene.update(delta_time)
-    scene.characterAnimation:update(delta_time)
-    if scene.sceneState.current == scene.sceneState.effect then
-        effects:update(delta_time)
-        if not effects:isPlaying() then
-            scene.characterAnimation:setState("stand")
-            enemies:turn()
+    while not events:isEmpty() do
+        local event = events:pop()
+        if event.type == "start_effect" then
+            effects:start(event.effect, event.position)
+            scene.sceneState.current = scene.sceneState.none
+        elseif event.type == "end_effect" then
+            character.animation:setState("stand") -- TODO: check if it can be removed
+            actors:nextTurn()
+        elseif event.type == "attack" then
+            actors:attack(event.target, event.skill, event.damage)
+        elseif event.type == "user_action" then
+            scene.sceneState.current = scene.sceneState.action
+        elseif event.type == "wasted" then
+            events:clear()
+            Scene.Load("wasted")
+            return
+        elseif event.type == "victory" then
+            events:clear()
+            Scene.GoBack()
+            return
+        else
+            scene.sceneState.current = scene.sceneState.none
+            print(event.type)
         end
     end
+
+    character.animation:update(delta_time)
+    effects:update(delta_time)
 end
 
 function scene.control_button(command)
     if scene.sceneState.current == scene.sceneState.action then
         chooseAction:control_button(command, scene)
     elseif scene.sceneState.current == scene.sceneState.target then
-        if command == Command.Left then
-            scene.target:left(enemies)
-        elseif command == Command.Right then
-            scene.target:right(enemies)
-        elseif command == Command.Confirm then
-            local id = enemies[scene.target.index].slot
+        
+        if command == Command.Confirm then
+            local pos = actors:getPositionById(scene.target.index)
+            
             if scene.target.spell == "attack" then
-                scene.characterAnimation:setState("attack")
-                effects:start("sword", id)
-            else
-                effects:start(scene.target.spell, id)
+                character.animation:setState("attack")
+                scene.target.spell = "sword"
             end
-            scene.sceneState.current = scene.sceneState.effect
-            attackTarget(scene.target.character.id, scene.target.index, scene.target.spell)
+
+            events:push({
+                type = "attack",
+                damage = character:useSkill(scene.target.spell),
+                target = scene.target.index,
+                skill = scene.target.spell
+            })
+            
         elseif command == Command.Deny then
             scene.sceneState.current = scene.sceneState.action
-            scene.characterAnimation:setState("stand")
+            character.animation:setState("stand")
+        else
+            scene.target:control_button(command)
         end
     elseif scene.sceneState.current == scene.sceneState.magic then
         chooseMagic:control_button(command, scene)
@@ -159,20 +141,15 @@ function scene.draw()
     
     love.graphics.draw(scene.background, 0, 0, 0, love.graphics.getWidth() / scene.background:getWidth(), (love.graphics.getHeight() - menuHeight) / scene.background:getHeight())
 
-    for i = 1, #enemies do
-        enemies[i]:draw()
-    end
-
-    scene.characterAnimation:draw()
+    actors:draw()
 
     if scene.sceneState.current == scene.sceneState.action then
         chooseAction:draw(menuHeight)
     elseif scene.sceneState.current == scene.sceneState.target then
-        scene.target:draw(enemies)
-    elseif scene.sceneState.current == scene.sceneState.effect then
-        effects:draw()
+        scene.target:draw()
     end
 
+    effects:draw()
     drawCharacterInfo()
 end
 

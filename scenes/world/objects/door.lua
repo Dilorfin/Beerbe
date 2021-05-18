@@ -5,35 +5,47 @@ local obj = {
     position = {},
     width = 1,
     height = 1,
+
+    physics = {
+        size = {
+            x = 48,
+            y = 48
+        },
+        offset = {
+            x = 24,
+            y = 24
+        }
+    }
 }
 
-obj.animation:stop()
-obj.timer = 0
-obj.timeEnd = 0.3
+function obj:init(initData)
+    self.body = love.physics.newBody(initData.world, self.position.x, self.position.y, "static")
+    self.shape = love.physics.newRectangleShape(self.physics.offset.x, self.physics.offset.y, self.physics.size.x, self.physics.size.y)
+    self.fixture = love.physics.newFixture(self.body, self.shape)
+    self.fixture:setUserData(self)
 
-function obj:onCollide()
+    self.animation:stop()
+    self.timer = newTimer(0.3)
+end
+
+function obj:onStartCollide()
     self.animation:play()
 end
 
 function obj:update(dt)
     if self.animation.playing then
         self.animation:update(dt)
-        self.timer = self.timer + dt
+        self.timer:update(dt)
         
-        if self.timer >= self.timeEnd then
-            local character = require "character"
-            character.position.room = character.position.room + 1
-            if character.position.room >= character.position.last_room then
-                Scene.Load("dialogue")
-            else
-                Scene.Load("world")
-            end
+        if self.timer:isTime() then
+            events:push("next_room")
         end
     end
 end
 
-function obj:draw(tileSide)
-    self.animation:draw(tileSide * self.position.x, tileSide * self.position.y)
+function obj:draw(camera)
+    love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints()))
+    self.animation:draw(self.position.x, self.position.y)
 end
 
 return obj

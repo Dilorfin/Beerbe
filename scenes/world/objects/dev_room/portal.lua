@@ -5,25 +5,54 @@ local obj = {
     position = {},
     width = 1,
     height = 1,
+
+    physics = {
+        size = {
+            x = 48,
+            y = 48
+        },
+        offset = {
+            x = 24,
+            y = 24
+        }
+    }
 }
 
-function obj:onCollide(moving)
-    moving.info.isShown = true
-    moving.info.text = "Go to random room?"
-    moving.info.onConfirm = self.onConfirm
+function obj:init(initData)
+    self.body = love.physics.newBody(initData.world, self.position.x, self.position.y, "static")
+    self.shape = love.physics.newRectangleShape(self.physics.offset.x, self.physics.offset.y, self.physics.size.x, self.physics.size.y)
+    self.fixture = love.physics.newFixture(self.body, self.shape)
+    self.fixture:setUserData(self)
+    self.fixture:setSensor(true)
+    
+    self.infoText = "Go to random room?"
 end
 
-function obj.onConfirm()
-    character.position.room = love.math.random(1, character.position.last_room)
-    Scene.Load("world")
+function obj:onStartCollide(movable)
+    return { 
+        type = "show_info",
+        text = self.infoText,
+        onConfirm = function()
+            character.position.dev = false
+            events:push("next_room")
+        end
+    }
+end
+
+function obj:onEndCollide(movable)
+    return {
+        type = "close_info",
+        text = self.infoText
+    }
 end
 
 function obj:update(dt)
     self.animation:update(dt)
 end
 
-function obj:draw(tileSide)
-    self.animation:draw(tileSide * self.position.x, tileSide * self.position.y)
+function obj:draw()
+    love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints()))
+    self.animation:draw(self.position.x, self.position.y)
 end
 
 return obj

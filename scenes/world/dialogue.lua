@@ -3,14 +3,19 @@ local dialogue = {
     replicas = nil,
     started = false
 }
+
 function dialogue:start(replicas)
+    if #replicas <= 0 then return end
+    
     self.replicas = replicas
     self.started = true
 end
+
 function dialogue:finish()
     self.index = 1
     self.started = false
 end
+
 function dialogue:nextReplica()
     self.index = self.index + 1
     if self.index > #self.replicas then
@@ -25,6 +30,7 @@ function dialogue:control_button(command)
         self:finish()
     end
 end
+
 function dialogue:draw(camera)
     local width = (1/camera.scale)*love.graphics.getWidth()
     local height = love.graphics.getHeight()/7

@@ -2,17 +2,8 @@ local itemsMenu = {
     index = 1
 }
 
-character = require "character"
-require "items"
-
 function itemsMenu:filter()    
-    self.usableItems = {}
-    for i = 1, #character.bag do
-        local item = items[character.bag[i]]
-        if item.use then
-            table.insert(self.usableItems, item.id)
-        end
-    end
+    self.usableItems = character.inventory:getUsableItems()
 end
 
 function itemsMenu:load(font)
@@ -40,7 +31,7 @@ function itemsMenu:control_button(command, menuState)
         local item = items[self.usableItems[self.index]]
         item:use(character)
         table.remove(self.usableItems, self.index)
-        table.removeByValue(character.bag, item.id)
+        character.inventory:removeItem(item.id)
 
         if self.index > #self.usableItems then
             self.index = #self.usableItems
@@ -71,7 +62,7 @@ function itemsMenu:draw()
     local cellHeight = 100
     
     if #self.usableItems <= 0 then
-        love.graphics.printf("Nothing's here xD", self.font, 0, love.graphics.getHeight()/2-self.font:getHeight(), love.graphics.getWidth(), "center")
+        love.graphics.printf("Nothing's here ", self.font, 0, love.graphics.getHeight()/2-self.font:getHeight(), love.graphics.getWidth(), "center")
     else
         for i, itemId in pairs(self.usableItems) do
             local posX = cellWidth*((i-1)%3)
