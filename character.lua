@@ -1,39 +1,3 @@
-local inventory = {
-	items = { 1, 2 }
-}
-
-function inventory:addItem(id)
-	table.insert(self.items, id)
-end
-
-function inventory:addItemsList(list)
-	table.move(list, 1, #list, #self.items + 1, self.items)
-end
-
-function inventory:removeItem(id)
-	table.removeByValue(self.items, id)
-end
-
-function inventory:getEquippable()
-	local result = {}
-	for index, id in ipairs(self.items) do
-		if items[id].type == "sword" then
-			table.insert(result, id)
-		end
-	end
-	return result
-end
-
-function inventory:getUsableItems()
-	local result = {}
-	for index, id in ipairs(self.items) do
-		if items[id].use then
-			table.insert(result, id)
-		end
-	end
-	return result
-end
-
 local character = {
 	name = "Hero",
 	position = {
@@ -53,47 +17,9 @@ local character = {
 		thunder = 1
 	},
 
-	inventory = inventory,
-	equipment = { -- items ids
-		right_hand = 0,
-		left_hand = 0
-	}
+	inventory = love.filesystem.load("character/inventory.lua")(),
+	equipment = love.filesystem.load("character/equipment.lua")()
 }
-
-function character.equipment:possible(place)
-	local result = character.inventory:getEquippable()
-	for p, itemId in pairs(self:getCurrent()) do
-		if p ~= place then
-			table.removeByValue(result, itemId)
-		end
-	end
-	table.insert(result, 1, 0)
-	return result
-end
-
-function character.equipment:equip(place, itemId)
-	character.equipment[place] = itemId or 0
-end
-
-function character.equipment:getPlaces()
-	local places = {}
-	for k, v in pairs(self) do
-		if type(v) == "number" then
-			table.insert(places, k)
-		end
-	end
-	return places
-end
-
-function character.equipment:getCurrent()
-	local current = {}
-	for k, v in pairs(self) do
-		if type(v) == "number" then
-			current[k] = v
-		end
-	end
-	return current
-end
 
 function character:getMaxHealth()
 	return 15 * self:getSkillLevel("health")
@@ -140,11 +66,12 @@ function character:getDamage(skill)
 	local damage = 0
 	
 	if skill == "sword" then
-		if self.equipment.right_hand > 0 then
-			damage = items[self.equipment.right_hand].damage
+		local equipment = self.equipment:getCurrent()
+		if equipment.right_hand > 0 then
+			damage = items[equipment.right_hand].damage
 		end
-		if self.equipment.left_hand > 0 then
-			damage = damage + items[self.equipment.left_hand].damage
+		if equipment.left_hand > 0 then
+			damage = damage + items[equipment.left_hand].damage
 		end
 
 		damage = damage * self:getSkillLevel("sword")		
