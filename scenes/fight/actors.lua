@@ -25,8 +25,8 @@ function actors:getCharacterId()
     return #self.actors
 end
 
-function actors:getEnemiesNumber()
-    return #self.actors - 1
+function actors:getActorsNumber()
+    return #self.actors
 end
 
 function actors:getPositionById(id)

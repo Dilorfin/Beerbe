@@ -21,7 +21,9 @@ local effects = love.filesystem.load("scenes/fight/effects.lua")()
 
 --load menus
 local chooseMagic = love.filesystem.load("scenes/fight/choose_magic.lua")()
+chooseMagic:init(scene)
 local chooseItem = love.filesystem.load("scenes/fight/choose_item.lua")()
+chooseItem:init(scene.sceneState)
 
 function scene.load()
     while not events:isEmpty() do
@@ -123,9 +125,9 @@ function scene.control_button(command)
             scene.target:control_button(command)
         end
     elseif scene.sceneState.current == scene.sceneState.magic then
-        chooseMagic:control_button(command, scene)
+        chooseMagic:control_button(command)
     elseif scene.sceneState.current == scene.sceneState.item then
-        chooseItem:control_button(command, scene.sceneState)
+        chooseItem:control_button(command)
     end
 end
 

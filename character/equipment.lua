@@ -6,7 +6,7 @@ local equipment = {
 }
 
 function equipment:possible(place)
-	local result = character.inventory:getEquippable()
+	local result = character.inventory:getEquippableIds()
 	for p, itemId in pairs(self.equiped) do
 		if p ~= place then
 			table.removeByValue(result, itemId)

@@ -35,7 +35,6 @@ end
 function newEnemy(type, id)
     local enemy = love.filesystem.load(filenames[type])()
 
-    enemy.slot = id
     enemy.scale = love.graphics.getHeight()/600
     return setmetatable(enemy, enemy_mt)
 end

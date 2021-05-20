@@ -14,7 +14,7 @@ function inventory:removeItem(id)
 	table.removeByValue(self.items, id)
 end
 
-function inventory:getEquippable()
+function inventory:getEquippableIds()
 	local result = {}
 	for index, id in ipairs(self.items) do
 		if items[id].type == "sword" then
@@ -24,7 +24,7 @@ function inventory:getEquippable()
 	return result
 end
 
-function inventory:getUsableItems()
+function inventory:getUsableItemsIds()
 	local result = {}
 	for index, id in ipairs(self.items) do
 		if items[id].use then

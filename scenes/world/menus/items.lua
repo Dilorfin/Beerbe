@@ -3,7 +3,7 @@ local itemsMenu = {
 }
 
 function itemsMenu:filter()    
-    self.usableItems = character.inventory:getUsableItems()
+    self.usableItems = character.inventory:getUsableItemsIds()
 end
 
 function itemsMenu:load(font)
