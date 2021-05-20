@@ -24,17 +24,18 @@ function chooseAction:control_button(command, scene)
         end
     elseif command == Command.Confirm then
         if self.index == 0 then
-            scene.sceneState.current = scene.sceneState.target
-            scene.target.spell = "attack"
-            scene.target.index = 1
+            events:push({
+                type = "target",
+                skill = "attack"
+            })
         elseif self.index == 1 then
             --scene.characterAnimation:setState("protect")
         elseif self.index == 2 then
-            scene.sceneState.current = scene.sceneState.magic
-            scene.target.spell = "magic"
-            scene.target.index = 1
+            scene.sceneState.current = scene.sceneState.choose
+            scene.chooseMenu = love.filesystem.load("scenes/fight/choose_magic.lua")()
         elseif self.index == 3 then
-            scene.sceneState.current = scene.sceneState.item
+            scene.sceneState.current = scene.sceneState.choose
+            scene.chooseMenu = love.filesystem.load("scenes/fight/choose_item.lua")()
         elseif self.index == 4 then
             love.event.quit()
         end

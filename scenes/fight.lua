@@ -7,9 +7,8 @@ scene.sceneState = {
     current = 0,
     action = 0,
     target = 1,
-    magic = 2,
-    item = 3,
-    none = 4
+    choose = 2,
+    none = 3
 }
 
 local actors = love.filesystem.load("scenes/fight/actors.lua")()
@@ -18,12 +17,6 @@ local chooseAction = love.filesystem.load("scenes/fight/choose_action.lua")()
 
 -- load effects
 local effects = love.filesystem.load("scenes/fight/effects.lua")()
-
---load menus
-local chooseMagic = love.filesystem.load("scenes/fight/choose_magic.lua")()
-chooseMagic:init(scene)
-local chooseItem = love.filesystem.load("scenes/fight/choose_item.lua")()
-chooseItem:init()
 
 function scene.load()
     while not events:isEmpty() do
@@ -61,10 +54,9 @@ function scene.unload()
     scene.background = nil
     scene.icons = nil
     scene.target = nil
-    effects = nil
-    chooseMagic = nil
-    chooseItem = nil
+    scene.chooseMenu = nil
     chooseAction = nil
+    effects = nil
 end
 
 function scene.update(delta_time)
@@ -84,7 +76,13 @@ function scene.update(delta_time)
             local item = items[event.itemId]
             item:use(character)
             character.inventory:removeItem(item.id)
-            scene.sceneState.current = scene.sceneState.action        
+            scene.sceneState.current = scene.sceneState.action
+        elseif event.type == "target" then
+            scene.sceneState.current = scene.sceneState.target
+            scene.target.index = 1
+            scene.target.spell = event.skill
+            scene.target.skill = event.skill
+            scene.target.itemId = event.itemId
         elseif event.type == "wasted" then
             events:clear()
             Scene.Load("wasted")
@@ -128,20 +126,15 @@ function scene.control_button(command)
         else
             scene.target:control_button(command)
         end
-    elseif scene.sceneState.current == scene.sceneState.magic then
-        chooseMagic:control_button(command)
-    elseif scene.sceneState.current == scene.sceneState.item then
-        chooseItem:control_button(command)
+    elseif scene.sceneState.current == scene.sceneState.choose then
+        scene.chooseMenu:control_button(command)
     end
 end
 
 function scene.draw()
 
-    if scene.sceneState.current == scene.sceneState.magic then
-        chooseMagic:draw()
-        return
-    elseif scene.sceneState.current == scene.sceneState.item then
-        chooseItem:draw()
+    if scene.sceneState.current == scene.sceneState.choose then
+        scene.chooseMenu:draw()
         return
     end
 

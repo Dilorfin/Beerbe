@@ -1,5 +1,18 @@
 local chooseItem = love.filesystem.load("utils/grid.lua")()
 
+local ids = character.inventory:getUsableItemsIds()
+local usables = {}
+for i = 1, #ids do
+	table.insert(usables, {
+		id = ids[i],
+		title = items[ids[i]].title,
+		comment = ""
+	})
+end
+
+chooseItem.title = "Items menu"
+chooseItem.list = usables
+
 function chooseItem:onConfirm()
 	if #self.list <= 0 then
 		return
@@ -13,21 +26,6 @@ end
 
 function chooseItem:onDeny()
 	events:push("user_action")
-end
-
-function chooseItem:init()
-	local ids = character.inventory:getUsableItemsIds()
-	local usables = {}
-	for i = 1, #ids do
-		table.insert(usables, {
-			id = ids[i],
-			title = items[ids[i]].title,
-			comment = ""
-		})
-	end
-
-	self.title = "Items menu"
-	self.list = usables
 end
 
 return chooseItem

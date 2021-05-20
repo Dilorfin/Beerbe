@@ -48,6 +48,10 @@ function character:getSkillLevel(skill)
 	return math.ceil(self:getSkillUsages(skill)/10)
 end
 
+function character:hasEnoughMana(skill)
+	return self:getSkillLevel(skill) <= self.mana
+end
+
 function character:increasePassiveSkill(skill)
 	if self.passive_skills[skill] == nil then
 		self.passive_skills[skill] = 0
