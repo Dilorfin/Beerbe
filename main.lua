@@ -11,6 +11,8 @@ love.graphics.setFont(mainFont)
 character = require "character"
 events = require "utils/event_queue"
 
+local onscreen = require("onscreen-control")
+
 function love.load()
 	Scene.Load("world")
 end
@@ -24,10 +26,19 @@ function love.draw()
 	local gx, gy = love.graphics.inverseTransformPoint(0, 0)
 	love.graphics.print("fps: "..love.timer.getFPS(), gx, gy)
 	love.graphics.print("level: "..character.levelName, gx, gy+mainFont:getHeight())
+    onscreen:draw()
 end
 
 function love.quit()
 	Scene.unload()
+end
+
+function love.mousepressed( x, y, button, istouch, presses )
+    onscreen:pressed(x, y)
+end
+
+function love.mousereleased( x, y, button, istouch, presses )
+    onscreen:released(x, y)
 end
 
 function love.keypressed(key)
