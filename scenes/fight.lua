@@ -23,7 +23,7 @@ local effects = love.filesystem.load("scenes/fight/effects.lua")()
 local chooseMagic = love.filesystem.load("scenes/fight/choose_magic.lua")()
 chooseMagic:init(scene)
 local chooseItem = love.filesystem.load("scenes/fight/choose_item.lua")()
-chooseItem:init(scene.sceneState)
+chooseItem:init()
 
 function scene.load()
     while not events:isEmpty() do
@@ -80,6 +80,11 @@ function scene.update(delta_time)
             actors:attack(event.target, event.skill, event.damage)
         elseif event.type == "user_action" then
             scene.sceneState.current = scene.sceneState.action
+        elseif event.type == "use_item" then
+            local item = items[event.itemId]
+            item:use(character)
+            character.inventory:removeItem(item.id)
+            scene.sceneState.current = scene.sceneState.action        
         elseif event.type == "wasted" then
             events:clear()
             Scene.Load("wasted")
@@ -89,7 +94,6 @@ function scene.update(delta_time)
             Scene.GoBack()
             return
         else
-            scene.sceneState.current = scene.sceneState.none
             print(event.type)
         end
     end

@@ -3,7 +3,7 @@ local grid = {
 		{
 			id = 0,
 			title = "",
-			comment = nil
+			comment = ""
 		}
 	},
 	current = 1,
@@ -18,9 +18,9 @@ function grid:init(title, list, additionObj)
 end
 
 function grid:control_button(command)
-	if command == Command.Confirm then
+	if command == Command.Confirm and self.onConfirm then
 		self:onConfirm()
-	elseif command == Command.Deny then
+	elseif command == Command.Deny and self.onDeny then
 		self:onDeny()
 	elseif command == Command.Up then
 		if self.current > self.width then 
