@@ -34,8 +34,10 @@ function scene.load()
     end
     -- add character
     actors:addActor(character)
+
     -- load targeting
     scene.target = love.filesystem.load("scenes/fight/targeting.lua")()
+    scene.target:init(actors)
 
     -- load character animation
     character.animation = love.filesystem.load("scenes/fight/ch_animation.lua")()
