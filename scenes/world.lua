@@ -16,10 +16,7 @@ local info = require "scenes/world/info"
 local camera = require "scenes/world/camera"
 local map = require "scenes/world/map"
 local colliding = require "scenes/world/colliding"
-local astar = require "utils/lua-star"
-
 local world = love.physics.newWorld()
-local path = nil
 
 function scene.load()
     world:setCallbacks(colliding.beginContact, colliding.endContact, colliding.preSolve, colliding.postSolve)
@@ -36,26 +33,49 @@ function scene.unload()
     info:close()
 end
 
-function positionIsOpenFunc(x, y)
-    -- should return true if the position is open to walk
-    return map:isTilePassable(x,y)
-end
-
 function path_finding(map, movables)
     -- movables[1] - player
     -- movables[>1] - enemies
     for i = 2, #movables do
-        path = astar:find(
-            map.width,
-            map.height,
-            movables[i]:getMapPosition(),
-            movables[1]:getMapPosition(),
-            positionIsOpenFunc
-        )
-
         if path then
-            movables[i]:control_axis("x", (path[2].x-path[1].x)/2)
-            movables[i]:control_axis("y", (path[2].y-path[1].y)/2)
+            --movables[i]:control_axis("x", (path[2].x-path[1].x)/2)
+            --movables[i]:control_axis("y", (path[2].y-path[1].y)/2)
+        end
+
+        local distance = love.physics.getDistance(movables[1].fixture, movables[i].fixture)
+        if distance <= 1000 then
+            local bound1 = { movables[1].fixture:getBoundingBox() }
+            local bound2 = { movables[i].fixture:getBoundingBox() }
+            
+            local points = {
+                { x = 1, y = 2 }, -- top left
+                { x = 1, y = 4 }, -- bottom left
+                { x = 3, y = 4 }, -- bottom right
+                { x = 3, y = 2 }  -- top right
+            }
+
+            local distances = {}
+            local maxId = 0
+
+            local all = 0
+
+            lines = {}
+            for i1, point1 in ipairs(points) do
+                for i2, point2 in ipairs(points) do
+                    table.insert(lines, {bound1[point1.x], bound1[point1.y], bound2[point2.x], bound2[point2.y]})
+                    world:rayCast(bound1[point1.x], bound1[point1.y], bound2[point2.x], bound2[point2.y],
+                        function(fixture, x, y, xn, yn, fraction)
+                            if fixture:getUserData().character then
+                                return 1
+                            end
+                            all = all + 1
+                            return 0
+                        end
+                    )
+                end
+            end
+            local flag = not (all > 12)
+            print("all: "..all.." see: "..tostring(flag))
         end
     end
 end
@@ -160,18 +180,15 @@ function scene.draw()
         else
             dialogue:draw(camera)
         end
-        
-        if path then
-            local temp = {}
-            for i, v in pairs(path) do
-                table.insert(temp, v.x * map:getTileSide() + map:getTileSide()/2)
-                table.insert(temp, v.y * map:getTileSide() + map:getTileSide()/2)
-            end
-            r, g, b, a = love.graphics.getColor()
+        if lines then
+            local r, g, b, a = love.graphics.getColor()
             love.graphics.setColor(0, 1, 0)
-            love.graphics.line(temp)
+            for i, line in ipairs(lines) do
+                love.graphics.line(line)
+            end
             love.graphics.setColor(r, g, b, a)
         end
+
     elseif sceneState.current == sceneState.menu then
         scene.menu:draw()
     end
