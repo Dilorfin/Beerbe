@@ -3,9 +3,9 @@ require "utils/animation"
 local effects = {}
 
 local files = {
-    hit = "asserts/fight/effects/hit.png",
-    sword = "asserts/fight/effects/sword.png",
-    thunder = "asserts/fight/effects/thunder.png"
+    hit = "assets/fight/effects/hit.png",
+    sword = "assets/fight/effects/sword.png",
+    thunder = "assets/fight/effects/thunder.png"
 }
 
 effects.animations = {

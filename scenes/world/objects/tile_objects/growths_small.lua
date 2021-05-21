@@ -1,6 +1,6 @@
 local obj = {
     id = 13,
-    image = love.graphics.newImage("asserts/world/objects/styled/growths_small.png"),
+    image = love.graphics.newImage("assets/world/objects/styled/growths_small.png"),
     isPassable = false,
     position = {},
     width = 1,

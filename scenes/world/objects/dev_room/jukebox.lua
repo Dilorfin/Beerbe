@@ -1,6 +1,6 @@
 local obj = {
     id = 6,
-    animation = newAnimation(love.graphics.newImage("asserts/world/objects/dev_room/jukebox.png"), 48, 96, 0.3, 3),
+    animation = newAnimation(love.graphics.newImage("assets/world/objects/dev_room/jukebox.png"), 48, 96, 0.3, 3),
     isPassable = false,
     position = {},
     width = 1,

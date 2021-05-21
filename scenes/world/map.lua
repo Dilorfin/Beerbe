@@ -2,7 +2,7 @@ local spritesheet = {}
 local objectsCollection = require "scenes/world/objects"
 
 function spritesheet:load(styleId)
-    self.image = love.graphics.newImage("asserts/world/tiles.png")
+    self.image = love.graphics.newImage("assets/world/tiles.png")
     self.tiles = {
         love.graphics.newQuad(styleId*96 + 24, 48+24, 48, 48, self.image:getDimensions()), -- usual floor
         love.graphics.newQuad(styleId*96 + 24, 4*48, 48, 48, self.image:getDimensions()), -- top border

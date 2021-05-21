@@ -1,8 +1,8 @@
 local scene = {}
 
 function scene.load()
-    local bigFont = love.graphics.newFont("asserts/Arial.ttf", love.graphics.getHeight()/10)
-    local smallFont = love.graphics.newFont("asserts/Arial.ttf", love.graphics.getHeight()/20)
+    local bigFont = love.graphics.newFont("assets/Arial.ttf", love.graphics.getHeight()/10)
+    local smallFont = love.graphics.newFont("assets/Arial.ttf", love.graphics.getHeight()/20)
 
     wastedText = love.graphics.newText(bigFont, "WASTED")
     infoText = love.graphics.newText(smallFont, "Press Confirm to restart")

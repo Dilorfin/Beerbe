@@ -42,7 +42,7 @@ function scene.load()
     end
     
     -- load resources
-    scene.background = love.graphics.newImage("asserts/fight/background.png")
+    scene.background = love.graphics.newImage("assets/fight/background.png")
 
     chooseAction:load()
 end

@@ -4,7 +4,7 @@ local target = {
 }
 
 function target:init(actors)
-	self.image = love.graphics.newImage("asserts/fight/select.png")
+	self.image = love.graphics.newImage("assets/fight/select.png")
 	self.actors = actors
 end
 

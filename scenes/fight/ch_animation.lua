@@ -4,11 +4,11 @@ local characterAnimation = {}
 
 function characterAnimation:load()
     local heroFilenames = {
-        "asserts/fight/animations/stand.png",
-        "asserts/fight/animations/attack.png",
-        "asserts/fight/animations/protect.png",
-        "asserts/fight/animations/cast.png",
-        "asserts/fight/animations/death.png"
+        "assets/fight/animations/stand.png",
+        "assets/fight/animations/attack.png",
+        "assets/fight/animations/protect.png",
+        "assets/fight/animations/cast.png",
+        "assets/fight/animations/death.png"
     }
 
     self.animation = newMultistateAnimation(heroFilenames, 64, 64, 0.11, 3, "bounce")

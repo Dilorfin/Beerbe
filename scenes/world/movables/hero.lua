@@ -3,10 +3,10 @@ require "scenes/world/movable"
 
 function newMovableHero(world)
     local heroFilenames = {
-        "asserts/world/animations/upward.png",
-        "asserts/world/animations/downward.png",
-        "asserts/world/animations/leftward.png",
-        "asserts/world/animations/rightward.png"
+        "assets/world/animations/upward.png",
+        "assets/world/animations/downward.png",
+        "assets/world/animations/leftward.png",
+        "assets/world/animations/rightward.png"
     }
     local heroAnimation = newMultistateAnimation(
         heroFilenames, 48, 48, 0.11, 3, "bounce"

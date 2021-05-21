@@ -10,7 +10,7 @@ function newMovableEnemy(world, posX, posY)
     }
 
     local enemyAnimation = newAnimation(
-        love.graphics.newImage("asserts/world/animations/whirlwind.png"), 48, 48, 0.11, 5, "loop"
+        love.graphics.newImage("assets/world/animations/whirlwind.png"), 48, 48, 0.11, 5, "loop"
     )
     enemyAnimation.setState = function() end
     

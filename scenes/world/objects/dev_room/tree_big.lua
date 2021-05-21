@@ -1,6 +1,6 @@
 local obj = {
     id = 9,
-    image = love.graphics.newImage("asserts/world/objects/dev_room/tree_big.png"),
+    image = love.graphics.newImage("assets/world/objects/dev_room/tree_big.png"),
     isPassable = false,
     position = {},
     width = 2,
