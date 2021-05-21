@@ -13,7 +13,6 @@ local sceneState = {
 local dialogue = require "scenes/world/dialogue"
 
 local info = require "scenes/world/info"
-local menu = require "scenes/world/menu"
 local camera = require "scenes/world/camera"
 local map = require "scenes/world/map"
 local colliding = require "scenes/world/colliding"
@@ -26,8 +25,6 @@ function scene.load()
     world:setCallbacks(colliding.beginContact, colliding.endContact, colliding.preSolve, colliding.postSolve)
 
     map:load(world)
-
-    menu:load()
 end
 
 function scene.pause()
@@ -36,7 +33,6 @@ end
 
 function scene.unload()
     map:unload()
-    menu:unload()
     info:close()
 end
 
@@ -95,52 +91,53 @@ local function handleEvent(event)
 end
 
 function scene.update(delta_time)
-    if sceneState.current == sceneState.moving then
-        world:update(delta_time)
+    if sceneState.current ~= sceneState.moving then
+        return
+    end
 
-        camera:update(character)
-        
-        map:update(delta_time)
+    world:update(delta_time)
 
-        path_finding(map, map.movables)
-        
-        while not events:isEmpty() do
-            local event = events:pop()
-            if event.type == "start_fight" then
-                events:clear()
-                event.enemies = {}
-                local enemiesNumber = love.math.random(1, 3)
-                for i = 1, enemiesNumber do
-                    local id = map.possibleEnemies[love.math.random(1, #map.possibleEnemies)]
-                    table.insert(event.enemies, id)
-                end
-                events:push(event)
-                Scene.LoadNext("fight")
-                return
-            elseif event.type == "next_room" then
-                character.position.room = character.position.room + 1
-                Scene.Load("world")
-                return
+    camera:update(character)
+    
+    map:update(delta_time)
+
+    path_finding(map, map.movables)
+    
+    while not events:isEmpty() do
+        local event = events:pop()
+        if event.type == "start_fight" then
+            events:clear()
+            event.enemies = {}
+            local enemiesNumber = love.math.random(1, 3)
+            for i = 1, enemiesNumber do
+                local id = map.possibleEnemies[love.math.random(1, #map.possibleEnemies)]
+                table.insert(event.enemies, id)
             end
-
-            handleEvent(event)
+            events:push(event)
+            Scene.LoadNext("fight")
+            return
+        elseif event.type == "next_room" then
+            character.position.room = character.position.room + 1
+            Scene.Load("world")
+            return
         end
-    elseif sceneState.current == sceneState.menu then
-        menu:update(delta_time)
+
+        handleEvent(event)
     end
 end
 
 function scene.control_button(command)
-    if command == Command.Menu and sceneState.current ~= sceneState.menu then
+    if sceneState.current == sceneState.menu then
+        scene.menu:control_button(command, sceneState)
+    elseif command == Command.Menu then
         sceneState.current = sceneState.menu
+        scene.menu = love.filesystem.load("scenes/world/menu.lua")()
     elseif sceneState.current == sceneState.moving then
         if not dialogue.started then
             info:control_button(command)
         else
             dialogue:control_button(command)
         end
-    elseif sceneState.current == sceneState.menu then
-        menu:control_button(command, sceneState)
     end
 end
 
@@ -176,7 +173,7 @@ function scene.draw()
             love.graphics.setColor(r, g, b, a)
         end
     elseif sceneState.current == sceneState.menu then
-        menu:draw()
+        scene.menu:draw()
     end
 end
 

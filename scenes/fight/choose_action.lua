@@ -1,5 +1,6 @@
 local chooseAction = {
-    index = 0
+    index = 0,
+    maxIndex = 5
 }
 
 function chooseAction:load()
@@ -19,7 +20,7 @@ function chooseAction:control_button(command, scene)
             self.index = self.index - 1
         end
     elseif command == Command.Right then
-        if self.index < self.icons:getLayerCount()-1 then
+        if self.index < self.maxIndex-1 then
             self.index = self.index + 1
         end
     elseif command == Command.Confirm then
@@ -32,10 +33,10 @@ function chooseAction:control_button(command, scene)
             --scene.characterAnimation:setState("protect")
         elseif self.index == 2 then
             scene.sceneState.current = scene.sceneState.choose
-            scene.chooseMenu = love.filesystem.load("scenes/fight/choose_magic.lua")()
+            scene.chooseMenu = love.filesystem.load("scenes/fight/actions/magic.lua")()
         elseif self.index == 3 then
             scene.sceneState.current = scene.sceneState.choose
-            scene.chooseMenu = love.filesystem.load("scenes/fight/choose_item.lua")()
+            scene.chooseMenu = love.filesystem.load("scenes/fight/actions/item.lua")()
         elseif self.index == 4 then
             love.event.quit()
         end
@@ -50,7 +51,7 @@ function chooseAction:draw(menuHeight)
     love.graphics.rectangle("line", offset + self.index *  menuHeight, offset + love.graphics.getHeight() - menuHeight, menuItemSize, menuItemSize, 10, 10)
     love.graphics.setLineWidth(1)
 
-    for i = 1, self.icons:getLayerCount() do
+    for i = 1, self.maxIndex do
         love.graphics.drawLayer(self.icons, i, offset + (i - 1) * menuHeight, offset + love.graphics.getHeight() - menuHeight, 0, menuItemSize / self.icons:getWidth())
     end
 end

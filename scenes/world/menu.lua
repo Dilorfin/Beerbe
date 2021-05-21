@@ -1,57 +1,89 @@
-local menu = {}
-
-local menuState = {
-    current = 6,
-    items = 1,
-    stats = 2,
-    equipment = 3,
-    donate = 4,
-    settings = 5,
-    chooseMenu = 6
+local menu = {
+	index = 1,
+	current = nil
 }
-local menus = {
-    require "scenes/world/menus/items",
-    require "scenes/world/menus/stats",
-    require "scenes/world/menus/equipment",
-    require "scenes/world/menus/donate",
-    require "scenes/world/menus/settings",
-    require "scenes/world/menus/choose",
+
+local font = love.graphics.getFont()
+menu.options = {
+	{
+		text = love.graphics.newText(font, "Items"),
+		onChoose = function() 
+			return love.filesystem.load("scenes/world/menus/items.lua")() 
+		end
+	},
+	{
+		text = love.graphics.newText(font, "Stats"),
+		onChoose = function() 
+			return love.filesystem.load("scenes/world/menus/stats.lua")()
+		end
+	},
+	{
+		text = love.graphics.newText(font, "Equipment"),
+		onChoose = function() 
+			return love.filesystem.load("scenes/world/menus/equipment.lua")()
+		end
+	},
+	{
+		text = love.graphics.newText(font, "Donate"),
+		onChoose = function() 
+			return love.filesystem.load("scenes/world/menus/donate.lua")()
+		end
+	},
+	{
+		text = love.graphics.newText(font, "Settings"),
+		onChoose = function() 
+			return love.filesystem.load("scenes/world/menus/settings.lua")()
+		end
+	},
+	{
+		text = love.graphics.newText(font, "Escape"),
+		onChoose = function() 
+			love.event.quit()
+		end
+	}
 }
-function menu:load()
-    self.font = love.graphics.newFont("asserts/Arial.ttf", love.graphics.getHeight()/24)
-    for i = 1, #menus do
-        menus[i]:load(self.font)
-    end
-end
-
-function menu:unload()
-    self.font = nil
-    for i = 1, #menus do
-        menus[i]:unload()
-    end
-end
-
-function menu:update(delta_time)
-    if menus[menuState.current].update then
-        menus[menuState.current]:update()
-    end
-end
 
 function menu:control_button(command, sceneState)
-    if command == Command.Deny and menuState.current == menuState.chooseMenu then
-        menus[menuState.current].index = 1
-        sceneState.current = sceneState.moving
-    elseif command == Command.Menu then
-        menus[menuState.current].index = 1
-        menuState.current = menuState.chooseMenu
-        sceneState.current = sceneState.moving
-    end
-    
-    menus[menuState.current]:control_button(command, menuState)
+	if command == Command.Menu then
+		sceneState.current = sceneState.moving
+		return
+	elseif self.current then
+		self.current:control_button(command)
+		if self.current.isClosed then
+			self.current = nil
+		end
+	else
+		if command == Command.Deny then
+			sceneState.current = sceneState.moving
+		elseif command == Command.Up then
+			if self.index > 1 then
+				self.index = self.index - 1
+			end
+		elseif command == Command.Down then
+			if self.index < #self.options then
+				self.index = self.index + 1
+			end
+		elseif command == Command.Confirm then
+			self.current = self.options[self.index]:onChoose()
+		end
+	end
 end
 
 function menu:draw()
-    menus[menuState.current]:draw()
+	if self.current then
+		self.current:draw()
+		return
+	end
+
+	local fontHeight = love.graphics.getFont():getHeight()
+	local offsetX = love.graphics.getWidth()/80
+	local offsetY = love.graphics.getHeight()/2-(#self.options*fontHeight*1.5)/2
+
+	for i = 1, #self.options do
+		love.graphics.draw(self.options[i].text, offsetX,  offsetY + (i-1)*fontHeight*1.5)
+	end
+	
+	love.graphics.rectangle("fill", offsetX, offsetY + (self.index-1)*fontHeight*1.5 + self.options[self.index].text:getHeight(), self.options[self.index].text:getWidth(), 3)
 end
 
 return menu

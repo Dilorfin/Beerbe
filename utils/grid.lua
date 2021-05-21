@@ -8,7 +8,11 @@ local grid = {
 	},
 	current = 1,
 	width = 3,
-	fontHeight = love.graphics.getFont():getHeight()
+	fontHeight = love.graphics.getFont():getHeight(),
+	info = {
+		onConfirm = "Confirm - Use",
+		onDeny = "Deny - Go back"
+	}
 }
 
 function grid:init(title, list, additionObj)
@@ -62,6 +66,15 @@ function grid:draw()
 		love.graphics.rectangle("line", 10 + cellWidth * ((self.current-1) % self.width ), cellHeight*(math.ceil(self.current/self.width))-20, cellWidth - 20, 90, 10, 10)
 		love.graphics.setLineWidth(1)
 	end
+
+	-- bottom info
+	local rectangleHeight = love.graphics.getHeight()/10    
+    love.graphics.setColor(1, 1, 1, 0.7)
+    love.graphics.rectangle("fill", 0, love.graphics.getHeight() - rectangleHeight, love.graphics.getWidth(), rectangleHeight)
+    love.graphics.setColor(0, 0, 0)
+    love.graphics.printf(self.info.onConfirm, 0, love.graphics.getHeight() - rectangleHeight/2 - self.fontHeight/2, cellWidth, "center")
+    love.graphics.printf(self.info.onDeny, 2*cellWidth, love.graphics.getHeight() - rectangleHeight/2 - self.fontHeight/2, cellWidth, "center")
+    love.graphics.setColor(1, 1, 1)
 end
 
 return grid

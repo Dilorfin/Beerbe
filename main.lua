@@ -11,8 +11,6 @@ character = require "character"
 events = require "utils/event_queue"
 
 function love.load()
-    --love.mouse.setVisible(false)
-    
     Scene.Load("world")
 end
 

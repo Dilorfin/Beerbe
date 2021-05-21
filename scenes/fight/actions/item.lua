@@ -1,9 +1,9 @@
 local chooseItem = love.filesystem.load("utils/grid.lua")()
+chooseItem.list = {}
 
 local ids = character.inventory:getUsableItemsIds()
-local usables = {}
 for i = 1, #ids do
-	table.insert(usables, {
+	table.insert(chooseItem.list, {
 		id = ids[i],
 		title = items[ids[i]].title,
 		comment = ""
@@ -11,7 +11,6 @@ for i = 1, #ids do
 end
 
 chooseItem.title = "Items menu"
-chooseItem.list = usables
 
 function chooseItem:onConfirm()
 	if #self.list <= 0 then
