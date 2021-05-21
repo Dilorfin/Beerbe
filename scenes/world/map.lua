@@ -24,7 +24,6 @@ local function createWall(world, x, y, w, h)
     wall.body = love.physics.newBody(world, x, y, "static")
     wall.shape = love.physics.newRectangleShape(w/2, h/2, w, h)
     wall.fixture = love.physics.newFixture(wall.body, wall.shape)
-    wall.fixture:setUserData(wall)
     return wall
 end
 

@@ -4,7 +4,7 @@ require "utils/utils"
 require "character/items"
 require "commands"
 
-local mainFont = love.graphics.newFont("asserts/Arial.ttf", 25);
+local mainFont = love.graphics.newFont("assets/Arial.ttf", 25);
 love.graphics.setFont(mainFont)
 
 character = require "character"

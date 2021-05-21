@@ -23,5 +23,6 @@ function newMovableEnemy(world, posX, posY)
             })
         end
     end
+
     return movable
 end
