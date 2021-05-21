@@ -1,5 +1,3 @@
-require "utils/animation"
-
 local effects = {}
 
 local files = {
