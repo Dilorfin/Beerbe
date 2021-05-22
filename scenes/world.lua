@@ -12,16 +12,21 @@ local sceneState = {
 
 local dialogue = require "scenes/world/dialogue"
 
+local ai = require "scenes/world/ai"
+
 local info = require "scenes/world/info"
 local camera = require "scenes/world/camera"
 local map = require "scenes/world/map"
 local colliding = require "scenes/world/colliding"
-local world = love.physics.newWorld()
+local world
 
 function scene.load()
+    world = love.physics.newWorld()
     world:setCallbacks(colliding.beginContact, colliding.endContact, colliding.preSolve, colliding.postSolve)
 
     map:load(world)
+
+    ai:load(world, map)
 end
 
 function scene.pause()
@@ -33,52 +38,6 @@ function scene.unload()
     info:close()
 end
 
-function path_finding(map, movables)
-    -- movables[1] - player
-    -- movables[>1] - enemies
-    for i = 2, #movables do
-        if path then
-            --movables[i]:control_axis("x", (path[2].x-path[1].x)/2)
-            --movables[i]:control_axis("y", (path[2].y-path[1].y)/2)
-        end
-
-        local distance = love.physics.getDistance(movables[1].fixture, movables[i].fixture)
-        if distance <= 1000 then
-            local bound1 = { movables[1].fixture:getBoundingBox() }
-            local bound2 = { movables[i].fixture:getBoundingBox() }
-            
-            local points = {
-                { x = 1, y = 2 }, -- top left
-                { x = 1, y = 4 }, -- bottom left
-                { x = 3, y = 4 }, -- bottom right
-                { x = 3, y = 2 }  -- top right
-            }
-
-            local distances = {}
-            local maxId = 0
-
-            local all = 0
-
-            lines = {}
-            for i1, point1 in ipairs(points) do
-                for i2, point2 in ipairs(points) do
-                    table.insert(lines, {bound1[point1.x], bound1[point1.y], bound2[point2.x], bound2[point2.y]})
-                    world:rayCast(bound1[point1.x], bound1[point1.y], bound2[point2.x], bound2[point2.y],
-                        function(fixture, x, y, xn, yn, fraction)
-                            if fixture:getUserData().character then
-                                return 1
-                            end
-                            all = all + 1
-                            return 0
-                        end
-                    )
-                end
-            end
-            local flag = not (all > 12)
-            print("all: "..all.." see: "..tostring(flag))
-        end
-    end
-end
 
 local function handleEvent(event)
     if event.type == "show_info" then
@@ -110,6 +69,7 @@ local function handleEvent(event)
     end
 end
 
+
 function scene.update(delta_time)
     if sceneState.current ~= sceneState.moving then
         return
@@ -121,8 +81,8 @@ function scene.update(delta_time)
     
     map:update(delta_time)
 
-    path_finding(map, map.movables)
-    
+    ai:update(delta_time)
+
     while not events:isEmpty() do
         local event = events:pop()
         if event.type == "start_fight" then
@@ -138,6 +98,7 @@ function scene.update(delta_time)
             return
         elseif event.type == "next_room" then
             character.position.room = character.position.room + 1
+            events:clear()
             Scene.Load("world")
             return
         end
