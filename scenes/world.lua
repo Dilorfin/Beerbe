@@ -93,8 +93,8 @@ function scene.update(delta_time)
 			events:push(event)
 			Scene.LoadNext("fight")
 			return
-		elseif event.type == "next_room" then
-			character.position.room = character.position.room + 1
+		elseif event.type == "next_level" then
+			character.position.level = character.position.level + 1
 			events:clear()
 			Scene.Load("world")
 			return

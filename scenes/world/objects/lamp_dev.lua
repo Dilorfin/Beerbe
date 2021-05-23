@@ -37,7 +37,7 @@ function obj:onStartCollide(movable)
         text = self.infoText,
         onConfirm = function()
             character.position.dev = true
-            events:push("next_room")
+            events:push("next_level")
         end
     }
 end

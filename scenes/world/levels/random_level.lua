@@ -93,7 +93,7 @@ local function createMap(world, map)
 
     local i = 0
     
-    local e_number = love.math.random(1, character.position.room % 10)
+    local e_number = love.math.random(1, character.position.level % 10)
     while i < e_number do
         local x = love.math.random(3, map.width-2)
         local y = love.math.random(3, map.height-2)

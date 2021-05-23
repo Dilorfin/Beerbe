@@ -42,10 +42,10 @@ function map:load(world)
         end
     }
 
-    if not character.position.dev then
-        love.filesystem.load("scenes/world/maps/random_room.lua")()(world, self)
+    if character.position.level > 0 then
+        love.filesystem.load("scenes/world/levels/random_level.lua")()(world, self)
     else
-        love.filesystem.load("scenes/world/maps/dev_room.lua")()(world, self)
+        love.filesystem.load("scenes/world/levels/zero_level.lua")()(world, self)
     end
 
     spritesheet:load(self.styleId or 1)

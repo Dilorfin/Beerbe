@@ -1,7 +1,7 @@
 local character = {
 	name = "Hero",
 	position = {
-		room = 0
+		level = 0
 	},
 
 	-- current values

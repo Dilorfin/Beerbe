@@ -38,7 +38,7 @@ function obj:update(dt)
         self.timer:update(dt)
         
         if self.timer:isTime() then
-            events:push("next_room")
+            events:push("next_level")
         end
     end
 end
