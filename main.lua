@@ -1,6 +1,7 @@
 require "utils/scene_manager"
 require "utils/timer"
 require "utils/extensions"
+require "utils/utils"
 require "character/items"
 require "commands"
 

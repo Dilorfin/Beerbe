@@ -41,11 +41,6 @@ function movingCharacter:getPosition()
     return {x = self.character.position.x, y = self.character.position.y}
 end
 
---TODO Replace magic number
-function movingCharacter:getMapPosition()
-    return { x = math.floor((self:getPosition().x/48) + 1), y = math.floor(self:getPosition().y/48)}
-end
-
 function movingCharacter:control_axis(axis, value)
     if (math.abs(value) < 0.24 and value ~= 0) then
         return
