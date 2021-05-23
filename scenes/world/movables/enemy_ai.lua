@@ -27,20 +27,16 @@ function enemy_ai:canSeePlayer(player)
 	local all = 0
 
 	for i, point in ipairs(self.points) do
-		self.movable.body:getWorld():rayCast(
+		local obs = utils.hasObstacles (
+			self.movable.body:getWorld(),
 			bound1[point[1].x],
-			bound1[point[1].y],
+			bound1[point[1].y], 
 			bound2[point[2].x],
-			bound2[point[2].y],
-			function(fixture, x, y, xn, yn, fraction)
-				local ud = fixture:getUserData()
-				if fixture:isSensor() or (ud and ud.character) then
-					return 1
-				end
-				all = all + 1
-				return 0
-			end
+			bound2[point[2].y]
 		)
+		if obs then
+			all = all + 1
+		end
 	end
 
 	return all < 12
@@ -49,17 +45,30 @@ end
 function enemy_ai:act(player)
 	local see = self:canSeePlayer(player)
 	if see then
-		local distance, x1, y1, x2, y2 = love.physics.getDistance(player.fixture, self.movable.fixture)
-		local v = { 
-			x = x1 - x2,
-			y = y1 - y2,
+		self.lastSeen = {
+			x = player.body:getX(),
+			y = player.body:getY()
 		}
-		local m = math.sqrt(v.x^2+v.y^2)
-		v.x = v.x / m
-		v.y = v.y / m
-
+	end
+	
+	if self.lastSeen then
+		local v = utils.unitVector(self.lastSeen.x, self.lastSeen.y, self.movable.body:getX(), self.movable.body:getY())
 		self.movable:control_axis("x", v.x)
 		self.movable:control_axis("y", v.y)
+
+		local dist = utils.distance(self.lastSeen.x, self.lastSeen.y, self.movable.body:getX(), self.movable.body:getY())
+		if dist < 10 then
+			self.lastSeen = nil
+		end
+	else
+		local random = {
+			x = self.movable.body:getX() + love.math.random(-100, 100),
+			y = self.movable.body:getY() + love.math.random(-100, 100)
+		}
+		local v = utils.unitVector(random.x, random.y, self.movable.body:getX(), self.movable.body:getY())
+
+		self.movable:control_axis("x", v.x/2)
+		self.movable:control_axis("y", v.y/2)
 	end
 end
 
