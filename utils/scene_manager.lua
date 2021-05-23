@@ -15,6 +15,8 @@ local mt = setmetatable(Scene, {
 })
 
 function Scene.Load(name)
+	local startTime = love.timer.getTime()
+
 	if currentScene then Scene.unload() end
 	if previousScene then previousScene.unload() end
 
@@ -27,9 +29,14 @@ function Scene.Load(name)
 
 	collectgarbage()
 	Scene.load()
+
+	local endTime = love.timer.getTime()
+	print(name.." Load time: "..(endTime - startTime))
 end
 
 function Scene.LoadNext(name)
+	local startTime = love.timer.getTime()
+
 	if previousScene then error("several scenes in stack is not supported") end
 
 	if currentScene then
@@ -42,13 +49,21 @@ function Scene.LoadNext(name)
 	currentScene = chunk()
 	collectgarbage()
 	Scene.load()
+
+	local endTime = love.timer.getTime()
+	print(name.." LoadNext time: "..(endTime - startTime))
 end
 
 function Scene.GoBack()
+	local startTime = love.timer.getTime()
+
 	if not previousScene then return end
 
 	Scene.unload()
 	currentScene = previousScene
 	previousScene = nil
 	collectgarbage()
+
+	local endTime = love.timer.getTime()
+	print("GoBack time: "..(endTime - startTime))
 end

@@ -1,7 +1,6 @@
 local obj = {
     id = 12,
     image = love.graphics.newImage("assets/world/objects/styled/down-to-earth.png"),
-    isPassable = true,
     position = {},
     width = 1,
     height = 1

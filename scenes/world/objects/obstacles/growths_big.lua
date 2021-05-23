@@ -1,7 +1,6 @@
 local obj = {
     id = 14,
     image = love.graphics.newImage("assets/world/objects/styled/growths_big.png"),
-    isPassable = false,
     position = {},
     width = 1,
     height = 2,
