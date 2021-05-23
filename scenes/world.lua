@@ -43,6 +43,7 @@ local function handleEvent(event)
 	elseif event.type == "close_info" and event.text == info.text then
 		info:close()
 	elseif event.type == "start_dialogue" then
+		map.movables[1]:pause()
 		dialogue:start(event.replicas)
 	elseif event.type == "give_items" then
 		local groups = {}
