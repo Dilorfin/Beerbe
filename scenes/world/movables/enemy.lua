@@ -2,11 +2,9 @@ require "utils/animation"
 require "scenes/world/movable"
 
 function newMovableEnemy(world, posX, posY)
-	local character = {
-		position = {
-			x = posX,
-			y = posY
-		}
+	local position = {
+		x = posX,
+		y = posY
 	}
 
 	local enemyAnimation = newAnimation(
@@ -14,13 +12,11 @@ function newMovableEnemy(world, posX, posY)
 	)
 	enemyAnimation.setState = function() end
 	
-	local movable = newMovable(world, character, enemyAnimation)
+	local movable = newMovable(world, position, enemyAnimation)
 	movable.onStartCollide = function (self, mvb)
-		if mvb.character and mvb.character.name == "Hero" then
+		if mvb.tag == "hero" then
 			self.isDestroyed = true
-			events:push({
-				type = "start_fight"
-			})
+			events:push("start_fight")
 		end
 	end
 

@@ -74,8 +74,8 @@ function scene.update(delta_time)
 
 	world:update(delta_time)
 
-	camera:update(character)
-	
+	camera:update(map.movables[1]:getPosition())
+
 	map:update(delta_time)
 
 	ai_controller:update(delta_time)
@@ -94,7 +94,7 @@ function scene.update(delta_time)
 			Scene.LoadNext("fight")
 			return
 		elseif event.type == "next_level" then
-			character.position.level = character.position.level + 1
+			character.levelId = character.levelId + 1
 			events:clear()
 			Scene.Load("world")
 			return

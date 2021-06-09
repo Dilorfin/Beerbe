@@ -32,7 +32,6 @@ function obj:onStartCollide(movable)
 		type = "show_info",
 		text = self.infoText,
 		onConfirm = function()
-			character.position.dev = false
 			events:push("next_level")
 		end
 	}

@@ -10,16 +10,13 @@ return function(self, world)
 	self.movables = {}
 	self.objects = {}
 
-	if character.position.level > 0 then
+	if character.levelId > 0 then
 		love.filesystem.load("scenes/world/levels/random_level.lua")()(world, self)
 	else
 		love.filesystem.load("scenes/world/levels/zero_level.lua")()(world, self)
 	end
 
 	self.displaying:load(self.styleId or 1)
-
-	character.position.x = self.spawnPosition.x * self:getTileSide()
-	character.position.y = self.spawnPosition.y * self:getTileSide()
 
 	-- spawn objects
 	local objInitData = {
@@ -42,5 +39,5 @@ return function(self, world)
 		createWall(world, self:getTileSide()*self.width, 2*self:getTileSide(), self:getTileSide(), self:getTileSide()*(self.height-1))     --right
 	}
 
-	table.insert(self.movables, 1, newMovableHero(world))
+	table.insert(self.movables, 1, newMovableHero(world, {x = self.spawnPosition.x * self:getTileSide(), y = self.spawnPosition.y * self:getTileSide()}))
 end

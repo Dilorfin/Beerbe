@@ -23,7 +23,7 @@ function love.draw()
     Scene.draw()
     local gx, gy = love.graphics.inverseTransformPoint(0, 0)
     love.graphics.print("fps: "..love.timer.getFPS(), gx, gy)
-    love.graphics.print("level: "..character.position.level, gx, gy+mainFont:getHeight())
+    love.graphics.print("level: "..character.levelId, gx, gy+mainFont:getHeight())
 end
 
 function love.quit()
