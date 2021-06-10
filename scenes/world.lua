@@ -18,14 +18,14 @@ local info = require "scenes/world/info"
 local camera = require "scenes/world/camera"
 local map = require "scenes/world/map"
 local colliding = require "scenes/world/colliding"
-local world = love.physics.newWorld()
+local physicsWorld = love.physics.newWorld()
 
 function scene.load()
-	world:setCallbacks(colliding.beginContact, colliding.endContact, colliding.preSolve, colliding.postSolve)
+	physicsWorld:setCallbacks(colliding.beginContact, colliding.endContact, colliding.preSolve, colliding.postSolve)
 
-	map:load(world)
+	map:load(physicsWorld)
 
-	ai_controller:load(world, map)
+	ai_controller:load(physicsWorld, map.movables)
 end
 
 function scene.pause()
@@ -72,7 +72,7 @@ function scene.update(delta_time)
 		return
 	end
 
-	world:update(delta_time)
+	physicsWorld:update(delta_time)
 
 	camera:update(map.movables[1]:getPosition())
 
