@@ -33,8 +33,13 @@ function level:load(physicsWorld, camera, levelName)
 	self.movables = {
 		newMovableHero(physicsWorld, level_data.player)
 	}
-	-- TODO: enemies
-
+	-- enemies
+	if level_data.enemies then
+		for i, data in ipairs(level_data.enemies) do
+			table.insert(self.movables, newMovableEnemy(physicsWorld, data.x, data.y))
+		end
+	end
+	
 	self.walls = {}
 	for i, data in ipairs(level_data.walls) do
 		local wall = {}
@@ -53,7 +58,6 @@ function level:unload()
 	self.possibleEnemies = nil
 	self.objects = nil
 	self.movables = nil
-	-- TODO: enemies
 	self.walls = nil
 end
 

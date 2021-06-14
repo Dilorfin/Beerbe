@@ -18,11 +18,29 @@ local level_data = {
 		3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4
 	},
 	walls = {
-		{
-			x = 0,
-			y = 0,
-			width = 48,
+		{ -- top
+			x = 96,
+			y = 48,
+			width = 48*14,
 			height = 48
+		},
+		{ -- bottom
+			x = 96,
+			y = 48*12,
+			width = 48*14,
+			height = 48
+		},
+		{ -- left
+			x = 48,
+			y = 96,
+			width = 48,
+			height = 48*10
+		},
+		{ -- right
+			x = 48*16,
+			y = 96,
+			width = 48,
+			height = 48*10
 		}
 	},
 	player = {
@@ -34,11 +52,11 @@ local level_data = {
 		y = 10
 	},
 	enemies = {
-		{
-			-- ids ???
-			x = 5*48,
-			y = 7*48
-		}
+		--{
+		--	-- ids ???
+		--	x = 5*48,
+		--	y = 7*48
+		--}
 	},
 	objects = {
 		{
