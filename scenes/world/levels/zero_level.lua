@@ -1,5 +1,10 @@
-local function createMap(world, map)
-	map.map = {
+local level_data = {
+	id = 0,
+	styleId = 7,
+	possibleEnemies = { 1, 2, 3 },
+	width = 16, -- in tiles
+	height = 11, -- in tiles
+	tiles = {
 		3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,4,
 		3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,
 		3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,
@@ -11,25 +16,68 @@ local function createMap(world, map)
 		3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,
 		3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,
 		3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4
-	}
-	map.width = 16
-	map.height = math.ceil(#map.map/map.width)
-	
-	map.possibleEnemies = {}
-	map.spawnPosition = {
-		x = 8,
+	},
+	walls = {
+		{
+			x = 0,
+			y = 0,
+			width = 48,
+			height = 48
+		}
+	},
+	player = {
+		x = 8*48, -- in px
+		y = 8*48+15
+	},
+	cameraPosition = {
+		x = 33.5,
 		y = 10
+	},
+	enemies = {
+		{
+			-- ids ???
+			x = 5*48,
+			y = 7*48
+		}
+	},
+	objects = {
+		{
+			id = 3,
+			x = 8*48, -- in px
+			y = 5*48
+		},
+
+		{
+			id = 4,
+			x = 10*48,
+			y = 6*48
+		},
+		{
+			id = 5,
+			x = 8*48,
+			y = 7*48
+		},
+		{
+			id = 6,
+			x = 3*48,
+			y = 1*48
+		},
+		{
+			id = 7,
+			x = 4*48,
+			y = 2*48
+		},
+		{
+			id = 9,
+			x = 13*48,
+			y = 1*48
+		},
+		{
+			id = 10,
+			x = 15*48,
+			y = 3*48
+		},
 	}
-	map.styleId = 7
+}
 
-	map.objectsMap:setObject(3, 8, 5)
-	map.objectsMap:setObject(4, 10, 6)
-	map.objectsMap:setObject(5, 8, 7)
-	map.objectsMap:setObject(6, 3, 1)
-	map.objectsMap:setObject(7, 4, 2)
-
-	map.objectsMap:setObject(9, 13, 1)
-	map.objectsMap:setObject(10, 15, 3)
-end
-
-return createMap
+return level_data

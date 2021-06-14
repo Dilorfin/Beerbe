@@ -15,10 +15,6 @@ function displaying:load(styleId)
 	self.frame = nil
 end
 
-function displaying:drawTile(id, x, y)
-	self.tilesetBatch:add(self.tiles[id], x, y)
-end
-
 function displaying:getFrame(camera)
 	local view = camera:getViewport()
 	return {
@@ -46,9 +42,9 @@ function displaying:updateFrame(camera, map)
 	self.tilesetBatch:clear()
 	for x = self.frame[1], self.frame[2] do
 		for y = self.frame[3], self.frame[4] do
-			local cell = map:getCell(x, y)
+			local cell = map:getTile(x, y)
 			if cell then
-				self:drawTile(cell, x * self.tileSide, y * self.tileSide)
+				self.tilesetBatch:add(self.tiles[cell], x * self.tileSide, y * self.tileSide)
 			end
 		end
 	end

@@ -14,6 +14,11 @@ function camera:getViewport()
 	}
 end
 
+function camera:setPosition(position)
+	self.x = position.x
+	self.y = position.y
+end
+
 function camera:update(position)
 	local globalX, globalY = love.graphics.inverseTransformPoint(love.graphics.getWidth(), love.graphics.getHeight())
 
