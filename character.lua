@@ -1,8 +1,6 @@
 local character = {
 	name = "Hero",
-	position = {
-		room = 0
-	},
+	levelName = "zero_level",
 
 	-- current values
     health = 15,

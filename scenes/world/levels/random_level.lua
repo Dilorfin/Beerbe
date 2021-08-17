@@ -2,10 +2,10 @@ local function createObjectsMap(map)
     -- objects
     for y = 1, map.height do
         for x = 1, map.width - 2 do
-            if map:getCell(x, y).tile == 1 and love.math.random(0, 200) < 5 then
+            if map:getCell(x, y) == 1 and love.math.random(0, 200) < 5 then
                 -- small growths
                 map.objectsMap:setObject(13, x, y)
-            elseif map:getCell(x, y).tile == 1 and love.math.random(0, 100) < 15 then
+            elseif map:getCell(x, y) == 1 and love.math.random(0, 100) < 15 then
                 -- down-to-earth
                 map.objectsMap:setObject(12, x, y)
             end
@@ -14,10 +14,10 @@ local function createObjectsMap(map)
     for y = 2, map.height - 1 do
         for x = 2, map.width - 3 do
             -- big growths
-            if map:getCell(x, y).tile == 1 and love.math.randomNormal() >= 2 then
+            if map:getCell(x, y) == 1 and love.math.randomNormal() >= 2 then
                 map.objectsMap:setObject(14, x, y)
             -- lamps
-            elseif map:getCell(x, y).tile == 1 and love.math.random(0, 100) < 1 then
+            elseif map:getCell(x, y) == 1 and love.math.random(0, 100) < 1 then
                 map.objectsMap:setObject(1, x, y)
             end
         end
@@ -79,21 +79,21 @@ local function createMap(world, map)
 
     -- tiles
     for i = map.width + 1, map.width*map.height do
-        map.map[i] = { tile = 1, passable = true }
+        map.map[i] = 1
     end
     for i = 2, map.width - 1 do
-        map.map[i] = { tile = 2 }
+        map.map[i] = 2
     end
     for i = 1, map.height do
-        map.map[i*map.width] = { tile = 4 }
-        map.map[(i-1)*map.width+1] = { tile = 3 }
+        map.map[i*map.width] = 4
+        map.map[(i-1)*map.width+1] = 3
     end
     
     createObjectsMap(map)
 
     local i = 0
     
-    local e_number = love.math.random(1, character.position.room % 10)
+    local e_number = love.math.random(1, character.levelId % 10)
     while i < e_number do
         local x = love.math.random(3, map.width-2)
         local y = love.math.random(3, map.height-2)

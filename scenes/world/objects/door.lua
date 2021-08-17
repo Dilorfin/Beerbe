@@ -1,7 +1,6 @@
 local obj = {
     id = 2,
     animation = newAnimation(love.graphics.newImage("assets/world/objects/door.png"), 48, 48, 0.1, 3),
-    isPassable = true,
     position = {},
     width = 1,
     height = 1,
@@ -38,7 +37,7 @@ function obj:update(dt)
         self.timer:update(dt)
         
         if self.timer:isTime() then
-            events:push("next_room")
+            events:push("next_level")
         end
     end
 end

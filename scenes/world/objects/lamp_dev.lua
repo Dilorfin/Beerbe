@@ -1,7 +1,6 @@
 local obj = {
     id = 8,
     animation = newAnimation(love.graphics.newImage("assets/world/objects/lamp_dev.png"), 48, 96, 0.1, 3),
-    isPassable = false,
     position = {},
     width = 1,
     height = 2,
@@ -36,8 +35,7 @@ function obj:onStartCollide(movable)
         type = "show_info",
         text = self.infoText,
         onConfirm = function()
-            character.position.dev = true
-            events:push("next_room")
+            events:push("next_level")
         end
     }
 end

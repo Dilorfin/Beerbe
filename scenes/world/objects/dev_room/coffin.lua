@@ -1,7 +1,6 @@
 local obj = {
     id = 4,
     image = love.graphics.newImage("assets/world/objects/dev_room/coffin.png"),
-    isPassable = false,
     position = {},
     width = 1,
     height = 2,

@@ -1,9 +1,9 @@
 local ai_controller = {}
 
-function ai_controller:load(world, map)
+function ai_controller:load(world, movables)
 	self.world = world
-	self.movables = map.movables
-	self.player = self.movables[1]
+	self.movables = movables
+	self.player = movables[1]
 
 	self.frequency = 15
 	self.counter = 0

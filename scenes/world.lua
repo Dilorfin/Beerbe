@@ -16,24 +16,24 @@ local ai_controller = require "scenes/world/ai_controller"
 
 local info = require "scenes/world/info"
 local camera = require "scenes/world/camera"
-local map = require "scenes/world/map"
+local level = require "scenes/world/level"
 local colliding = require "scenes/world/colliding"
-local world = love.physics.newWorld()
+local physicsWorld = love.physics.newWorld()
 
 function scene.load()
-	world:setCallbacks(colliding.beginContact, colliding.endContact, colliding.preSolve, colliding.postSolve)
+	physicsWorld:setCallbacks(colliding.beginContact, colliding.endContact, colliding.preSolve, colliding.postSolve)
 
-	map:load(world)
+	level:load(physicsWorld, camera, character.levelName)
 
-	ai_controller:load(world, map)
+	ai_controller:load(physicsWorld, level.movables)
 end
 
 function scene.pause()
-	map:pause()
+	level:pause()
 end
 
 function scene.unload()
-	map:unload()
+	level:unload()
 	info:close()
 end
 
@@ -43,7 +43,7 @@ local function handleEvent(event)
 	elseif event.type == "close_info" and event.text == info.text then
 		info:close()
 	elseif event.type == "start_dialogue" then
-		map.movables[1]:pause()
+		level:getPlayerMovable():pause()
 		dialogue:start(event.replicas)
 	elseif event.type == "give_items" then
 		local groups = {}
@@ -72,11 +72,11 @@ function scene.update(delta_time)
 		return
 	end
 
-	world:update(delta_time)
+	physicsWorld:update(delta_time)
 
-	camera:update(character)
-	
-	map:update(delta_time)
+	camera:update(level:getPlayerMovable():getPosition())
+
+	level:update(delta_time)
 
 	ai_controller:update(delta_time)
 
@@ -87,14 +87,15 @@ function scene.update(delta_time)
 			event.enemies = {}
 			local enemiesNumber = love.math.random(1, 3)
 			for i = 1, enemiesNumber do
-				local id = map.possibleEnemies[love.math.random(1, #map.possibleEnemies)]
+				local id = level.possibleEnemies[love.math.random(1, #level.possibleEnemies)]
 				table.insert(event.enemies, id)
 			end
 			events:push(event)
 			Scene.LoadNext("fight")
 			return
-		elseif event.type == "next_room" then
-			character.position.room = character.position.room + 1
+		elseif event.type == "next_level" then
+			-- TODO
+			--character.levelId = character.levelId + 1
 			events:clear()
 			Scene.Load("world")
 			return
@@ -122,7 +123,7 @@ end
 function scene.control_axis(axis, value)
 	if sceneState.current == sceneState.moving then
 		if not dialogue.started then
-			map.movables[1]:control_axis(axis, value)
+			level:getPlayerMovable():control_axis(axis, value)
 		end
 	end
 end
@@ -131,7 +132,7 @@ function scene.draw()
 	if sceneState.current == sceneState.moving then
 		camera:influence()
 		
-		map:draw(camera)
+		level:draw(camera)
 
 		if not dialogue.started then
 			info:draw(camera)
