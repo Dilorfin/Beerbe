@@ -17,13 +17,81 @@ local level_data = {
 		nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,10,10,10,10,10,10,10,10,10,10,10,10,10,10,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,
 	},
 	walls = {
---[[		{
-			x = 96,
+		-- left room
+		{
+			x = 48,
+			y = 0,
+			width = 48*12,
+			height = 48
+		},
+		{
+			x = 0,
+			y = 48,
+			width = 48,
+			height = 48*8
+		},
+		{
+			x = 48,
+			y = 48*9,
+			width = 48*12,
+			height = 48
+		},
+		{
+			x = 48*13,
+			y = 48,
+			width = 48*2,
+			height = 48*5
+		},
+		{
+			x = 48*13,
+			y = 48*7,
+			width = 48*2,
+			height = 48*4
+		},
+		-- center room
+		{
+			x = 48*15,
+			y = 48*11,
+			width = 48*14,
+			height = 48
+		},
+		{
+			x = 48*15,
 			y = 48,
 			width = 48*14,
 			height = 48
 		},
-		]]
+		{
+			x = 48*29,
+			y = 48*2,
+			width = 48*2,
+			height = 48*4
+		},
+		{
+			x = 48*29,
+			y = 48*7,
+			width = 48*2,
+			height = 48*4
+		},
+		-- right room
+		{
+			x = 48*31,
+			y = 48*3,
+			width = 48*6,
+			height = 48
+		},
+		{
+			x = 48*31,
+			y = 48*9,
+			width = 48*6,
+			height = 48
+		},
+		{
+			x = 48*37,
+			y = 48*4,
+			width = 48,
+			height = 48*5
+		},
 	},
 	player = {
 		x = 1030, -- in px
