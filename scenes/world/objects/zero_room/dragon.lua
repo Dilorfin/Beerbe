@@ -1,18 +1,18 @@
 local obj = {
 	id = 3,
-	image = love.graphics.newImage("assets/world/objects/dev_room/monk.png"),
+	image = love.graphics.newImage("assets/world/objects/zero_room/dragon.png"),
 	position = {},
-	width = 1,
-	height = 1,
+	width = 2,
+	height = 2,
 
 	physics = {
 		size = {
-			x = 48,
-			y = 48
+			x = 96,
+			y = 96
 		},
 		offset = {
-			x = 24,
-			y = 24
+			x = 48,
+			y = 48
 		}
 	}
 }
@@ -23,27 +23,15 @@ function obj:init(initData)
 	self.fixture = love.physics.newFixture(self.body, self.shape)
 	self.fixture:setUserData(self)
 	
-	self.infoText = "Talk to The Monk?"
+	self.infoText = "Go to ...?"
 end
 
 function obj:onStartCollide(movable)
-	if not movable.character or movable.character.name ~= "Hero" then
-		return nil
-	end
-
 	return { 
 		type = "show_info",
 		text = self.infoText,
 		onConfirm = function()
-			
-			events:push({
-				type = "start_dialogue",
-				replicas = { 
-					"Создавая проект в сжатые сроки - готовьте сраки...",
-					"Может когда то все же будет патч...",
-					"В общем - пиши нам, разрабам, если чё, не стесняйся ;)"
-				}
-			})
+			events:push("next_level")
 		end
 	}
 end

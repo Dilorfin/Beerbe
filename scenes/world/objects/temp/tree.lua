@@ -1,5 +1,5 @@
 local obj = {
-	id = 10,
+	id = -10,
 	image = love.graphics.newImage("assets/world/objects/dev_room/tree.png"),
 	position = {},
 	width = 1,

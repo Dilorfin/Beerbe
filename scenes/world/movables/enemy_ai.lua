@@ -2,17 +2,17 @@ local enemy_ai = {}
 enemy_ai.__index = enemy_ai
 
 local points = {
-    { x = 1, y = 2 }, -- top left
-    { x = 1, y = 4 }, -- bottom left
-    { x = 3, y = 4 }, -- bottom right
-    { x = 3, y = 2 }  -- top right
+	{ x = 1, y = 2 }, -- top left
+	{ x = 1, y = 4 }, -- bottom left
+	{ x = 3, y = 4 }, -- bottom right
+	{ x = 3, y = 2 }  -- top right
 }
 
 enemy_ai.points = {}
 for i1, point1 in ipairs(points) do
-    for i2, point2 in ipairs(points) do
-        table.insert(enemy_ai.points, {point1, point2})
-    end
+	for i2, point2 in ipairs(points) do
+		table.insert(enemy_ai.points, {point1, point2})
+	end
 end
 
 function enemy_ai:canSeePlayer(player)

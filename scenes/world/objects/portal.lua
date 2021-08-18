@@ -1,18 +1,18 @@
 local obj = {
-	id = 1,
-	animation = newAnimation(love.graphics.newImage("assets/world/objects/lamp.png"), 48, 96, 0.1, 3),
+	id = 2,
+	animation = newAnimation(love.graphics.newImage("assets/world/objects/dev_room/portal.png"), 48, 48, 0.15, 12),
 	position = {},
 	width = 1,
-	height = 2,
+	height = 1,
 
 	physics = {
 		size = {
 			x = 48,
-			y = 96--72
+			y = 48
 		},
 		offset = {
 			x = 24,
-			y = 48--60
+			y = 24
 		}
 	}
 }
@@ -22,16 +22,33 @@ function obj:init(initData)
 	self.shape = love.physics.newRectangleShape(self.physics.offset.x, self.physics.offset.y, self.physics.size.x, self.physics.size.y)
 	self.fixture = love.physics.newFixture(self.body, self.shape)
 	self.fixture:setUserData(self)
+	self.fixture:setSensor(true)
+	
+	self.infoText = "Go to random room?"
 end
 
-function obj:onStartCollide()
+function obj:onStartCollide(movable)
+	return { 
+		type = "show_info",
+		text = self.infoText,
+		onConfirm = function()
+			events:push("next_level")
+		end
+	}
+end
+
+function obj:onEndCollide(movable)
+	return {
+		type = "close_info",
+		text = self.infoText
+	}
 end
 
 function obj:update(dt)
 	self.animation:update(dt)
 end
 
-function obj:draw(camera)
+function obj:draw()
 	love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints()))
 	self.animation:draw(self.position.x, self.position.y)
 end

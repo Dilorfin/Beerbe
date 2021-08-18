@@ -1,5 +1,5 @@
 local obj = {
-    id = 11,
+    id = -1,
     animation = newAnimation(love.graphics.newImage("assets/world/objects/chest.png"), 48, 96, 0.1, 3),
     position = {},
     width = 1,

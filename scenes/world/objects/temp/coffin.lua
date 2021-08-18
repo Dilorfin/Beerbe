@@ -1,5 +1,5 @@
 local obj = {
-    id = 4,
+    id = -1,
     image = love.graphics.newImage("assets/world/objects/dev_room/coffin.png"),
     position = {},
     width = 1,

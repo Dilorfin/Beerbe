@@ -1,5 +1,5 @@
 local obj = {
-    id = 12,
+    id = -12,
     image = love.graphics.newImage("assets/world/objects/styled/down-to-earth.png"),
     position = {},
     width = 1,
