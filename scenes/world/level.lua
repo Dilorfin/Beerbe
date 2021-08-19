@@ -1,5 +1,6 @@
 require "scenes/world/movables/enemy"
 require "scenes/world/movables/hero"
+require "scenes/world/movables/trainy_enemy"
 
 local displaying = require "scenes/world/level_helpers/displaying"
 local objectsCollection = require "scenes/world/objects"
@@ -36,7 +37,11 @@ function level:load(physicsWorld, camera, levelName)
 	-- enemies
 	if level_data.enemies then
 		for i, data in ipairs(level_data.enemies) do
-			table.insert(self.movables, newMovableEnemy(physicsWorld, data.x, data.y))
+			if data.id == "green" then
+				table.insert(self.movables, newMovableTrainyEnemy(physicsWorld, data.x, data.y))
+			else
+				table.insert(self.movables, newMovableEnemy(physicsWorld, data.x, data.y))
+			end
 		end
 	end
 	

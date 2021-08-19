@@ -7,10 +7,29 @@ displaying.tileSide = 48
 
 function displaying:load(styleId)
 	self.tiles = {
-		love.graphics.newQuad(styleId*96 + 24, 48+24, 48, 48, self.image:getDimensions()), -- usual floor
-		love.graphics.newQuad(styleId*96 + 24, 4*48, 48, 48, self.image:getDimensions()), -- top border
-		love.graphics.newQuad(styleId*96 + 48, 3*48+24, 48, 48, self.image:getDimensions()), -- left border
-		love.graphics.newQuad(styleId*96, 3*48+24, 48, 48, self.image:getDimensions()), -- right border
+		-- floor
+--[[1]] love.graphics.newQuad(styleId*96 + 24, 72, 48, 48, self.image:getDimensions()), -- center
+--[[2]] love.graphics.newQuad(styleId*96, 72, 48, 48, self.image:getDimensions()), -- left
+--[[3]] love.graphics.newQuad(styleId*96 + 48, 72, 48, 48, self.image:getDimensions()), -- right
+--[[4]] love.graphics.newQuad(styleId*96 + 24, 48, 48, 48, self.image:getDimensions()), -- top
+--[[5]] love.graphics.newQuad(styleId*96 + 24, 96, 48, 48, self.image:getDimensions()), -- bottom
+--[[6]] love.graphics.newQuad(styleId*96, 48, 48, 48, self.image:getDimensions()), -- left-top
+--[[7]] love.graphics.newQuad(styleId*96 + 48, 48, 48, 48, self.image:getDimensions()), -- right-top
+--[[8]] love.graphics.newQuad(styleId*96, 96, 48, 48, self.image:getDimensions()), -- left-bottom
+--[[9]] love.graphics.newQuad(styleId*96 + 48, 96, 48, 48, self.image:getDimensions()), -- right-bottom
+--[[10]]love.graphics.newQuad(styleId*96 + 48, 0, 48, 48, self.image:getDimensions()), -- single
+		-- wall
+--[[11]]love.graphics.newQuad(styleId*96 + 24, 72 + 96, 48, 48, self.image:getDimensions()), -- center
+--[[12]]love.graphics.newQuad(styleId*96, 72 + 96, 48, 48, self.image:getDimensions()), -- left
+--[[13]]love.graphics.newQuad(styleId*96 + 48, 72 + 96, 48, 48, self.image:getDimensions()), -- right
+--[[14]]love.graphics.newQuad(styleId*96 + 24, 48 + 96, 48, 48, self.image:getDimensions()), -- top
+--[[15]]love.graphics.newQuad(styleId*96 + 24, 96 + 96, 48, 48, self.image:getDimensions()), -- bottom
+--[[16]]love.graphics.newQuad(styleId*96, 48 + 96, 48, 48, self.image:getDimensions()), -- left-top
+--[[17]]love.graphics.newQuad(styleId*96 + 48, 48 + 96, 48, 48, self.image:getDimensions()), -- right-top
+--[[18]]love.graphics.newQuad(styleId*96, 96 + 96, 48, 48, self.image:getDimensions()), -- left-bottom
+--[[19]]love.graphics.newQuad(styleId*96 + 48, 96 + 96, 48, 48, self.image:getDimensions()), -- right-bottom
+
+--[[20]]love.graphics.newQuad(styleId*96 + 48, 227, 48, 13, self.image:getDimensions()), -- 
 	}
 	self.frame = nil
 end
