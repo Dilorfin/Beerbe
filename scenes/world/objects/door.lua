@@ -27,7 +27,12 @@ function obj:init(initData)
 	self.timer = newTimer(0.3)
 end
 
-function obj:onStartCollide()
+function obj:onStartCollide(movable)
+	if not movable.character 
+		or movable.character.name ~= "Hero"
+	then
+		return nil
+	end
 	self.animation:play()
 end
 
