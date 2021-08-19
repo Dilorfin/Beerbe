@@ -7,7 +7,7 @@ local obj = {
 
 	physics = {
 		size = {
-			x = 48,
+			x = 38,
 			y = 48
 		},
 		offset = {
@@ -56,7 +56,6 @@ function obj:update(dt)
 end
 
 function obj:draw()
-	love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints()))
 	self.animation:draw(self.position.x, self.position.y)
 end
 

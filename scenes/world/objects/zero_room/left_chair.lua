@@ -33,8 +33,6 @@ function obj:update(dt)
 end
 
 function obj:draw(camera)
-	love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints()))
-
 	love.graphics.draw(self.image, self.position.x, self.position.y)
 end
 

@@ -23,6 +23,7 @@ function scene.control_axis(x_axis, y_axis)
 end
 
 function scene.draw()
+	love.graphics.print("In development...", 40, 40)
 end
 
 return scene
