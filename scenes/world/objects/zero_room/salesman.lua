@@ -25,7 +25,7 @@ function obj:init(initData)
 
 	self.animation:setMode("bounce")
 
-	self.infoText = "Do you wanna talk to salesman?"
+	self.infoText = "Open shop?"
 end
 
 function obj:onStartCollide(movable)

@@ -1,5 +1,4 @@
 local level_data = {
-	id = 0,
 	styleId = 8,
 	possibleEnemies = { 1, 2, 3 },
 	width = 41, -- in tiles
@@ -146,6 +145,7 @@ local level_data = {
 			x = 1054,
 			y = 180
 		},
+		-- right room
 		{
 			id = 4,
 			x = 48*32,
@@ -173,7 +173,7 @@ local level_data = {
 		},
 		{
 			id = 9,
-			x = 48*37,
+			x = 1770,
 			y = 250
 		},
 		{
@@ -182,9 +182,24 @@ local level_data = {
 			y = 275
 		},
 		{
+			id = 13,
+			x = 1533,
+			y = 420
+		},
+		{
+			id = 15,
+			x = 1775,
+			y = 405
+		},
+		{
+			id = 14,
+			x = 1755,
+			y = 425
+		},
+		{ -- shopkeeper
 			id = 12,
 			x = 1650,
-			y = 250
+			y = 265
 		},
 	}
 }

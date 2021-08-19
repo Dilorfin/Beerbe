@@ -99,6 +99,10 @@ function scene.update(delta_time)
 			events:clear()
 			Scene.Load("world")
 			return
+		elseif event.type == "open_shop" then
+			events:clear()
+			Scene.LoadNext("shop")
+			return
 		end
 
 		handleEvent(event)
