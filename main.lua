@@ -27,6 +27,7 @@ function love.draw()
 	love.graphics.print("fps: "..love.timer.getFPS(), gx, gy)
 	love.graphics.print("level: "..character.levelName, gx, gy+mainFont:getHeight())
     onscreen:draw()
+    onscreen:draw()
 end
 
 function love.quit()
