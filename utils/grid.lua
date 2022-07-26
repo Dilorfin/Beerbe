@@ -69,12 +69,12 @@ function grid:draw()
 
 	-- bottom info
 	local rectangleHeight = love.graphics.getHeight()/10    
-    love.graphics.setColor(1, 1, 1, 0.7)
-    love.graphics.rectangle("fill", 0, love.graphics.getHeight() - rectangleHeight, love.graphics.getWidth(), rectangleHeight)
-    love.graphics.setColor(0, 0, 0)
-    love.graphics.printf(self.info.onConfirm, 0, love.graphics.getHeight() - rectangleHeight/2 - self.fontHeight/2, cellWidth, "center")
-    love.graphics.printf(self.info.onDeny, 2*cellWidth, love.graphics.getHeight() - rectangleHeight/2 - self.fontHeight/2, cellWidth, "center")
-    love.graphics.setColor(1, 1, 1)
+	love.graphics.setColor(1, 1, 1, 0.7)
+	love.graphics.rectangle("fill", 0, love.graphics.getHeight() - rectangleHeight, love.graphics.getWidth(), rectangleHeight)
+	love.graphics.setColor(0, 0, 0)
+	love.graphics.printf(self.info.onConfirm, 0, love.graphics.getHeight() - rectangleHeight/2 - self.fontHeight/2, cellWidth, "center")
+	love.graphics.printf(self.info.onDeny, 2*cellWidth, love.graphics.getHeight() - rectangleHeight/2 - self.fontHeight/2, cellWidth, "center")
+	love.graphics.setColor(1, 1, 1)
 end
 
 return grid

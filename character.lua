@@ -3,15 +3,15 @@ local character = {
 	levelName = "zero_level",
 
 	-- current values
-    health = 15,
+	health = 15,
 	mana = 5,
 	
 	-- usages numbers
-    passive_skills = {
+	passive_skills = {
 		health = 1,
 		mana = 1
 	},
-    active_skills = {
+	active_skills = {
 		thunder = 1
 	},
 
@@ -107,8 +107,8 @@ end
 
 function character:turn()
 	events:push({
-        type = "user_action"
-    })
+		type = "user_action"
+	})
 end
 
 return character

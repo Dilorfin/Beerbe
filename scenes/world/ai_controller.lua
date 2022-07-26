@@ -12,7 +12,7 @@ end
 function ai_controller:update(dt)
 	self.counter = self.counter + 1
 	if self.counter > self.frequency then
-	    self.counter = 0
+		self.counter = 0
 		for i = 1, #self.movables do
 			if self.movables[i].ai then
 				self.movables[i].ai:act(self.player)
