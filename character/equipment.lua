@@ -1,8 +1,8 @@
 local equipment = {
-    equiped = { -- items ids
-        right_hand = 0,
-        left_hand = 0
-    }
+	equiped = { -- items ids
+		right_hand = 0,
+		left_hand = 0
+	}
 }
 
 function equipment:possible(place)
@@ -23,7 +23,7 @@ end
 function equipment:getPlaces()
 	local places = {}
 	for k, v in pairs(self.equiped) do
-        table.insert(places, k)
+		table.insert(places, k)
 	end
 	return places
 end
